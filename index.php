@@ -58,7 +58,7 @@ $listaDeEventos = $eventoServico->listarTodos();
   </header>
 
   <section class="container py-5">
-    <h2 class="text-white mb-4">Eventos emkgk Destaque</h2>
+    <h2 class="text-white mb-4">Eventos em Destaquemoiu</h2>
 
     <div id="carouselEventos" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
