@@ -87,7 +87,7 @@ if (isset($_POST['inserir'])){
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href=""></a> </li>
                 </ul>
-              <li class="nav-item"><a class="nav-link" href="usuarios.php">Login</a></li>
+              <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
               <!-- <li class="nav-item"><a class="nav-link" href="criarEvento.php">Crie seu evento</a></li> -->
 
               <div class="position-relative">
