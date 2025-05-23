@@ -1,0 +1,83 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .card-img-top {
+    height: 250px;
+    object-fit: cover;
+  }
+  
+  nav .nav-link:hover {
+    text-decoration: underline;
+    color: #ffffff;
+  }
+  
+  .carousel-item {
+    transition: transform 0.5s ease;
+  }
+  
+  .carousel-item .card {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  /* Estilos para o Modal */
+.modal {
+    display: none; /* Inicialmente oculto */
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Transição suave de opacidade */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
+    z-index: 1050; /* Certifique-se de que o modal fique acima do conteúdo */
+}
+
+/* Quando o modal estiver ativo, exibe ele com opacidade */
+.modal.ativo {
+    opacity: 1;
+    display: block;
+}
+
+/* Estilos para o conteúdo do modal */
+.modal-dialog {
+    max-width: 500px;
+    margin: 5% auto; /* Centraliza verticalmente */
+}
+
+/* Para garantir que o corpo da página não role quando o modal estiver aberto */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Estilo do botão de fechar */
+.btn-close {
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+/* Estilo para garantir que o modal está bem posicionado */
+.modal-content {
+    background-color: #fff;
+    border-radius: 0.3rem;
+    padding: 20px;
+}
+
+/* Animação de fade-in */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+
+  
