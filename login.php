@@ -1,3 +1,61 @@
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use ExplosaoCultural\Helpers\Utils;
+use ExplosaoCultural\Services\UsuarioServico;
+use ExplosaoCultural\Auth\ControleDeAcesso;
+
+if (isset($_GET["campos_obrigatorios"])) {
+  $feedback = "Preencha e-mail e senha!";
+} elseif (isset($_GET['dados_incorretos'])) {
+  $feedback = "Algo de errado não está certo!";
+} elseif (isset($_GET['logout'])) {
+  $feedback = "Você saiu do sistema!";
+} elseif (isset($_GET['acesso_proibido'])) {
+  $feedback = "Você deve logar primeiro";
+}
+
+if (isset($_POST['entrar'])) {
+
+  $email = Utils::sanitizar($_POST["email"], 'email');
+  $senha = ($_POST["senha"]);
+
+  if (empty($email) || empty($senha)) {
+    header("Location:login.php?campos_obrigatorios");
+    exit;
+  }
+
+  try {
+    $usuarioServico = new UsuarioServico();
+    $usuario = $usuarioServico->buscarPorEmail($email);
+
+    if (!$usuario) {
+      header("location:login.php?dados_incorretos");
+      exit;
+    }
+
+    if ($usuario && password_verify($senha, $usuario['senha'])) {
+      ControleDeAcesso::login(
+        $usuario['id'],
+        $usuario['nome'],
+        $usuario['tipo']
+      );
+      header("Location:criarEvento.php");
+      exit;
+    } else {
+
+      header("location:login.php?dados_incorretos");
+      exit;
+    }
+  } catch (Throwable $erro) {
+    Utils::registrarErro($erro);
+    header("location:login.php?erro");
+    exit;
+  }
+}  
+?>
+
 <!doctype html>
 <html lang="pt-br">
 
@@ -49,7 +107,11 @@
           Preencha e-mail e senha!
         </p>
 
-        <form action="" method="post" id="form-login" name="form-login" class="mx-auto w-50" autocomplete="off">
+        <form action="" method="post" id="form-login" name="form-login" class="mx-auto w-50" autocomplete="off"> 
+          <?php if(isset($feedback)): ?>
+            <p class="my-2 alert alert-warning text-center"><?=$feedback?></p>
+          <?php endif;?>
+
           <div class="mb-3">
             <label for="email" class="form-label">E-mail:</label>
             <input autofocus class="form-control" type="email" id="email" name="email" placeholder="email@exemplo.com">
