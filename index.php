@@ -21,7 +21,7 @@ $listaDeEventos = $eventoServico->listarTodos();
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 
-<body class="bg-dark text-light">
+<body class="bg-ligth text-dark">
   <header class="bg-black p-3">
     <div class="container d-flex justify-content-between align-items-center">
       <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none">Explosão Cultural <img src="images/logotipo.png" alt="Logotipo da explosão cultural" class="teste"></a></h1>
@@ -175,7 +175,7 @@ $listaDeEventos = $eventoServico->listarTodos();
     </section>
   </main>
 
-  <footer class="bg-black text-center py-3">
+  <footer class="bg-ligth text-center py-3">
     <p class="m-0">Explosão Cultural — Empresa fictícia crianda por Maycon e Lucas &copy; </p>
   </footer>
 

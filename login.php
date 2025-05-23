@@ -97,9 +97,9 @@ if (isset($_POST['entrar'])) {
     </div>
   </header>
 
-  <main class="container my-5">
+  <main class="container my-5 h-100">
     <div class="row">
-      <div class="bg-dark text-light rounded shadow col-12 my-1 py-4">
+      <div class="bg-light text-dark rounded shadow col-12 my-1 py-4">
         <h2 class="text-center fw-light">Acesso à sua conta</h2>
 
         <!-- Mensagem de feedback simulada -->
