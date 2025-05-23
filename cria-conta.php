@@ -1,6 +1,5 @@
 <?php 
-require_once 'src/Models/Usuarios.php'; 
-
+require_once "/vendor/autoload.php";
 
 use ExplosaoCultural\Enums\TipoUsuario; 
 use ExplosaoCultural\Helpers\Utils;
