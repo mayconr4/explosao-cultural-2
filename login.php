@@ -11,8 +11,9 @@
 
 <body class="bg-dark text-light">
   <header class="bg-black p-3">
+
     <div class="container d-flex justify-content-between align-items-center">
-      <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none">Explosão Cultural</a></h1>
+      <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none">Explosão Cultural </a></h1>
       <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
           <button class="navbar-toggler" type="button" id="menuBtn" aria-label="Toggle navigation">

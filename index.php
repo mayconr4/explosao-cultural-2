@@ -17,14 +17,14 @@ $listaDeEventos = $eventoServico->listarTodos();
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Explosão Cultural</title>
-  <link rel="stylesheet" href="css/estilo.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
 </head>
 
 <body class="bg-dark text-light">
   <header class="bg-black p-3">
     <div class="container d-flex justify-content-between align-items-center">
-      <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none">Explosão Cultural</a></h1>
+      <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none">Explosão Cultural <img src="images/logotipo.png" alt="Logotipo da explosão cultural" class="teste"></a></h1>
       <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
           <button class="navbar-toggler" type="button" id="menuBtn" aria-label="Toggle navigation">
