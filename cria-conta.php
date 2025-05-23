@@ -1,5 +1,5 @@
 <?php 
-require_once "/vendor/autoload.php";
+require_once __DIR__ . '/vendor/autoload.php';
 
 use ExplosaoCultural\Enums\TipoUsuario; 
 use ExplosaoCultural\Helpers\Utils;
@@ -8,9 +8,10 @@ use ExplosaoCultural\Models\Usuarios;
 use ExplosaoCultural\Services\UsuarioServico;
 
 $mensagemErro = '';
-$usuarioServicos = new UsuarioServico();   
+$usuarioServico = new UsuarioServico();   
 
 if (isset($_POST['inserir'])){ 
+  
     try{ 
         $nome = Utils::sanitizar($_POST["nome"]); 
         Validacoes::validarNome($nome); 
@@ -25,25 +26,31 @@ if (isset($_POST['inserir'])){
         Validacoes::validarSenha($senhaBruta);
         $senha = Utils::codificarSenha($senhaBruta); 
 
-        $tipoStr = $_POST["tipo"];
+        /* $tipoStr = $_POST["tipo"];
         Validacoes::validarTipo($tipoStr);
-        $tipo = TipoUsuario::From($tipoStr);
+        $tipo = TipoUsuario::From($tipoStr); */
 
 
-        $usuario = new Usuarios($nome, $dataNascimento, $email, $senha, $tipo);
+        $usuario = new Usuarios($nome, $dataNascimento, $email, $senha);
+        // Utils::dump($usuario);
+        // die();
         $usuarioServico->inserir($usuario);  
         
         exit;
 
     } catch (Throwable $erro){
-        $mensafemErro = $erro->getMessage();
+        $mensagemErro = $erro->getMessage();
     } catch (Throwable $erro){ 
         //Captura de erros inseperados
         $mensagemErro = "Erro inesperado: ";
         Utils::registrarErro($erro);
     }
 
-}
+}  
+
+
+
+
 
 
 ?>
@@ -78,7 +85,7 @@ if (isset($_POST['inserir'])){
                   <li><a class="dropdown-item" href=""></a> </li>
                 </ul>
               <li class="nav-item"><a class="nav-link" href="usuarios.php">Login</a></li>
-              <li class="nav-item"><a class="nav-link" href="criarEvento.php">Crie seu evento</a></li>
+              <!-- <li class="nav-item"><a class="nav-link" href="criarEvento.php">Crie seu evento</a></li> -->
 
               <div class="position-relative">
                 <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" onsubmit="return false" id="form-busca">
@@ -94,9 +101,9 @@ if (isset($_POST['inserir'])){
   <div class="container my-5 h-100">
     <h2 class="mb-4">Login</h2>
     <p class="text-warning">Atenção: os campos <strong>Nome</strong> e <strong>E-mail</strong> são <u>obrigatórios</u>.</p>
-    <p class="text-warning"> <strong><a class="text-warning" href="login-adm.php">Login</a> Adiministrativo</strong> </p>
+    <p class="text-warning"> <strong><a class="text-warning" href="login-adm.php">Login</a></strong> </p>
 
-    <form autocomplete="off" action="https://formspree.io/f/mldbpvlk" method="post" id="my-form">
+    <form autocomplete="off" action="" method="post" id="my-form">
       <fieldset class="border p-4 rounded">
         <legend class="float-none w-auto px-3">Crie sua conta conosco</legend> 
 
@@ -113,7 +120,7 @@ if (isset($_POST['inserir'])){
         
         <div class="mb-3">
          <label for="data_de_nascimento" class="form-label">Data de nascimento</label>
-         <input type="text" class="form-control" name="data_nascimento" id="data_nascimento" placeholder="00/00/0000">
+         <input type="date" class="form-control" name="data_nascimento" id="data_nascimento" placeholder="00/00/0000">
        </div>
 
         <div class="mb-3">
@@ -126,7 +133,7 @@ if (isset($_POST['inserir'])){
           <input type="password" class="form-control" name="senha" id="senha" required placeholder="Digite sua senha"> 
         </div>
         
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" id="inserir" name="inserir" class="btn btn-primary">Enviar</button>
   </div>
   </fieldset>
   </form>
@@ -138,7 +145,7 @@ if (isset($_POST['inserir'])){
 
   <script src="js/buscar.js"></script>
   <script src="js/menu.js"></script>
-  <script src="js/login.js"></script>
+ 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

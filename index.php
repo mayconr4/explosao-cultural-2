@@ -16,7 +16,7 @@ $listaDeEventos = $eventoServico->listarTodos();
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Explosãosssss Cultural</title>
+  <title>Explosão Cultural</title>
   <link rel="stylesheet" href="css/estilo.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -39,9 +39,10 @@ $listaDeEventos = $eventoServico->listarTodos();
                   Gêneros
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href=""></a> </li>
+                  <li><a class="dropdown-item" href=""></a> </li> 
                 </ul>
               </li>               
+              <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
             </ul>
                 <div class="position-relative">
                 <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" onsubmit="return false" id="form-busca">

@@ -122,5 +122,12 @@ final class Utils
     }
 
 
+    public static function dump(mixed $dados): void
+    {
+        echo "<pre>";
+        var_dump($dados);
+        echo "</pre>";
+    }
+
      
 }

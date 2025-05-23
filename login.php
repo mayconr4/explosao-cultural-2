@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="pt-br" class="h-100">
+<html lang="pt-br">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Explosão Cultural</title>
-  <link rel="stylesheet" href="css/estilo.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Explosão Cultural - Login</title>
+  <link rel="stylesheet" href="css/estilo.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
-<body class="bg-dark text-light h-100">
+<body class="bg-dark text-light">
   <header class="bg-black p-3">
     <div class="container d-flex justify-content-between align-items-center">
       <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none">Explosão Cultural</a></h1>
@@ -21,64 +21,57 @@
           <div class="collapse navbar-collapse" id="menuNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Gêneros
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href=""></a> </li>
-                </ul>
-              <li class="nav-item"><a class="nav-link" href="usuarios.php">Login</a></li>
-              <li class="nav-item"><a class="nav-link" href="criarEvento.php">Crie seu evento</a></li>
+              <li class="nav-item"><a class="nav-link" href="generos.php">Gêneros</a></li>
+              <li class="nav-item"><a class="nav-link" href="cria-conta.php">Cadastro</a></li>
+            </ul>
 
-              <div class="position-relative">
-                <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" onsubmit="return false" id="form-busca">
-                  <input id="campo-busca" name="busca" class="form-control me-2" type="search" placeholder="Pesquise aqui" aria-label="Pesquise aqui">
-                </form>
-                <!-- Div manipulada pelo busca.js -->
-                <div id="resultados" class="mt-3 position-absolute container bg-white shadow-lg p-3 rounded"></div>
-              </div>
+            <div class="position-relative ms-3">
+              <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" onsubmit="return false" id="form-busca">
+                <input id="campo-busca" name="busca" class="form-control me-2" type="search" placeholder="Pesquise aqui" aria-label="Pesquise aqui" />
+              </form>
+              <div id="resultados" class="mt-3 position-absolute container bg-white text-dark shadow-lg p-3 rounded"></div>
+            </div>
+
           </div>
+        </div>
       </nav>
     </div>
   </header>
-  <div class="container my-5 h-100">
-    <h2 class="mb-4">Login</h2>
-    <p class="text-warning">Atenção: os campos <strong>Nome</strong> e <strong>E-mail</strong> são <u>obrigatórios</u>.</p>
-    <p class="text-warning"> <strong><a class="text-warning" href="login-adm.php">Login</a> Adiministrativo</strong> </p>
 
-    <form autocomplete="off" action="https://formspree.io/f/mldbpvlk" method="post" id="my-form">
-      <fieldset class="border p-4 rounded">
-        <legend class="float-none w-auto px-3">Formulário de Contato</legend>
+  <main class="container my-5">
+    <div class="row">
+      <div class="bg-dark text-light rounded shadow col-12 my-1 py-4">
+        <h2 class="text-center fw-light">Acesso à sua conta</h2>
 
-        <div class="mb-3">
-          <label for="nome" class="form-label">Nome completo *</label>
-          <input type="text" class="form-control" name="nome" id="nome" required placeholder="Digite seu nome completo">
-        </div>
+        <!-- Mensagem de feedback simulada -->
+        <p class="my-2 alert alert-warning text-center">
+          Preencha e-mail e senha!
+        </p>
 
-        <div class="mb-3">
-          <label for="email" class="form-label">E-mail *</label>
-          <input type="email" class="form-control" name="email" id="email" required placeholder="email@exemplo.com">
-        </div>
+        <form action="" method="post" id="form-login" name="form-login" class="mx-auto w-50" autocomplete="off">
+          <div class="mb-3">
+            <label for="email" class="form-label">E-mail:</label>
+            <input autofocus class="form-control" type="email" id="email" name="email" placeholder="email@exemplo.com">
+          </div>
 
+          <div class="mb-3">
+            <label for="senha" class="form-label">Senha:</label>
+            <input class="form-control" type="password" id="senha" name="senha" placeholder="Digite sua senha">
+          </div>
 
-        <div class="mb-3">
-          <label for="telefone" class="form-label">Telefone</label>
-          <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="(99) 99999-9999">
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
-  </div>
-  </fieldset>
-  </form>
-  </div>
+          <button class="btn btn-primary btn-lg" name="entrar" type="submit">Entrar</button>
+        </form>
+      </div>
+    </div>
+  </main>
 
   <footer class="bg-black text-center py-3">
-    <p class="m-0">Explosão Cultural — Empresa fictícia crianda por Maycon e Lucas &copy; </p>
+    <p class="m-0">Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;</p>
   </footer>
 
-  <script src="js/buscar.js"></script>
   <script src="js/menu.js"></script>
-  <script src="js/login.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+  <script src="js/buscar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
+
 </html>
