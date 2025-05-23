@@ -34,7 +34,8 @@ if (isset($_POST['inserir'])){
         $usuario = new Usuarios($nome, $dataNascimento, $email, $senha);
         // Utils::dump($usuario);
         // die();
-        $usuarioServico->inserir($usuario);  
+        $usuarioServico->inserir($usuario);   
+        header("Location:login.php");
         
         exit;
 
@@ -46,7 +47,9 @@ if (isset($_POST['inserir'])){
         Utils::registrarErro($erro);
     }
 
-}  
+}   
+
+
 
 
 
