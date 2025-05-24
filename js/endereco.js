@@ -51,11 +51,11 @@ botaoBuscar.addEventListener("click", async function(){
          
         //Etapa 4: lidar com os dados (em caso de erro e sucesso)
         if( "erro" in dados ){
-            mensagemStatus.innerHTML = "Cep inexistente!🌙";
-            mensagemStatus.style.color = "red";      
+            mensagemStatus.innerHTML = "Cep inexistente";
+            //mensagemStatus.style.color = "red";      
         } else {
-            mensagemStatus.innerHTML = "Cep encontrado 🌞"; 
-            mensagemStatus.style.color = "blue";
+            mensagemStatus.innerHTML = "Cep encontrado "; 
+            //mensagemStatus.style.color = "blue";
             
             // selecionando todos os campos com a classe indicada
             const campos =  formulario.querySelectorAll(".campos-restantes"); 
@@ -85,35 +85,4 @@ botaoBuscar.addEventListener("click", async function(){
 });// final do evento do botão 
 
 
-//Codigo do formspree 
-var form = document.getElementById("my-form");
-  
-async function handleSubmit(event) {
-  event.preventDefault();
-  var status = document.getElementById("my-form-status");
-  var data = new FormData(event.target);
-  fetch(event.target.action, {
-    method: form.method,
-    body: data,
-    headers: {
-        'Accept': 'application/json'
-    }
-  }).then(response => {
-    if (response.ok) {
-      status.innerHTML = "Obrigado! mensagem enviada com sucesso. Aguarde nosso retorno";
-      form.reset()
-    } else {
-      response.json().then(data => {
-        if (Object.hasOwn(data, 'errors')) {
-          status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
-        } else {
-          status.innerHTML = "Oops! Algo deu errado não está certo... tente novamente mais tarde"
-        }
-      })
-    }
-  }).catch(error => {
-    status.innerHTML = "Oops! Houve um erro .... fale com o adiministrador pelo email <a href=`mailto@simplicity.com.br`>admin@simplicity.com.br</a>"    
-   
-  });
-}
-form.addEventListener("submit", handleSubmit)
+

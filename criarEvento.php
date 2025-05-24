@@ -78,10 +78,34 @@ if (isset($_POST['inserir'])) {
             </nav>
         </div>
     </header>
-
+    
     <main class="container my-5  bg-dark text-light rounded p-4 shadow">
         <h2 class="mb-4 text-center">Inserir Evento</h2>
+        
+        <div class="mb-3">
+            <label class="form-label" for="titulo">Nome Do evento:</label>
+            <input class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
+        </div>  
 
+         <div class="mb-3">
+            <label class="form-label" for="titulo">Dia :</label>
+            <input class="form-control" type="text" id="datas" name="datas" placeholder="Digite o nome do evento" required />
+        </div>  
+
+         <div class="mb-3">
+            <label class="form-label" for="titulo">Horario:</label>
+            <input class="form-control" type="text" id="horario" name="horario" placeholder="Digite o nome do evento" required />
+        </div>               
+
+        <div class="mb-3">
+            <label class="form-label" for="titulo">Classificação:</label>
+            <input class="form-control" type="text" id="classificacao" name="classificacao" placeholder="Digite o nome do evento" required />
+        </div> 
+
+         <div class="mb-3">
+            <label class="form-label" for="telefone">Telefone de contato:</label>
+            <input class="form-control" type="tel" id="telefone" name="telefone"/>
+        </div> 
 
         <form class="mx-auto w-75" action="#" method="post" id="form-inserir" name="form-inserir" enctype="multipart/form-data" autocomplete="off">
             <div class="mb-3">
@@ -96,10 +120,6 @@ if (isset($_POST['inserir'])) {
         </form>
 
 
-        <div class="mb-3">
-            <label class="form-label" for="titulo">Nome Do evento:</label>
-            <input class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
-        </div>
 
         <div class="mb-3">
             <label class="form-label" for="texto">Descrição:</label>
@@ -152,7 +172,10 @@ if (isset($_POST['inserir'])) {
     </footer>
 
     <script src="js/menu.js"></script>
-    <script src="js/buscar.js"></script>
+    <script src="js/buscar.js"></script> 
+    <script src="js/cep.js"></script> 
+    <script src="js/jquery-3.7.1.min.js"></script> 
+     <script src="js/jquery-3.7.1.min.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 
