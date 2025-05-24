@@ -1,4 +1,36 @@
+<?php 
+require_once __DIR__ . '/vendor/autoload.php';
 
+use ExplosaoCultural\Auth\ControleDeAcesso;
+use ExplosaoCultural\Helpers\Utils;
+use ExplosaoCultural\Services\EventoServico; 
+use ExplosaoCultural\Services\UsuarioServico;
+use ExplosaoCultural\Helpers\Validacoes;
+use ExplosaoCultural\Services\GeneroServico;
+
+
+ControleDeAcesso::exigirLogin();
+
+$idUsuario = $_SESSION['id'];
+
+$mensagemErro = '';
+
+$generoServico = new GeneroServico();
+$listaDeGeneros = $generoServico->listarTodos();
+
+if (isset($_POST['inserir'])){ 
+    $titulo = Utils::sanitizar($_POST["nome_evento"]);
+    $texto = Utils::sanitizar($_POST["descricao"]);  
+    $localizacao = Utils::sanitizar($_POST["localizacao"]);
+    $genero = Utils::sanitizar($_POST	["genero"], "inteiro");
+    $imagem = Utils::sanitizar($_FILES['imagem'], "arquivo");
+
+
+}
+
+
+
+?>
 <!doctype html>
 <html lang="pt-br">
 
@@ -58,12 +90,12 @@
 
 
         <div class="mb-3">
-            <label class="form-label" for="titulo">Título:</label>
-            <input class="form-control" type="text" id="titulo" name="titulo" placeholder="Digite o título" required />
+            <label class="form-label" for="titulo">Nome Do evento:</label>
+            <input class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
         </div>
 
         <div class="mb-3">
-            <label class="form-label" for="texto">Texto:</label>
+            <label class="form-label" for="texto">Descrição:</label>
             <textarea class="form-control" name="texto" id="texto" cols="50" rows="6" placeholder="Digite o texto completo" required></textarea>
         </div>
 

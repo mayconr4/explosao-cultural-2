@@ -10,6 +10,20 @@ final class ControleDeAcesso
     __construct() 
     {
         // Construtor privado para impedir instâncias externas
+    }  
+
+    public static function exigirLogin(): void  
+    {   
+        //inicia sessão (se necessario)
+        self::iniciarSessao(); 
+
+        //Se não existir umá variável de sessão chamada ID
+        if(!isset($_SESSION['id'])){ 
+            session_destroy();
+            header("location:../login.php?acesso_proibido");
+            exit;
+
+        }
     } 
 
     public static function iniciarSessao():void{

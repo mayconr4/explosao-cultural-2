@@ -2,17 +2,17 @@
 
 namespace ExplosaoCultural\Models;
 
-use ExplosaoCultural\Enums\TipoGenero;
+
 
 final class Generos
 {
     private ?int $id;
-    private TipoGenero $evento;
+    private int  $tipoGenero;
 
 
-    public function __construct(TipoGenero $evento, ?int $id)
+    public function __construct(int $tipoGenero, ?int $id)
     {
-        $this->setEvento($evento);
+        $this->setEvento($tipoGenero);
         $this->setId($id);
     }
 
@@ -22,9 +22,9 @@ final class Generos
         return $this->id;
     }
 
-    public function getEvento(): string
+    public function getGenero(): int
     {
-        return $this->evento->value;
+        return $this->tipoGenero;
     }
 
     //Setters
@@ -34,8 +34,8 @@ final class Generos
         $this->id = $id;
     }
 
-    private function setEvento(TipoGenero $evento): void
+    private function setEvento(int $tipoGenero): void
     {
-        $this->evento = $evento;
+        $this->tipoGenero = $tipoGenero;
     }
 }
