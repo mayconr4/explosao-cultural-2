@@ -7,7 +7,7 @@ final class Enderecos
     private ?int $id;
     private string $cep;
     private string $logradouro;
-    private string $numero;
+   
     private string $bairro;
     private string $cidade;
     private string $estado; 
@@ -16,7 +16,7 @@ final class Enderecos
     public function __construct(
         string $cep,
         string $logradouro,
-        string $numero,
+       
         string $bairro,
         string $cidade,
         string $estado,
@@ -25,7 +25,7 @@ final class Enderecos
     ) {
         $this->setCep($cep);
         $this->setLogradouro($logradouro);
-        $this->setNumero($numero);
+       
         $this->setBairro($bairro);
         $this->setCidade($cidade);
         $this->setEstado($estado);
@@ -51,10 +51,7 @@ final class Enderecos
         return $this->logradouro;
     }
 
-    public function getNumero(): string
-    {
-        return $this->numero;
-    }
+    
 
     public function getBairro(): string
     {
@@ -89,10 +86,7 @@ final class Enderecos
         $this->logradouro = $logradouro;
     }
 
-    private function setNumero(string $numero): void
-    {
-        $this->numero = $numero;
-    }
+    
 
     private function setBairro(string $bairro): void
     {

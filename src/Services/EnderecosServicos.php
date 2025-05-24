@@ -50,13 +50,12 @@ final class EnderecosServicos
 
     public function inserir(Enderecos $endereco): bool
     {
-        $sql = "INSERT INTO enderecos (cep,logradouro, numero, bairro, cidade,estado)VALUES (:cep, :logradouro, :numero, :bairro, :cidade, :estado)"; 
+        $sql = "INSERT INTO enderecos (cep,logradouro,  bairro, cidade,estado)VALUES (:cep, :logradouro,  :bairro, :cidade, :estado)"; 
 
         try {
             $consulta = $this->conexao->prepare($sql); 
             $consulta->bindValue(':cep', $endereco->getCep(), PDO::PARAM_STR); 
-            $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR); 
-            $consulta->bindValue(':numero', $endereco->getNumero(), PDO::PARAM_STR); 
+            $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR);             
             $consulta->bindValue(':bairro', $endereco->getBairro(), PDO::PARAM_STR); 
             $consulta->bindValue(':cidade', $endereco->getCidade(), PDO::PARAM_STR); 
             $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR); 
@@ -71,8 +70,7 @@ final class EnderecosServicos
     public function atualizar(Enderecos $endereco): void
     {
         $sql = "UPDATE enderecos SET cep = :cep, 
-        logradouro = :logradouro, 
-        numero = :numero, 
+        logradouro = :logradouro,           
         bairro = :bairro, 
         cidade = :cidade, 
         estado = :estado WHERE id = :id"; 
@@ -80,8 +78,7 @@ final class EnderecosServicos
         try {
             $consulta = $this->conexao->prepare($sql); 
             $consulta->bindValue(':cep', $endereco->getCep(), PDO::PARAM_STR); 
-            $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR); 
-            $consulta->bindValue(':numero', $endereco->getNumero(), PDO::PARAM_STR); 
+            $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR);              
             $consulta->bindValue(':bairro', $endereco->getBairro(), PDO::PARAM_STR); 
             $consulta->bindValue(':cidade', $endereco->getCidade(), PDO::PARAM_STR); 
             $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR); 

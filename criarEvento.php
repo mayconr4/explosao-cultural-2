@@ -1,9 +1,9 @@
-<?php 
+<?php
 require_once __DIR__ . '/vendor/autoload.php';
 
 use ExplosaoCultural\Auth\ControleDeAcesso;
 use ExplosaoCultural\Helpers\Utils;
-use ExplosaoCultural\Services\EventoServico; 
+use ExplosaoCultural\Services\EventoServico;
 use ExplosaoCultural\Services\UsuarioServico;
 use ExplosaoCultural\Helpers\Validacoes;
 use ExplosaoCultural\Services\GeneroServico;
@@ -21,17 +21,12 @@ $generoServico = new GeneroServico();
 
 $listaDeGeneros = $generoServico->listarTodos();
 
-if (isset($_POST['inserir'])){ 
+if (isset($_POST['inserir'])) {
     $titulo = Utils::sanitizar($_POST["nome_evento"]);
-    $texto = Utils::sanitizar($_POST["descricao"]);  
+    $texto = Utils::sanitizar($_POST["descricao"]);
     $localizacao = Utils::sanitizar($_POST["localizacao"]);
-    $genero = Utils::sanitizar($_POST	["genero"], "inteiro");
-    $imagem = Utils::sanitizar($_FILES['imagem'], "arquivo");  
-
-
-
-
-
+    $genero = Utils::sanitizar($_POST["genero"], "inteiro");
+    $imagem = Utils::sanitizar($_FILES['imagem'], "arquivo");
 }
 
 
@@ -106,8 +101,29 @@ if (isset($_POST['inserir'])){
         </div>
 
         <div class="mb-3">
-            <label class="form-label" for="resumo">Localização do evento</label>
-            <textarea class="form-control" name="resumo" id="resumo" cols="50" rows="2" maxlength="300" placeholder="Endereço" required></textarea>
+            <label class="form-label" for="cep">Localização do evento Pelo CEP: <span id="status"></span></label>
+            <div class="area-do-cep">
+                <input maxlength="9" inputmode="numeric" placeholder="Somente números" type="text" id="cep"
+                    name="cep" required> <br>
+                <button id="buscar">Buscar</button>
+            </div>
+            <!-- <textarea class="form-control" name="resumo" id="resumo" cols="50" rows="2" maxlength="300" placeholder="Endereço" required></textarea> -->
+        </div>
+        <div class="campos-restantes mb-3">
+            <label for="logradouro">Endereço:</label>
+            <input type="text" id="logradouro" name="logradouro" size="30">
+        </div>
+        <div class="campos-restantes mb-3">
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" name="bairro">
+        </div>
+        <div class="campos-restantes mb-3">
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade">
+        </div>
+        <div class="campos-restantes mb-3">
+            <label for="estado">Estado:</label>
+            <input type="text" id="estado" name="estado">
         </div>
 
         <div class="mb-3">
