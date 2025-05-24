@@ -70,7 +70,12 @@ final class EnderecosServicos
 
     public function atualizar(Enderecos $endereco): void
     {
-        $sql = "UPDATE enderecos SET cep = :cep, logradouro = :logradouro, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado WHERE id = :id"; 
+        $sql = "UPDATE enderecos SET cep = :cep, 
+        logradouro = :logradouro, 
+        numero = :numero, 
+        bairro = :bairro, 
+        cidade = :cidade, 
+        estado = :estado WHERE id = :id"; 
 
         try {
             $consulta = $this->conexao->prepare($sql); 
@@ -82,10 +87,25 @@ final class EnderecosServicos
             $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR); 
             $consulta->bindValue(':id', $endereco->getId(), PDO::PARAM_INT); 
 
-            return $consulta->execute();
+            if (!$consulta->execute()) {
+                throw new Exception("Erro ao atualizar o endereço: ");
+            }
         } catch (Throwable $erro) {
             UTILS::registrarErro($erro);
             throw new Exception("Erro ao atualizar o endereço: ");
+        }
+    } 
+
+    public function exluir(int $id): void 
+    {
+        $sql = "DELETE FROM enderecos WHERE id = :id"; 
+        try{ 
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+            $consulta->execute();
+        } catch (Throwable $erro) { 
+            Utils::registrarErro($erro); 
+            throw new Exception("Erro ao excluir o endereço: "  ); 
         }
     }
 
