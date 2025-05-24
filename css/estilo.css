@@ -6,7 +6,9 @@ body {
     width: 100%;
     
     height: 100%;
-  }
+  } 
+
+  .campos-restantes { display: none; }
   
   .card-img-top {
     height: 250px;

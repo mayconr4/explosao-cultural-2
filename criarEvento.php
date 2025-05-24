@@ -7,6 +7,8 @@ use ExplosaoCultural\Services\EventoServico;
 use ExplosaoCultural\Services\UsuarioServico;
 use ExplosaoCultural\Helpers\Validacoes;
 use ExplosaoCultural\Services\GeneroServico;
+use ExplosaoCultural\Models\Enderecos;
+use ExplosaoCultural\Services\EnderecosServicos;
 
 
 ControleDeAcesso::exigirLogin();
@@ -16,6 +18,7 @@ $idUsuario = $_SESSION['id'];
 $mensagemErro = '';
 
 $generoServico = new GeneroServico();
+
 $listaDeGeneros = $generoServico->listarTodos();
 
 if (isset($_POST['inserir'])){ 
@@ -23,7 +26,10 @@ if (isset($_POST['inserir'])){
     $texto = Utils::sanitizar($_POST["descricao"]);  
     $localizacao = Utils::sanitizar($_POST["localizacao"]);
     $genero = Utils::sanitizar($_POST	["genero"], "inteiro");
-    $imagem = Utils::sanitizar($_FILES['imagem'], "arquivo");
+    $imagem = Utils::sanitizar($_FILES['imagem'], "arquivo");  
+
+
+
 
 
 }
