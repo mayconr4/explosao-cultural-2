@@ -26,7 +26,13 @@ if (isset($_POST['inserir'])) {
     $texto = Utils::sanitizar($_POST["descricao"]);
     $localizacao = Utils::sanitizar($_POST["localizacao"]);
     $genero = Utils::sanitizar($_POST["genero"], "inteiro");
-    $imagem = Utils::sanitizar($_FILES['imagem'], "arquivo");
+    $imagem = Utils::sanitizar($_FILES['imagem'], "arquivo"); 
+
+    $cep = Utils::sanitizar($_POST["cep"]);
+    $logradouro = Utils::sanitizar($_POST["logradouro"]);
+    $bairro = Utils::sanitizar($_POST["bairro"]);
+    $cidade = Utils::sanitizar($_POST["cidade"]);
+    $estado = Utils::sanitizar($_POST["estado"]);
 }
 
 
@@ -131,14 +137,7 @@ if (isset($_POST['inserir'])) {
             <input class="form-control" type="file" id="imagem" name="imagem" accept="image/png, image/jpeg, image/gif, image/svg+xml" required />
         </div>
 
-        <div class="mb-3">
-            <p>Deixar o evento em destaque?</p>
-            <input type="radio" class="btn-check" name="destaque" id="option1" checked autocomplete="off" value="nao" />
-            <label class="btn btn-outline-danger me-2" for="option1">Não</label>
-
-            <input type="radio" class="btn-check" name="destaque" id="option2" autocomplete="off" value="sim" />
-            <label class="btn btn-outline-success" for="option2">Sim</label>
-        </div>
+        
 
         <div class="text-center">
             <button class="btn btn-primary" id="inserir" name="inserir" type="submit">

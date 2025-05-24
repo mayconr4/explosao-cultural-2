@@ -1,13 +1,12 @@
 const formulario = document.querySelector("form");
 const campoCep = formulario.querySelector("#cep");
-const campoEndereco = formulario.querySelector("#logradouro"); 
-const campoNumero = formulario.querySelector("#numero");
+const campoEndereco = formulario.querySelector("#logradouro");   
 const campoBairro = formulario.querySelector("#bairro");
 const campoCidade = formulario.querySelector("#cidade");
 const campoEstado = formulario.querySelector("#estado");
 const botaoBuscar = formulario.querySelector("#buscar");
 const mensagemStatus = formulario.querySelector("#status"); 
-//const campoTelefone = formulario.querySelector("#telefone"); 
+const campoTelefone = formulario.querySelector("#telefone"); 
 
 /* Ativação da mascara para telefone cep  */
 $(campoTelefone).mask("(00) 0000-0000");
