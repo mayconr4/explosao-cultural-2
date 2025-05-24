@@ -170,12 +170,13 @@ if (isset($_POST['inserir'])) {
     <footer class="bg-black text-center py-3 mt-5">
         <p class="m-0 text-light">Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;</p>
     </footer>
-
+    
+    <script src="js/jquery-3.7.1.min.js"></script> 
+     <script src="js/jquery-3.7.1.min.js"></script> 
+     
     <script src="js/menu.js"></script>
     <script src="js/buscar.js"></script> 
     <script src="js/cep.js"></script> 
-    <script src="js/jquery-3.7.1.min.js"></script> 
-     <script src="js/jquery-3.7.1.min.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 
