@@ -8,8 +8,20 @@ body {
     height: 100%;
   } 
 
-  .campos-restantes { display: none; }
-  
+  .campos-restantes { display: none; } 
+
+  #area-do-cep {
+    display: flex;
+    justify-content: space-between;
+}
+
+#cep { width: 50%; }
+
+#buscar { 
+    width: 49%;
+    padding: 12px;
+}
+  /*cep   */
   .card-img-top {
     height: 250px;
     object-fit: cover;

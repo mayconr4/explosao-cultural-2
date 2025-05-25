@@ -128,7 +128,7 @@ if (isset($_POST['inserir'])) {
 
         <div class="mb-3">
             <label class="form-label" for="cep">Localização do evento Pelo CEP: <span id="status"></span></label>
-            <div class="area-do-cep">
+            <div id="area-do-cep">
                 <input maxlength="9" inputmode="numeric" placeholder="Somente números" type="text" id="cep"
                     name="cep" required> <br>
                 <button id="buscar">Buscar</button>
@@ -173,7 +173,7 @@ if (isset($_POST['inserir'])) {
     
     <script src="js/jquery-3.7.1.min.js"></script> 
      <script src="js/jquery-3.7.1.min.js"></script> 
-     
+
     <script src="js/menu.js"></script>
     <script src="js/buscar.js"></script> 
     <script src="js/cep.js"></script> 
