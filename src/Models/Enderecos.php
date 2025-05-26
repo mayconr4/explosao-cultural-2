@@ -15,8 +15,7 @@ final class Enderecos
     
     public function __construct(
         string $cep,
-        string $logradouro,
-       
+        string $logradouro,        
         string $bairro,
         string $cidade,
         string $estado,
@@ -24,8 +23,7 @@ final class Enderecos
 
     ) {
         $this->setCep($cep);
-        $this->setLogradouro($logradouro);
-       
+        $this->setLogradouro($logradouro);        
         $this->setBairro($bairro);
         $this->setCidade($cidade);
         $this->setEstado($estado);

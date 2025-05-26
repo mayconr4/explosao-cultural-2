@@ -45,27 +45,32 @@ final class EnderecosServicos
             Utils::registrarErro($erro); 
             throw new Exception("Erro ao buscar o endereço: "  ); 
         } 
-    } 
+    }
 
 
-    public function inserir(Enderecos $endereco): bool
+    public function inserir(Enderecos $endereco): int
     {
-        $sql = "INSERT INTO enderecos (cep,logradouro,  bairro, cidade,estado)VALUES (:cep, :logradouro,  :bairro, :cidade, :estado)"; 
+        $sql = "INSERT INTO enderecos (cep, logradouro, bairro, cidade, estado) 
+            VALUES (:cep, :logradouro, :bairro, :cidade, :estado)";
 
         try {
-            $consulta = $this->conexao->prepare($sql); 
-            $consulta->bindValue(':cep', $endereco->getCep(), PDO::PARAM_STR); 
-            $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR);             
-            $consulta->bindValue(':bairro', $endereco->getBairro(), PDO::PARAM_STR); 
-            $consulta->bindValue(':cidade', $endereco->getCidade(), PDO::PARAM_STR); 
-            $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR); 
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(':cep', $endereco->getCep(), PDO::PARAM_STR);
+            $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR);
+            $consulta->bindValue(':bairro', $endereco->getBairro(), PDO::PARAM_STR);
+            $consulta->bindValue(':cidade', $endereco->getCidade(), PDO::PARAM_STR);
+            $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR);
 
-            return $consulta->execute();
+            $consulta->execute();
+
+            // Retorna o ID do endereço inserido
+            return (int) $this->conexao->lastInsertId();
         } catch (Throwable $erro) {
-            UTILS::registrarErro($erro);
-            throw new Exception("Erro ao inserir o endereço: ");
+            Utils::registrarErro($erro);
+            throw new Exception("Erro ao inserir o endereço.");
         }
-    }  
+    }
+
 
     public function atualizar(Enderecos $endereco): void
     {

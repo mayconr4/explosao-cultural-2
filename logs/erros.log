@@ -118,3 +118,23 @@ Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Models\Eventos.php
 Linha: 21
 Mensagem: ExplosaoCultural\Models\Eventos::__construct(): Argument #4 ($classificacao) must be of type ExplosaoCultural\Enums\TipoClassificacao, string given, called in C:\xampp\htdocs\explosao-cultural-2\criarEvento.php on line 52
 
+[2025-05-26 11:54:04]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
+Linha: 108
+Mensagem: Object of class ExplosaoCultural\Enums\TipoClassificacao could not be converted to string
+
+[2025-05-26 11:54:04]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
+Linha: 119
+Mensagem: erro ao inserir evento
+
+[2025-05-26 11:56:29]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
+Linha: 108
+Mensagem: Object of class ExplosaoCultural\Enums\TipoClassificacao could not be converted to string
+
+[2025-05-26 11:56:29]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
+Linha: 119
+Mensagem: erro ao inserir evento
+

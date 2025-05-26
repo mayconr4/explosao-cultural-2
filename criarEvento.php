@@ -30,8 +30,7 @@ if (isset($_POST['inserir'])) {
     $classificacao = Utils::sanitizar($_POST["classificacao"] ?? ''); 
     $telefone = Utils::sanitizar($_POST["telefone"]);
     $descricao = Utils::sanitizar($_POST["descricao"]);     
-    $genero = Utils::sanitizar($_POST["genero"], "inteiro");
-    
+    $idGenero = Utils::sanitizar($_POST["genero"], "inteiro");
     
     $cep = Utils::sanitizar($_POST["cep"]);
     $logradouro = Utils::sanitizar($_POST["logradouro"]);
@@ -41,31 +40,38 @@ if (isset($_POST['inserir'])) {
     
     $arquivoDeImagem = Utils::sanitizar($_FILES["imagem"], "arquivo"); 
     
-    
-    $enderecoId = new Enderecos($cep, $logradouro, $bairro, $cidade, $estado);
-
     try {
-        Validacoes::validarGenero($genero);  
+        Validacoes::validarGenero($idGenero);  
         Validacoes::validarTitulo($titulo);
         Validacoes::validarDescricao($descricao); 
 
         Utils::upload($arquivoDeImagem);
-
         $nomeDaImagem = $arquivoDeImagem["name"];
         $classificacaoEnum = TipoClassificacao::from($classificacao);
 
+        
+        $endereco = new Enderecos($cep, $logradouro, $bairro, $cidade, $estado);
+
+        
+        $enderecoServico = new EnderecosServicos();
+        $idEndereco = $enderecoServico->inserir($endereco);  
+
+        
         $evento = new Eventos(
-        $titulo,
-        $dataDoEvento,
-        $horario,
-        $classificacao,
-        $telefone,
-        $descricao,
-        $enderecoId
-        $genero,
-        $idUsuario,
-        $nomeDaImagem
-        );
+            $titulo,
+            $dataDoEvento,
+            $horario,
+            $classificacaoEnum,  
+            $telefone,
+            $idEndereco,
+            $idGenero,
+            $idUsuario,
+            $nomeDaImagem,
+            $descricao
+        ); 
+
+        Utils::dump($evento);
+        die();
 
         $eventoServico = new EventoServico();
         $eventoServico->inserir($evento);
@@ -76,6 +82,7 @@ if (isset($_POST['inserir'])) {
         Utils::registrarErro($erro);
     }
 }
+
 
 
 
