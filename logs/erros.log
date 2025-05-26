@@ -63,3 +63,58 @@ Arquivo: C:\xampp\htdocs\explosao-cultural\src\Services\EventoServico.php
 Linha: 49
 Mensagem: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'vendas.eventos' doesn't exist
 
+[2025-05-26 10:07:38]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Validacoes.php
+Linha: 72
+Mensagem: Texto não pode ser vazio.
+
+[2025-05-26 10:13:17]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Validacoes.php
+Linha: 72
+Mensagem: Texto não pode ser vazio.
+
+[2025-05-26 10:18:45]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Utils.php
+Linha: 114
+Mensagem: Erro ao mover o arquivo. Código de erro: 0
+
+[2025-05-26 10:49:17]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Utils.php
+Linha: 115
+Mensagem: Erro ao mover o arquivo. Código de erro: 0
+
+[2025-05-26 10:54:25]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Utils.php
+Linha: 115
+Mensagem: Erro ao mover o arquivo. Código de erro: 0
+
+[2025-05-26 10:57:26]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Utils.php
+Linha: 115
+Mensagem: Erro ao mover o arquivo. Código de erro: 0
+
+[2025-05-26 11:02:54]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Utils.php
+Linha: 115
+Mensagem: Erro ao mover o arquivo. Código de erro: 0
+
+[2025-05-26 11:02:54]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Utils.php
+Linha: 115
+Mensagem: Erro ao mover o arquivo. Código de erro: 0
+
+[2025-05-26 11:02:56]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Utils.php
+Linha: 115
+Mensagem: Erro ao mover o arquivo. Código de erro: 0
+
+[2025-05-26 11:03:25]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Helpers\Utils.php
+Linha: 115
+Mensagem: Erro ao mover o arquivo. Código de erro: 0
+
+[2025-05-26 11:11:27]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Models\Eventos.php
+Linha: 21
+Mensagem: ExplosaoCultural\Models\Eventos::__construct(): Argument #4 ($classificacao) must be of type ExplosaoCultural\Enums\TipoClassificacao, string given, called in C:\xampp\htdocs\explosao-cultural-2\criarEvento.php on line 52
+

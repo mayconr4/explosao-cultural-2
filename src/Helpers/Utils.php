@@ -86,7 +86,8 @@ final class Utils
 
         // Variáveis de configuração para o upload
         // (pasta de destino, formatos permitidos e tamanho máximo)
-        $pastaDeDestino = "../images/";
+        //$pastaDeDestino = "../images/";
+        $pastaDeDestino = __DIR__ . "/../../images/";
         $formatosPermitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
         $tamanhoMaximo = 2 * 1024 * 1024; // 2MB
 

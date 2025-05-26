@@ -1,12 +1,12 @@
-const formulario = document.querySelector("form");
-const campoCep = formulario.querySelector("#cep");
-const campoEndereco = formulario.querySelector("#logradouro");   
-const campoBairro = formulario.querySelector("#bairro");
-const campoCidade = formulario.querySelector("#cidade");
-const campoEstado = formulario.querySelector("#estado");
-const botaoBuscar = formulario.querySelector("#buscar");
-const mensagemStatus = formulario.querySelector("#status"); 
-const campoTelefone = formulario.querySelector("#telefone"); 
+const formularioEndereco = document.querySelector("#form-endereco");
+const campoCep = formularioEndereco.querySelector("#cep");
+const campoEndereco = formularioEndereco.querySelector("#logradouro");   
+const campoBairro = formularioEndereco.querySelector("#bairro");
+const campoCidade = formularioEndereco.querySelector("#cidade");
+const campoEstado = formularioEndereco.querySelector("#estado");
+const botaoBuscar = formularioEndereco.querySelector("#buscar");
+const mensagemStatus = formularioEndereco.querySelector("#status"); 
+const campoTelefone = formularioEndereco.querySelector("#telefone"); 
 
 /* Ativação da mascara para telefone cep  */
 $(campoTelefone).mask("(00) 0000-0000");
@@ -14,7 +14,8 @@ $(campoCep).mask("00000-000");
 
 
 /* Capturando o clique no botão buscar */
-botaoBuscar.addEventListener("click", async function(){
+botaoBuscar.addEventListener("click", async function(event){
+    event.preventDefault(); //parar o envio do formulário
     /* Verificando se o CEP não tem 9 digitos */
     if ( campoCep.value.length !== 9 ){
         //informar o usuario sobre o erro
@@ -58,7 +59,7 @@ botaoBuscar.addEventListener("click", async function(){
             //mensagemStatus.style.color = "blue";
             
             // selecionando todos os campos com a classe indicada
-            const campos =  formulario.querySelectorAll(".campos-restantes"); 
+            const campos =  formularioEndereco.querySelectorAll(".campos-restantes"); 
 
             //Loop/laço de repetição para acessar acada campo selecionado
             for(const campo of campos){

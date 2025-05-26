@@ -66,12 +66,12 @@ final class Validacoes
         }
     }
 
-    public static function validarTexto(string $texto): void
+    public static function validarDescricao(string $texto): void
     {
         if (empty($texto)) {
             throw new InvalidArgumentException("Texto não pode ser vazio.");
         }
-    }
+    } 
 
     public static function validarResumo(string $resumo): void
     {
@@ -85,7 +85,7 @@ final class Validacoes
     }
 
    
-    public static function validarCategoria(int $categoriaId): void
+    public static function validarGenero(int $categoriaId): void
     {
         if (empty($categoriaId) || $categoriaId <= 0) {
             throw new InvalidArgumentException("Selecione uma categoria válida.");
