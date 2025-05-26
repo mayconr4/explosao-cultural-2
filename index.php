@@ -2,11 +2,15 @@
 
 use ExplosaoCultural\Helpers\Utils;
 use ExplosaoCultural\Services\EventoServico;
-
+use ExplosaoCultural\Services\GeneroServico;
 require_once "vendor/autoload.php";
 
 $eventoServico = new EventoServico();
-$listaDeEventos = $eventoServico->listarTodos();
+$listaDeEventos = $eventoServico->listarTodos();  
+
+$generoServico = new GeneroServico();
+$listaDeGeneros = $generoServico->listarTodos();
+
 
 
 ?>
@@ -39,7 +43,13 @@ $listaDeEventos = $eventoServico->listarTodos();
                   Gêneros
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href=""></a> </li> 
+                  <?php foreach ($listaDeGeneros as $generos) {?>
+                  <li>
+                    <a class="dropdown-item" href="generos.php?tipo=<?= $generos['id'] ?>">
+                      <?= $generos['tipo'] ?>
+                    </a> 
+                  </li>
+                  <?php } ?> 
                 </ul>
               </li>               
               <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
