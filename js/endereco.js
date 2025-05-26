@@ -26,7 +26,7 @@ botaoBuscar.addEventListener("click", async function(){
     }  
      
     /* Guardando o valor do cep didgitado */
-    let cepDigitado = campoCep.value;  
+    let cepDigitado = campoCep.value.replace(/\D/g, '') ;  
     console.log(cepDigitado);
     
 

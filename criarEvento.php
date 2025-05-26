@@ -118,20 +118,21 @@ if (isset($_POST['inserir'])) {
                 </select>
             </div>
         </form>
-
-
-
+        
+        
+        
         <div class="mb-3">
             <label class="form-label" for="texto">Descrição:</label>
             <textarea class="form-control" name="texto" id="texto" cols="50" rows="6" placeholder="Digite o texto completo" required></textarea>
         </div>
 
+        <form autocomplete="off" action="" method="post" id="my-form">
         <div class="mb-3">
             <label class="form-label" for="cep">Localização do evento Pelo CEP: <span id="status"></span></label>
             <div id="area-do-cep">
                 <input maxlength="9" inputmode="numeric" placeholder="Somente números" type="text" id="cep"
-                    name="cep" required> <br>
-                <button id="buscar">Buscar</button>
+                name="cep" required> <br>
+                <button type="button"  id="buscar">Buscar</button>
             </div>
             <!-- <textarea class="form-control" name="resumo" id="resumo" cols="50" rows="2" maxlength="300" placeholder="Endereço" required></textarea> -->
         </div>
@@ -151,6 +152,7 @@ if (isset($_POST['inserir'])) {
             <label for="estado">Estado:</label>
             <input type="text" id="estado" name="estado">
         </div>
+        </form> 
 
         <div class="mb-3">
             <label class="form-label" for="imagem">Selecione uma imagem:</label>
@@ -171,12 +173,14 @@ if (isset($_POST['inserir'])) {
         <p class="m-0 text-light">Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;</p>
     </footer>
     
+
     <script src="js/jquery-3.7.1.min.js"></script> 
-     <script src="js/jquery-3.7.1.min.js"></script> 
+    <script src="js/jquery.mask.min.js"></script>
+    
 
     <script src="js/menu.js"></script>
-    <script src="js/buscar.js"></script> 
-    <script src="js/cep.js"></script> 
+    <script src="endereco.js"></script>
+    <script src="js/buscar.js"></script>      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 
