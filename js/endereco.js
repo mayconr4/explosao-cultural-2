@@ -83,6 +83,3 @@ botaoBuscar.addEventListener("click", async function(){
     
 
 });// final do evento do botão 
-
-
-
