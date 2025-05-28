@@ -33,6 +33,20 @@ final class Utils
           
             return self::codificarSenha($senhaFormulario);
         }
+    } 
+
+    public static function verificarId(mixed $valor): void
+    {
+        if (!isset($valor) || !is_numeric($valor) || $valor <= 0) {
+            // Se não for, redireciona para a página inicial
+            header("Location: index.php");
+            exit;
+        }
+    } 
+
+     public static function formataData(string $data): string
+    {
+        return date("d/m/Y H:i", strtotime($data));
     }
 
    

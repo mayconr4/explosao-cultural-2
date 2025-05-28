@@ -1,59 +1,14 @@
-<?php 
-require_once __DIR__ . '/vendor/autoload.php';
+<?php  
+require_once "vendor/autoload.php";
 
-use ExplosaoCultural\Enums\TipoUsuario; 
 use ExplosaoCultural\Helpers\Utils;
-use ExplosaoCultural\Helpers\Validacoes;
-use ExplosaoCultural\Models\Usuarios;
 use ExplosaoCultural\Services\GeneroServico;
-use ExplosaoCultural\Services\UsuarioServico; 
+
+Utils::verificarId($_GET["id"] ?? null);
 
 $generoServico = new GeneroServico();
-$listaDeGeneros = $generoServico->listarTodos();
-
-$mensagemErro = '';
-$usuarioServico = new UsuarioServico();   
-
-if (isset($_POST['inserir'])){ 
-  
-    try{ 
-        $nome = Utils::sanitizar($_POST["nome"]); 
-        Validacoes::validarNome($nome); 
-
-        $dataNascimento = Utils::sanitizar($_POST["data_nascimento"]);
-        Validacoes::validarDataNascimento($dataNascimento); 
-
-        $email = Utils::sanitizar($_POST["email"], 'email');
-        Validacoes::validarEmail($email);
-
-        $senhaBruta = Utils::sanitizar($_POST["senha"]);
-        Validacoes::validarSenha($senhaBruta);
-        $senha = Utils::codificarSenha($senhaBruta); 
-
-        /* $tipoStr = $_POST["tipo"];
-        Validacoes::validarTipo($tipoStr);
-        $tipo = TipoUsuario::From($tipoStr); */
-
-
-        $usuario = new Usuarios($nome, $dataNascimento, $email, $senha);
-        // Utils::dump($usuario);
-        // die();
-        $usuarioServico->inserir($usuario);   
-        header("Location:login.php");
-        
-        exit;
-
-    } catch (Throwable $erro){
-        $mensagemErro = $erro->getMessage();
-    } catch (Throwable $erro){ 
-        //Captura de erros inseperados
-        $mensagemErro = "Erro inesperado: ";
-        Utils::registrarErro($erro);
-    }
-
-}   
-?>
-
+$dados =  $generoServico->buscarPorId($_GET["id"]);     
+?> 
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
 
@@ -117,51 +72,49 @@ if (isset($_POST['inserir'])){
       </nav>
     </div>
     <hr>
-  </header>
+  </header> 
 
-  <main class="container my-5 bg-ligth text-dark rounded p-4 shadow">
-  <div class="container my-5 h-100">
-    <h2 class="mb-4">Login</h2>
-    <p class="text-warning">Atenção: os campos <strong>Nome</strong> e <strong>E-mail</strong> são <u>obrigatórios</u>.</p>
+  <body>
+    
+  
 
-    <form autocomplete="off" action="" method="post" id="my-form">
-      <fieldset class="border p-4 rounded">
-        <legend class="float-none w-auto px-3">Crie sua conta</legend> 
 
-        <?php if (!empty($mensagemErro)) : ?>
-			<div class="alert alert-danger text-center" role="alert">
-				<?= $mensagemErro ?>
-			</div>
-		<?php endif; ?>
+<div class="row my-1 mx-md-n1">
 
-        <div class="mb-3">
-          <label for="nome" class="form-label">Nome </label>
-          <input type="text" class="form-control" name="nome" id="nome" required placeholder="Digite seu nome completo">
-        </div>
+    <article class="col-12">
+        <?php if( count($dados) > 0 ){ ?>
+        <h2 class="text-center">
+            Notícias sobre <span class="badge bg-primary">
+                <?=$dados[0]["categoria"]?>
+            </span> 
+        </h2>
+        <?php } else { ?>
+            <h2 class="alert alert-warning text-center">
+                Não há notícias desta categoria</h2>
+        <?php } ?>
         
-        <div class="mb-3">
-         <label for="data_de_nascimento" class="form-label">Data de nascimento</label>
-         <input type="date" class="form-control" name="data_nascimento" id="data_nascimento" placeholder="00/00/0000">
-       </div>
-
-        <div class="mb-3">
-          <label for="email" class="form-label">E-mail </label>
-          <input type="email" class="form-control" name="email" id="email" required placeholder="email@exemplo.com">
+        <div class="row my-1">
+            <div class="col-12 px-md-1">
+                <div class="list-group">
+                <?php foreach($dados as $itemNoticia) { ?>
+                    <a href="noticia.php?id=<?=$itemNoticia['id']?>" class="list-group-item list-group-item-action">
+                        <h3 class="fs-6"><?=$itemNoticia['titulo']?></h3>
+                        <p><time><?=Utils::formataData($itemNoticia['data'])?></time> 
+                        - <?=$itemNoticia['autor']?></p>
+                        <p><?=$itemNoticia['resumo']?></p>
+                    </a>
+                <?php } ?>
+                </div>
+            </div>
         </div>
 
-        <div class="mb-3">
-          <label for="senha" class="form-label">Senha</label>
-          <input type="password" class="form-control" name="senha" id="senha" required placeholder="Digite sua senha"> 
-        </div>
-        
-        <button type="submit" id="inserir" name="inserir" class="btn btn-primary">Enviar</button>
-  </div>
-  </fieldset>
-  </form>
-  </main>
-  </div>
 
-  <footer class="bg-ligth text-center py-3">
+    </article>
+    
+
+</div>     
+
+<footer class="bg-ligth text-center py-3">
     <p class="m-0">Explosão Cultural — Empresa fictícia crianda por Maycon e Lucas &copy; </p>
   </footer>
 
