@@ -48,15 +48,8 @@ if (isset($_POST['inserir'])){
     }
 
 }   
-
-
-
-
-
-
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
 
@@ -64,51 +57,72 @@ if (isset($_POST['inserir'])){
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Explosão Cultural</title>
-  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="shortcut icon" href="images/logotipo2.png" type="image/png" sizes="64x64"> 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
 </head>
-
-<body class="bg-dark text-light h-100">
-  <header class="bg-black p-3">
+<header class="bg-ligth p-3">
     <div class="container d-flex justify-content-between align-items-center">
-      <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none">Explosão Cultural</a></h1>
-      <nav class="navbar navbar-expand-lg navbar-dark">
+      <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none"><img class="logotipo" src="images/logo2.png" alt="logo tipo"></a></h1>
+      <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container">
           <button class="navbar-toggler" type="button" id="menuBtn" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+
           <div class="collapse navbar-collapse" id="menuNav">
             <ul class="navbar-nav ms-auto">
-              <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+              <li class="nav-item">
+                <a class="nav-link text-black" href="index.php">Home</a>
+              </li>
+
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Gêneros
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href=""></a> </li>
+                  <?php foreach ($listaDeGeneros as $generos) { ?>
+                    <li>
+                      <a class="dropdown-item" href="generos.php?tipo=<?= $generos['id'] ?>">
+                        <?= $generos['tipo'] ?>
+                      </a>
+                    </li>
+                  <?php } ?>
                 </ul>
-              <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-              <!-- <li class="nav-item"><a class="nav-link" href="criarEvento.php">Crie seu evento</a></li> -->
+              </li>
 
-              <div class="position-relative">
-                <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" onsubmit="return false" id="form-busca">
-                  <input id="campo-busca" name="busca" class="form-control me-2" type="search" placeholder="Pesquise aqui" aria-label="Pesquise aqui">
-                </form>
-                <!-- Div manipulada pelo busca.js -->
-                <div id="resultados" class="mt-3 position-absolute container bg-white shadow-lg p-3 rounded"></div>
-              </div>
+              <li class="nav-item">
+                <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link text-black" href="login.php">Login</a>
+              </li>
+            </ul>
+
+            <div class="position-relative">
+              <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" onsubmit="return false" id="form-busca">
+                <input id="campo-busca" name="busca" class="form-control me-2" type="search" placeholder="Pesquise aqui" aria-label="Pesquise aqui">
+              </form>
+
+              <!-- Div manipulada pelo busca.js -->
+              <div id="resultados" class="mt-3 position-absolute container bg-white shadow-lg p-3 rounded"></div>
+            </div>
           </div>
+        </div>
       </nav>
     </div>
+    <hr>
   </header>
+
+  <main class="container my-5 bg-ligth text-dark rounded p-4 shadow">
   <div class="container my-5 h-100">
     <h2 class="mb-4">Login</h2>
     <p class="text-warning">Atenção: os campos <strong>Nome</strong> e <strong>E-mail</strong> são <u>obrigatórios</u>.</p>
-    <p class="text-warning"> <strong><a class="text-warning" href="login-adm.php">Login</a></strong> </p>
 
     <form autocomplete="off" action="" method="post" id="my-form">
       <fieldset class="border p-4 rounded">
-        <legend class="float-none w-auto px-3">Crie sua conta conosco</legend> 
+        <legend class="float-none w-auto px-3">Crie sua conta</legend> 
 
         <?php if (!empty($mensagemErro)) : ?>
 			<div class="alert alert-danger text-center" role="alert">
@@ -140,9 +154,10 @@ if (isset($_POST['inserir'])){
   </div>
   </fieldset>
   </form>
+  </main>
   </div>
 
-  <footer class="bg-black text-center py-3">
+  <footer class="bg-ligth text-center py-3">
     <p class="m-0">Explosão Cultural — Empresa fictícia crianda por Maycon e Lucas &copy; </p>
   </footer>
 
