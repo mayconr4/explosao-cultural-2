@@ -188,3 +188,13 @@ Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
 Linha: 120
 Mensagem: erro ao inserir evento
 
+[2025-05-28 09:26:00]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
+Linha: 108
+Mensagem: Object of class ExplosaoCultural\Enums\TipoClassificacao could not be converted to string
+
+[2025-05-28 09:26:00]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
+Linha: 120
+Mensagem: erro ao inserir evento
+
