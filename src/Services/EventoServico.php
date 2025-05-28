@@ -75,11 +75,22 @@ final class EventoServico
     public function listarPorGenero(int $generoId): array
     {
         $sql = "SELECT 
-                    COLUMN_TYPE
-                    FROM INFORMATION_SCHEMA.COLUMNS
-                    WHERE TABLE_NAME = 'generos'
-                    AND COLUMN_NAME = 'tipo'
-                    AND TABLE_SCHEMA = 'explosao_cultural';
+        eventos.id,
+        eventos.nome AS evento,
+        eventos.datas AS data_evento, 
+        eventos.horario AS horario,   
+        eventos.imagem AS imagem,
+        usuarios.nome AS criador,
+        generos.tipo AS genero, 
+             
+        FROM eventos
+
+          INNER JOIN usuarios ON eventos.usuario_id = usuarios.id
+          INNER JOIN generos ON eventos.genero_id = generos.id
+
+        WHERE eventos.genero_id = :genero_id;  
+        
+
                     ";
 
         try {

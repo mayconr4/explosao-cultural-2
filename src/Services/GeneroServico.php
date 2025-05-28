@@ -92,5 +92,7 @@ final class GeneroServico
             throw new Exception("Erro ao excluir o gênero: "  );
         }
 
-    }
+    } 
+
+    
 }
