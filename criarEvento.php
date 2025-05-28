@@ -8,14 +8,14 @@ use ExplosaoCultural\Services\UsuarioServico;
 use ExplosaoCultural\Helpers\Validacoes;
 use ExplosaoCultural\Services\GeneroServico;
 use ExplosaoCultural\Models\Enderecos;
-use ExplosaoCultural\Services\EnderecosServicos; 
+use ExplosaoCultural\Services\EnderecosServicos;
 use ExplosaoCultural\Enums\TipoClassificacao;
 use ExplosaoCultural\Models\Eventos;
 
-ControleDeAcesso::exigirLogin();   
+ControleDeAcesso::exigirLogin();
 $idUsuario = $_SESSION['id'];
 
-$mensagemErro = ''; 
+$mensagemErro = '';
 
 
 
@@ -23,69 +23,69 @@ $generoServico = new GeneroServico();
 
 $listaDeGeneros = $generoServico->listarTodos();
 
+echo "<pre>";
+var_dump($_POST);
+echo "</pre>";
+
 if (isset($_POST['inserir'])) {
     $titulo = Utils::sanitizar($_POST["nome_evento"]);
     $dataDoEvento = Utils::sanitizar($_POST["datas"]);
     $horario = Utils::sanitizar($_POST["horario"]);
-    $classificacao = Utils::sanitizar($_POST["classificacao"] ?? ''); 
+    $classificacao = Utils::sanitizar($_POST["classificacao"] ?? '');
     $telefone = Utils::sanitizar($_POST["telefone"]);
-    $descricao = Utils::sanitizar($_POST["descricao"]);     
+    $descricao = Utils::sanitizar($_POST["descricao"]);
     $idGenero = Utils::sanitizar($_POST["genero"], "inteiro");
-    
+
     $cep = Utils::sanitizar($_POST["cep"]);
     $logradouro = Utils::sanitizar($_POST["logradouro"]);
     $bairro = Utils::sanitizar($_POST["bairro"]);
     $cidade = Utils::sanitizar($_POST["cidade"]);
-    $estado = Utils::sanitizar($_POST["estado"]); 
-    
-    $arquivoDeImagem = Utils::sanitizar($_FILES["imagem"], "arquivo"); 
-    
+    $estado = Utils::sanitizar($_POST["estado"]);
+
+    $arquivoDeImagem = Utils::sanitizar($_FILES["imagem"], "arquivo");
+
     try {
-        Validacoes::validarGenero($idGenero);  
+        Validacoes::validarGenero($idGenero);
         Validacoes::validarTitulo($titulo);
-        Validacoes::validarDescricao($descricao); 
+        Validacoes::validarDescricao($descricao);
 
         Utils::upload($arquivoDeImagem);
         $nomeDaImagem = $arquivoDeImagem["name"];
         $classificacaoEnum = TipoClassificacao::from($classificacao);
 
-        
+
         $endereco = new Enderecos($cep, $logradouro, $bairro, $cidade, $estado);
 
-        
-        $enderecoServico = new EnderecosServicos();
-        $idEndereco = $enderecoServico->inserir($endereco);  
 
-        
+        $enderecoServico = new EnderecosServicos();
+        $idEndereco = $enderecoServico->inserir($endereco);
+
+
         $evento = new Eventos(
             $titulo,
             $dataDoEvento,
             $horario,
-            $classificacaoEnum,  
+            $classificacaoEnum,
             $telefone,
             $idEndereco,
             $idGenero,
             $idUsuario,
             $nomeDaImagem,
             $descricao
-        ); 
+        );
 
-        Utils::dump($evento);
-        die();
+
 
         $eventoServico = new EventoServico();
         $eventoServico->inserir($evento);
-        
-        header("location:index.php"); 
+
+        header("location:index.php");
+        exit();
     } catch (Throwable $erro) {
         $mensagemErro = $erro->getMessage();
         Utils::registrarErro($erro);
     }
 }
-
-
-
-
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -111,97 +111,100 @@ if (isset($_POST['inserir'])) {
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Gêneros
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <?php foreach ($listaDeGeneros as $generos) {?>
-                  <li>
-                    <a class="dropdown-item" href="generos.php?tipo=<?= $generos['id'] ?>">
-                      <?= $generos['tipo'] ?>
-                    </a> 
-                  </li>
-                  <?php } ?>
-                            <li class="nav-item"><a class="nav-link" href="usuarios.php">Login</a></li>
-                        </ul>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Gêneros
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <?php foreach ($listaDeGeneros as $generos) { ?>
+                                        <li>
+                                            <a class="dropdown-item" href="generos.php?tipo=<?= $generos['id'] ?>">
+                                                <?= $generos['tipo'] ?>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                    <li class="nav-item"><a class="nav-link" href="usuarios.php">Login</a></li>
+                                </ul>
 
-                        <div class="position-relative ms-3">
-                            <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" onsubmit="return false" id="form-busca">
-                                <input id="campo-busca" name="busca" class="form-control me-2" type="search" placeholder="Pesquise aqui" aria-label="Pesquise aqui" />
-                            </form>
-                            <!-- Div manipulada pelo busca.js -->
-                            <div id="resultados" class="mt-3 position-absolute container bg-white shadow-lg p-3 rounded"></div>
-                        </div>
+                                <div class="position-relative ms-3">
+                                    <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" onsubmit="return false" id="form-busca">
+                                        <input id="campo-busca" name="busca" class="form-control me-2" type="search" placeholder="Pesquise aqui" aria-label="Pesquise aqui" />
+                                    </form>
+                                    <!-- Div manipulada pelo busca.js -->
+                                    <div id="resultados" class="mt-3 position-absolute container bg-white shadow-lg p-3 rounded"></div>
+                                </div>
 
                     </div>
                 </div>
             </nav>
         </div>
     </header>
-    
+
     <main class="container my-5  bg-dark text-light rounded p-4 shadow">
         <h2 class="mb-4 text-center">Inserir Evento</h2>
-        
+
         <form autocomplete="off" action="" method="post" id="form-endereco" enctype="multipart/form-data">
 
-        <div class="mb-3">
-            <label class="form-label" for="titulo">Nome Do evento:</label>
-            <input class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label" for="titulo">Dia :</label>
-            <input class="form-control" type="date" id="datas" name="datas" placeholder="Digite o nome do evento" required />
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label" for="titulo">Horario:</label>
-            <input class="form-control" type="time" id="horario" name="horario" placeholder="Digite o nome do evento" required />
-        </div>
 
-        <div class="mb-3">
-             <label class="form-label" for="classificacao">Classificação indicativa</label>
-                <select class="form-select" name="classificacao" id="classificacao" required>
-                    <option value="adulto" >Adulto</option>
-                    <option value="infantil" >infantil</option>                                             
-
-                </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label" for="telefone">Telefone de contato:</label>
-            <input class="form-control" type="tel" id="telefone" name="telefone" />
-        </div>
-
-        
             <div class="mb-3">
-                <label class="form-label" for="genero">Gêneros:</label>
-                <select class="form-select" name="genero" id="genero" required>
-                    <option value="" ></option>
+                <label class="form-label" for="titulo">Nome Do evento:</label>
+                <input class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
+            </div>
 
-                    <?php foreach ($listaDeGeneros as $generos) { ?>
-                        <option value="<?= $generos['id']?>">
-                            <?= $generos['tipo'] ?>
-                        </option>
-                    <?php }?> 
+            <div class="mb-3">
+                <label class="form-label" for="titulo">Dia :</label>
+                <input class="form-control" type="date" id="datas" name="datas" placeholder="Digite o nome do evento" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="titulo">Horario:</label>
+                <input class="form-control" type="time" id="horario" name="horario" placeholder="Digite o nome do evento" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="classificacao">Classificação indicativa</label>
+                <select class="form-select" name="classificacao" id="classificacao" required>
+                    <option value="adulto">Adulto</option>
+                    <option value="infantil">infantil</option>
 
                 </select>
             </div>
-        
+
+            <div class="mb-3">
+                <label class="form-label" for="telefone">Telefone de contato:</label>
+                <input class="form-control" type="tel" id="telefone" name="telefone" />
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label" for="genero">Gêneros:</label>
+                <select class="form-select" name="genero" id="genero" required>
+                    <option value=""></option>
+
+                    <?php foreach ($listaDeGeneros as $generos) { ?>
+                        <option value="<?= $generos['id'] ?>">
+                            <?= $generos['tipo'] ?>
+                        </option>
+                    <?php } ?>
+
+                </select>
+            </div>
 
 
 
-        <div class="mb-3">
-            <label class="form-label" for="descricao">Descrição:</label>
-            <textarea class="form-control" name="descricao" id="descricao" cols="50" rows="6" placeholder="Digite o texto completo" required></textarea>
-        </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="descricao">Descrição:</label>
+                <textarea class="form-control" name="descricao" id="descricao" cols="50" rows="6" placeholder="Digite o texto completo" required></textarea>
+            </div>
 
             <div class="mb-3">
                 <label class="form-label" for="cep">Localização do evento Pelo CEP: <span id="status"></span></label>
                 <div id="area-do-cep">
                     <input maxlength="9" inputmode="numeric" placeholder="Somente números" type="text" id="cep"
                         name="cep" required> <br>
-                    <button id="buscar">Buscar</button>
+                    <button type="button" id="buscar">Buscar</button>
                 </div>
                 <!-- <textarea class="form-control" name="resumo" id="resumo" cols="50" rows="2" maxlength="300" placeholder="Endereço" required></textarea> -->
             </div>
@@ -221,21 +224,20 @@ if (isset($_POST['inserir'])) {
                 <label for="estado">Estado:</label>
                 <input type="text" id="estado" name="estado">
             </div>
-            
+
             <div class="mb-3">
                 <label class="form-label" for="imagem">Selecione uma imagem:</label>
                 <input class="form-control" type="file" id="imagem" name="imagem" accept="image/png, image/jpeg, image/gif, image/svg+xml" required />
             </div>
-            
+
             <div class="text-center">
                 <button class="btn btn-primary" id="inserir" name="inserir" type="submit">
                     <i class="bi bi-save">Lançar evento</i>
                 </button>
             </div>
-        </form>
-
-
-        
+        </form>           
+    
+    
     </main>
 
     <footer class="bg-black text-center py-3 mt-5">

@@ -138,3 +138,23 @@ Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
 Linha: 119
 Mensagem: erro ao inserir evento
 
+[2025-05-26 16:33:00]
+Arquivo: C:\xampp\htdocs\explosao-cultural\src\Models\Eventos.php
+Linha: 99
+Mensagem: Typed property ExplosaoCultural\Models\Eventos::$generoId must not be accessed before initialization
+
+[2025-05-26 16:33:00]
+Arquivo: C:\xampp\htdocs\explosao-cultural\src\Services\EventoServico.php
+Linha: 120
+Mensagem: erro ao inserir evento
+
+[2025-05-26 16:35:44]
+Arquivo: C:\xampp\htdocs\explosao-cultural\src\Models\Eventos.php
+Linha: 99
+Mensagem: Typed property ExplosaoCultural\Models\Eventos::$generoId must not be accessed before initialization
+
+[2025-05-26 16:35:44]
+Arquivo: C:\xampp\htdocs\explosao-cultural\src\Services\EventoServico.php
+Linha: 120
+Mensagem: erro ao inserir evento
+
