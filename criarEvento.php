@@ -56,6 +56,7 @@ if (isset($_POST['inserir'])) {
         $enderecoServico = new EnderecosServicos();
         $idEndereco = $enderecoServico->inserir($endereco);
 
+        Utils::dump($endereco);
 
         $evento = new Eventos(
             $titulo,
@@ -70,8 +71,8 @@ if (isset($_POST['inserir'])) {
             $descricao
         );
 
-        Utils::dump($evento);
-        die();
+        //Utils::dump($evento);
+        //die();
 
         $eventoServico = new EventoServico();
         $eventoServico->inserir($evento);

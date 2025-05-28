@@ -105,8 +105,8 @@ final class EventoServico
             $consulta->bindValue(":nome", $evento->getNome(), PDO::PARAM_STR);
             $consulta->bindValue(":datas", $evento->getData(), PDO::PARAM_STR);
             $consulta->bindValue(":horario", $evento->getHorario(), PDO::PARAM_STR);
-            //$consulta->bindValue(":classificacao", $evento->getClassificacao(), PDO::PARAM_STR);
-            $consulta->bindValue(":classificacao", $evento->getClassificacao()->value, PDO::PARAM_STR);
+            $consulta->bindValue(":classificacao", $evento->getClassificacao(), PDO::PARAM_STR);
+            //$consulta->bindValue(":classificacao", $evento->getClassificacao()->value, PDO::PARAM_STR);
             $consulta->bindValue(":telefone", $evento->getTelefone(), PDO::PARAM_STR);
             $consulta->bindValue(":usuario_id", $evento->getUsuarioId(), PDO::PARAM_INT);
             $consulta->bindValue(":endereco_id", $evento->getEnderecoId(), PDO::PARAM_INT);
