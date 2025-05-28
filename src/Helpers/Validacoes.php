@@ -85,10 +85,10 @@ final class Validacoes
     }
 
    
-    public static function validarGenero(int $categoriaId): void
+    public static function validarGenero(int $generoId): void
     {
-        if (empty($categoriaId) || $categoriaId <= 0) {
-            throw new InvalidArgumentException("Selecione uma categoria válida.");
+        if (empty($generoId) || $generoId <= 0) {
+            throw new InvalidArgumentException("Selecione um gênero válido.");
         }
     }
 }

@@ -3,14 +3,12 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use ExplosaoCultural\Auth\ControleDeAcesso;
 use ExplosaoCultural\Helpers\Utils;
-use ExplosaoCultural\Services\EventoServico;
-use ExplosaoCultural\Services\UsuarioServico;
 use ExplosaoCultural\Helpers\Validacoes;
 use ExplosaoCultural\Services\GeneroServico;
 use ExplosaoCultural\Models\Enderecos;
-use ExplosaoCultural\Services\EnderecosServicos;
 use ExplosaoCultural\Enums\TipoClassificacao;
 use ExplosaoCultural\Models\Eventos;
+use ExplosaoCultural\Services\EventoComEnderecoServico;
 
 ControleDeAcesso::exigirLogin();
 $idUsuario = $_SESSION['id'];
@@ -24,6 +22,7 @@ $generoServico = new GeneroServico();
 $listaDeGeneros = $generoServico->listarTodos();
 
 if (isset($_POST['inserir'])) {
+  
     $titulo = Utils::sanitizar($_POST["nome_evento"]);
     $dataDoEvento = Utils::sanitizar($_POST["datas"]);
     $horario = Utils::sanitizar($_POST["horario"]);
@@ -51,25 +50,23 @@ if (isset($_POST['inserir'])) {
         $classificacaoEnum = TipoClassificacao::from($classificacao);
 
 
-        $endereco = new Enderecos($cep, $logradouro, $bairro, $cidade, $estado);
-
-
-        $enderecoServico = new EnderecosServicos();
-        $idEndereco = $enderecoServico->inserir($endereco);
-
-        // Utils::dump($idEndereco);
-        // die();
+        // Monta os dados do endereco num objeto
+        $endereco = new Enderecos($cep, $logradouro, $bairro, $cidade, $estado);   
         
-        $evento = new Eventos($titulo, $dataDoEvento, $horario, $classificacaoEnum, $telefone, $idEndereco, $idGenero, $idUsuario, $nomeDaImagem, $descricao);
+        // Monta os dados do evento num objeto (passando temporariamente null como endereçoId)
+        $evento = new Eventos($titulo, $dataDoEvento, $horario, $classificacaoEnum, $telefone, null, $idGenero, $idUsuario, $nomeDaImagem, $descricao);
 
+
+        // Utils::dump($endereco);
         // Utils::dump($evento);
-        // Utils::dump($idEndereco);
         // die();
 
-        $eventoServico = new EventoServico();
-        $eventoServico->inserir($evento);
+        $eventoComEnderecoServico = new EventoComEnderecoServico();
+        $eventoComEnderecoServico->cadastrarCompleto($evento, $endereco);
+        
 
         header("location:index.php");
+        exit;
     } catch (Throwable $erro) {
         $mensagemErro = $erro->getMessage();
         Utils::registrarErro($erro);

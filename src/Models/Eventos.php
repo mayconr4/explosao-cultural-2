@@ -14,7 +14,7 @@ final class Eventos
     private string $telefone;
     private ?string $descricao; 
     private string $imagem; 
-    private int $enderecoId;
+    private ?int $enderecoId;
     private int $generoId;
     private int $usuarioId;  
 
@@ -24,7 +24,7 @@ final class Eventos
         string $horario,
         TipoClassificacao $classificacao,
         string $telefone,
-        int $enderecoId,
+        ?int $enderecoId, //
         int $generoId,
         int $usuarioId, 
         string $imagem,
@@ -39,8 +39,8 @@ final class Eventos
         $this->setTelefone($telefone);
         $this->setDescricao($descricao);
         $this->setImagem($imagem);
-        // $this->setEnderecoId($enderecoId);
-        $this->enderecoId = $enderecoId;
+        $this->setEnderecoId($enderecoId);
+        // $this->enderecoId = $enderecoId;
         $this->setGeneroId($generoId);
         $this->setUsuarioId($usuarioId);
         $this->setID($id); 
@@ -154,16 +154,16 @@ final class Eventos
         $this->telefone = $telefone;
     }  
 
-    private function setEnderecoId(int $enderecoId):void
+    public function setEnderecoId(?int $enderecoId):void
     { 
 
         $this->enderecoId = $enderecoId;
     }  
 
-    private function setGeneroId(int $enderecoId):void
+    private function setGeneroId(int $generoId):void
     { 
 
-        $this->enderecoId = $enderecoId;
+        $this->generoId = $generoId;
     }  
 
     private function setUsuarioId(int $usuarioId):void
