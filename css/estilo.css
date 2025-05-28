@@ -96,3 +96,12 @@ body.modal-open {
         opacity: 1;
     }
 }
+
+#resultados{
+  z-index: 1000;
+}
+
+.logotipo{
+  width: 125px;
+  height: 125px;
+}
