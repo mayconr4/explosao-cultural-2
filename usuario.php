@@ -1,3 +1,18 @@
+<?php
+
+use ExplosaoCultural\Services\GeneroServico;
+
+require_once "vendor/autoload.php"; 
+
+session_start();
+
+
+
+$generoServico = new GeneroServico();
+$listaDeGeneros = $generoServico->listarTodos();
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 
@@ -66,7 +81,7 @@
     <article class="container my-5 bg-ligth text-dark rounded p-4 shadow">
         <div class="container my-5 h-100">
 
-            <h2 class="display-4">Olá [NOME_DO_USUÁRIO]!</h2>
+            <h2 class="display-4">Olá! <?=$_SESSION['nome']?></h2>
             <hr class="my-4">
 
             <div class="d-grid gap-2 d-md-block text-center">
