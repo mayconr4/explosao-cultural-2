@@ -89,7 +89,9 @@ final class Utils
         //$pastaDeDestino = "../images/";
         $pastaDeDestino = __DIR__ . "/../../images/";
         $formatosPermitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
-        $tamanhoMaximo = 2 * 1024 * 1024; // 2MB
+        $tamanhoMaximo = 10 * 1024 * 1024; // 10MB
+
+
 
         // Captura o mime type do arquivo enviado
         $formatoDoArquivoEnviado = mime_content_type($arquivo["tmp_name"]);
