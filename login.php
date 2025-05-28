@@ -41,7 +41,7 @@ if (isset($_POST['entrar'])) {
         $usuario['nome'],
         $usuario['tipo']
       );
-      header("Location:criarEvento.php");
+      header("Location:usuario.php");
       exit;
     } else {
 

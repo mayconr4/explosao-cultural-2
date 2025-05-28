@@ -39,7 +39,8 @@ final class Eventos
         $this->setTelefone($telefone);
         $this->setDescricao($descricao);
         $this->setImagem($imagem);
-        $this->setEnderecoId($enderecoId);
+        // $this->setEnderecoId($enderecoId);
+        $this->enderecoId = $enderecoId;
         $this->setGeneroId($generoId);
         $this->setUsuarioId($usuarioId);
         $this->setID($id); 

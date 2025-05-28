@@ -30,7 +30,8 @@ if (isset($_POST['inserir'])) {
     $classificacao = Utils::sanitizar($_POST["classificacao"] ?? '');
     $telefone = Utils::sanitizar($_POST["telefone"]);
     $descricao = Utils::sanitizar($_POST["descricao"]);
-    $idGenero = Utils::sanitizar($_POST["genero"], "inteiro");
+    // $idGenero = Utils::sanitizar($_POST["genero"], "inteiro");
+    $idGenero = $_POST['genero'];
 
     $cep = Utils::sanitizar($_POST["cep"]);
     $logradouro = Utils::sanitizar($_POST["logradouro"]);
@@ -56,23 +57,14 @@ if (isset($_POST['inserir'])) {
         $enderecoServico = new EnderecosServicos();
         $idEndereco = $enderecoServico->inserir($endereco);
 
-        Utils::dump($endereco);
+        // Utils::dump($idEndereco);
+        // die();
+        
+        $evento = new Eventos($titulo, $dataDoEvento, $horario, $classificacaoEnum, $telefone, $idEndereco, $idGenero, $idUsuario, $nomeDaImagem, $descricao);
 
-        $evento = new Eventos(
-            $titulo,
-            $dataDoEvento,
-            $horario,
-            $classificacaoEnum,
-            $telefone,
-            $idEndereco,
-            $idGenero,
-            $idUsuario,
-            $nomeDaImagem,
-            $descricao
-        );
-
-        //Utils::dump($evento);
-        //die();
+        // Utils::dump($evento);
+        // Utils::dump($idEndereco);
+        // die();
 
         $eventoServico = new EventoServico();
         $eventoServico->inserir($evento);
