@@ -85,8 +85,11 @@ $dados = $eventoServico->listarDetalhes($_GET["id"]);
          </p>         
          <img src="images/<?=$dados['imagem']?>" alt="" class="float-start pe-2 img-fluid">
          <p class="ajusta-texto"><?=$dados['descricao']?></p> 
-      </article>              
-
+      </article>         
+      
+      
+      
+ 
   </div> 
 
    <footer class="bg-ligth py-4">
