@@ -17,11 +17,12 @@ $listaDeGeneros = $generoServico->listarTodos();
 ?>
 <!doctype html>
 <html lang="pt-br">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Explosão Cultural</title>
-  <link rel="shortcut icon" href="images/logotipo2.png" type="image/png" sizes="64x64"> 
+  <link rel="shortcut icon" href="images/logotipo2.png" type="image/png" sizes="64x64">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
@@ -49,13 +50,12 @@ $listaDeGeneros = $generoServico->listarTodos();
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <?php foreach ($listaDeGeneros as $generos) { ?>
                     <li>
-                      <a class="dropdown-item" href="generos.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
+                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
                         <?= htmlspecialchars($generos['tipo']) ?>
                       </a>
                     </li>
                   <?php } ?>
                 </ul>
-              </li>
 
               <li class="nav-item">
                 <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
@@ -233,7 +233,7 @@ $listaDeGeneros = $generoServico->listarTodos();
     </main>
   </main>
 
- <footer class="bg-ligth py-4">
+  <footer class="bg-ligth py-4">
     <div class="container d-flex justify-content-center align-items-center flex-column">
       <h1 class="m-0">
         <a href="index.php" class="text-light text-decoration-none">
@@ -253,7 +253,7 @@ $listaDeGeneros = $generoServico->listarTodos();
           <ul class="dropdown-menu" aria-labelledby="footerDropdown">
             <?php foreach ($listaDeGeneros as $generos) { ?>
               <li>
-                <a class="dropdown-item" href="generos.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
+                <a class="dropdown-item" href="eventosPorGenero.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
                   <?= htmlspecialchars($generos['tipo']) ?>
                 </a>
               </li>

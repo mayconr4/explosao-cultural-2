@@ -1,0 +1,7 @@
+[2025-05-29 10:29:41]
+Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
+Linha: 181
+Mensagem: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM eventos
+    
+          INNER JOIN usuarios ON eventos.usuario_id = usu...' at line 10
+

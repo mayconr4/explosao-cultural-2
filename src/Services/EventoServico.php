@@ -153,7 +153,9 @@ try {
     } 
 
 
-    //Mostrar eventos por genero
+    
+    // listarPorGenero()
+
     public function listarPorGenero(int $generoId): array
     {
         $sql = "SELECT 
@@ -162,19 +164,14 @@ try {
         eventos.datas AS data_evento, 
         eventos.horario AS horario,   
         eventos.imagem AS imagem,
+        eventos.descricao AS descricao,
         usuarios.nome AS criador,
-        generos.tipo AS genero, 
-             
+        generos.tipo AS genero 
         FROM eventos
-    
-          INNER JOIN usuarios ON eventos.usuario_id = usuarios.id
-          INNER JOIN generos ON eventos.genero_id = generos.id
-    
-        WHERE eventos.genero_id = :genero_id;";  
-        
-    
-                    
-    
+        INNER JOIN usuarios ON eventos.usuario_id = usuarios.id
+        INNER JOIN generos ON eventos.genero_id = generos.id
+        WHERE eventos.genero_id = :genero_id;";
+
         try {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(":genero_id", $generoId, PDO::PARAM_INT);
@@ -184,7 +181,8 @@ try {
             Utils::registrarErro($erro);
             throw new Exception("erro ao listar eventos por genero");
         }
-    } 
+    }
+
 
     //buscar()
     public function buscar(string $termo): array

@@ -2,12 +2,17 @@
 require_once "vendor/autoload.php";
 
 use ExplosaoCultural\Helpers\Utils;
+use ExplosaoCultural\Services\EventoServico;
 use ExplosaoCultural\Services\GeneroServico;
 
 Utils::verificarId($_GET["id"] ?? null);
 
+$eventoServico = new EventoServico();
+$dados = $eventoServico->listarPorGenero($_GET["id"]);
+
+
 $generoServico = new GeneroServico();
-$dados =  $generoServico->buscarPorId($_GET["id"]);     
+$listaDeGeneros = $generoServico->listarTodos();
 ?> 
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
@@ -35,20 +40,19 @@ $dados =  $generoServico->buscarPorId($_GET["id"]);
                 <a class="nav-link text-black" href="index.php">Home</a>
               </li>
 
-              <li class="nav-item dropdown">
+             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Gêneros
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <?php foreach ($listaDeGeneros as $generos) { ?>
                     <li>
-                      <a class="dropdown-item" href="generos.php?tipo=<?= $generos['id'] ?>">
-                        <?= $generos['tipo'] ?>
+                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
+                        <?= htmlspecialchars($generos['tipo']) ?>
                       </a>
                     </li>
                   <?php } ?>
                 </ul>
-              </li>
 
               <li class="nav-item">
                 <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
@@ -85,7 +89,7 @@ $dados =  $generoServico->buscarPorId($_GET["id"]);
         <?php if( count($dados) > 0 ){ ?>
         <h2 class="text-center">
             Gêneros sobre <span class="badge bg-primary">
-                <?=$dados[0]["tipo"]?>
+                <?=$dados[0]["genero"]?>
             </span> 
         </h2>
         <?php } else { ?>
@@ -96,12 +100,12 @@ $dados =  $generoServico->buscarPorId($_GET["id"]);
         <div class="row my-1">
             <div class="col-12 px-md-1">
                 <div class="list-group">
-                <?php foreach($dados as $tipoGenero) { ?>
-                    <a href="noticia.php?id=<?=$tipoGenero['id']?>" class="list-group-item list-group-item-action">
-                        <h3 class="fs-6"><?=$tipoGenero['titulo']?></h3>
-                        <p><time><?=Utils::formataData($tipoGenero['data'])?></time> 
-                        - <?=$tipoGenero['autor']?></p>
-                        <p><?=$tipoGenero['resumo']?></p>
+                <?php foreach($dados as $tipoEvento) { ?>
+                    <a href="eventos.php?id=<?=$tipoEvento['id']?>" class="list-group-item list-group-item-action">
+                        <h3 class="fs-6"><?=$tipoEvento['evento']?></h3>
+                        <p><time><?=Utils::formataData($tipoEvento['data_evento'])?></time> 
+                        - <?=$tipoEvento['criador']?></p>
+                        <p><?=$tipoEvento['descricao']?></p>
                     </a>
                 <?php } ?>
                 </div>
