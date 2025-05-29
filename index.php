@@ -233,9 +233,49 @@ $listaDeGeneros = $generoServico->listarTodos();
     </main>
   </main>
 
-  <footer class="bg-ligth text-center py-3">
-    <p class="m-0">Explosão Cultural — Empresa fictícia crianda por Maycon e Lucas &copy; </p>
+ <footer class="bg-ligth py-4">
+    <div class="container d-flex justify-content-center align-items-center flex-column">
+      <h1 class="m-0">
+        <a href="index.php" class="text-light text-decoration-none">
+          <img class="logotipo" src="images/logo2.png" alt="Logo do site">
+        </a>
+      </h1>
+
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link text-black" href="index.php">Home</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-black" href="#" id="footerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Gêneros
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="footerDropdown">
+            <?php foreach ($listaDeGeneros as $generos) { ?>
+              <li>
+                <a class="dropdown-item" href="generos.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
+                  <?= htmlspecialchars($generos['tipo']) ?>
+                </a>
+              </li>
+            <?php } ?>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-black" href="login.php">Login</a>
+        </li>
+      </ul>
+    </div>
+
+    <p class="m-0 text-center">
+      Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;
+    </p>
   </footer>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/menu.js"></script>
