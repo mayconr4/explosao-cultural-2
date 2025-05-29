@@ -1,3 +1,57 @@
+<?php 
+require_once 'vendor/autoload.php';
+use ExplosaoCultural\Auth\ControleDeAcesso;
+use ExplosaoCultural\Enums\TipoUsuario;
+use ExplosaoCultural\Helpers\Utils;
+use ExplosaoCultural\Helpers\Validacoes;
+use ExplosaoCultural\Models\Usuarios;
+use ExplosaoCultural\Services\UsuarioServico;
+
+ControleDeAcesso::exigirLogin(); 
+
+$usuarioServico = new UsuarioServico();
+
+$dados = $usuarioServico->buscarPorId($_SESSION['id']);
+
+if (isset($_POST["atualizar"])) {
+   
+    try {
+        $nome = Utils::sanitizar($_POST["nome"]);
+        Validacoes::validarNome($nome);
+
+        $email = Utils::sanitizar($_POST["email"], "email");
+        Validacoes::validarEmail($email);
+
+        $senhaBrutra = $_POST["senha"];
+        $senha = empty($senhaBrutra) ? $dados["senha"] : Utils::verificarSenha($senhaBrutra, $dados["senha"]);
+
+       $tipo = TipoUsuario::from(ucfirst(strtolower($dados["tipo"])));
+
+       $id = $_SESSION['id'];
+
+       $usuario = new Usuarios(
+            $nome,
+            $dados["data_nascimento"],
+            $email,
+            $senha,
+            $tipo,
+            $id
+        );
+
+        $usuarioServico->atualizar($usuario);
+
+        $_SESSION['nome'] = $nome;
+
+        header("location:index.php?perfil_atualizado");
+        exit;
+    } catch (Throwable $erro) {
+        $mensagemErro = $erro->getMessage();
+    } catch (Exception $erro) {
+        $mensagemErro = "Erro inseperado ao atualizar os dados do usuário.";
+        Utils::registrarErro($erro);
+    }
+} 
+?>
 <!doctype html>
 <html lang="pt-br">
 
@@ -69,22 +123,25 @@
             <h2 class="text-center">
                 Atualizar meus dados
             </h2>
-
+             
+            <?php if (!empty($mensagemErro)): ?>
             <div class="alert alert-danger text-center" role="alert">
-                [MENSAGEM_DE_ERRO]
+                <?=$mensagemErro?>
             </div>
-
+            <?php endif; ?>
+            
+            
             <form class="mx-auto w-75" action="" method="post" id="form-atualizar" name="form-atualizar">
-                <input type="hidden" name="id" value="[ID_USUARIO]">
+                <input type="hidden" name="id" value="<?=$dados["id"] ?? '' ?>">
 
                 <div class="mb-3">
                     <label class="form-label" for="nome">Nome:</label>
-                    <input value="[NOME_USUARIO]" class="form-control" type="text" id="nome" name="nome">
+                    <input value="<?=$dados["nome"] ?? '' ?>" class="form-control" type="text" id="nome" name="nome">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="email">E-mail:</label>
-                    <input value="[EMAIL_USUARIO]" class="form-control" type="email" id="email" name="email">
+                    <input value="<?=$dados["email"] ?? '' ?>" class="form-control" type="email" id="email" name="email">
                 </div>
 
                 <div class="mb-3">

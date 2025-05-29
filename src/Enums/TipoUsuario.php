@@ -9,15 +9,5 @@ enum TipoUsuario:string{
     
     
 
-    public function getTipoUsuario(): string
-    {
-        return match($this) {
-            self::ADMINISTRADOR => 'Administrador',
-            self::USUARIO => 'Usuario',             
-           
-        };
-    }
 } 
 
-TipoUsuario::ADMINISTRADOR->getTipoUsuario(); // "Administrador"
-TipoUsuario::USUARIO->getTipoUsuario(); // "Usuario"
