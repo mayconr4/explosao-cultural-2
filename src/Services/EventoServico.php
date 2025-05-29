@@ -71,38 +71,6 @@ final class EventoServico
         }
     }
 
-    //Mostrar eventos por genero
-    public function listarPorGenero(int $generoId): array
-    {
-        $sql = "SELECT 
-        eventos.id,
-        eventos.nome AS evento,
-        eventos.datas AS data_evento, 
-        eventos.horario AS horario,   
-        eventos.imagem AS imagem,
-        usuarios.nome AS criador,
-        generos.tipo AS genero, 
-             
-        FROM eventos
-
-          INNER JOIN usuarios ON eventos.usuario_id = usuarios.id
-          INNER JOIN generos ON eventos.genero_id = generos.id
-
-        WHERE eventos.genero_id = :genero_id;  
-        
-
-                    ";
-
-        try {
-            $consulta = $this->conexao->prepare($sql);
-            $consulta->bindValue(":genero_id", $generoId, PDO::PARAM_INT);
-            $consulta->execute();
-            return $consulta->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Throwable $erro) {
-            Utils::registrarErro($erro);
-            throw new Exception("erro ao listar eventos por genero");
-        }
-    }
 
     //inserir() 
     public function inserir(Eventos $evento): bool
@@ -146,8 +114,8 @@ final class EventoServico
         descricao = :descricao,
         imagem = :imagem WHERE id = :id";
 
-        try {
-            $consulta = $this->conexao->prepare($sql);
+try {
+    $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(":id", $evento->getId(), PDO::PARAM_INT);
             $consulta->bindValue(":nome", $evento->getNome(), PDO::PARAM_STR);
             $consulta->bindValue(":datas", $evento->getData(), PDO::PARAM_STR);
@@ -159,7 +127,7 @@ final class EventoServico
             $consulta->bindValue(":genero_id", $evento->getGeneroId(), PDO::PARAM_INT);
             $consulta->bindValue(":descricao", $evento->getDescricao(), PDO::PARAM_STR);
             $consulta->bindValue(":imagem", $evento->getImagem(), PDO::PARAM_STR);
-
+            
             if (!$consulta->execute()) {
                 throw new Exception("erro ao atualizar evento");
             }
@@ -168,12 +136,12 @@ final class EventoServico
             throw new Exception("erro ao atualizar evento");
         }
     }
-
+    
     //excluir()
     public function excluir(int $id): void
     {
         $sql = "DELETE FROM eventos WHERE id = :id";
-
+        
         try {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(":id", $id, PDO::PARAM_INT);
@@ -182,5 +150,93 @@ final class EventoServico
             Utils::registrarErro($erro);
             throw new Exception("erro ao excluir evento");
         }
+    } 
+
+
+    //Mostrar eventos por genero
+    public function listarPorGenero(int $generoId): array
+    {
+        $sql = "SELECT 
+        eventos.id,
+        eventos.nome AS evento,
+        eventos.datas AS data_evento, 
+        eventos.horario AS horario,   
+        eventos.imagem AS imagem,
+        usuarios.nome AS criador,
+        generos.tipo AS genero, 
+             
+        FROM eventos
+    
+          INNER JOIN usuarios ON eventos.usuario_id = usuarios.id
+          INNER JOIN generos ON eventos.genero_id = generos.id
+    
+        WHERE eventos.genero_id = :genero_id;";  
+        
+    
+                    
+    
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":genero_id", $generoId, PDO::PARAM_INT);
+            $consulta->execute();
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Throwable $erro) {
+            Utils::registrarErro($erro);
+            throw new Exception("erro ao listar eventos por genero");
+        }
+    } 
+
+    //buscar()
+    public function buscar(string $termo): array
+    { 
+
+        $sql = "SELECT id,nome,datas , descricao 
+                FROM eventos 
+                WHERE nome LIKE  :termo
+                    OR descricao LIKE :termo 
+                ORDER BY datas DESC "; 
+
+        try{ 
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(':termo', '%' . $termo . '%', PDO::PARAM_STR);
+            $consulta->execute();
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Throwable $erro) {
+            Utils::registrarErro($erro);
+            throw new Exception("erro ao buscar eventos");
+        }        
     }
+
+    public function listarDetalhes(int $id): array
+    {
+        $sql = "SELECT 
+        eventos.id,
+        eventos.nome AS titulo,
+        eventos.datas AS data_evento,
+        eventos.horario ,
+        eventos.classificacao AS classificacao,
+        eventos.telefone AS telefone,
+        eventos.descricao AS descricao,
+        eventos.imagem AS imagem,
+        usuarios.nome AS criador,
+        generos.tipo AS genero,
+        enderecos.logradouro AS endereco
+        FROM eventos
+        INNER JOIN usuarios ON eventos.usuario_id = usuarios.id
+        INNER JOIN generos ON eventos.genero_id = generos.id
+        INNER JOIN enderecos ON eventos.endereco_id = enderecos.id   
+        WHERE eventos.id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $id, PDO::PARAM_INT);
+            $consulta->execute();
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Throwable $erro) {
+            Utils::registrarErro($erro);
+            throw new Exception("erro ao abrir evento detalhes do evento");
+        }
+    } 
+
+    
 }
