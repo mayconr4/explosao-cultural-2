@@ -7,7 +7,20 @@ use ExplosaoCultural\Services\GeneroServico;
 require_once "vendor/autoload.php";
 
 $eventoServico = new EventoServico();
-$listaDeEventos = $eventoServico->listarTodos();
+$listaDeEventos = $eventoServico->listarTodos(); 
+
+$hoje = date('Y-m-d');
+$eventosFuturos = array_filter($listaDeEventos, function ($evento) use ($hoje) {
+    return $evento['data_evento'] >= $hoje;
+});
+
+// Ordena por data do evento (mais próximo primeiro)
+usort($eventosFuturos, function ($a, $b) {
+    return strtotime($a['data_evento']) <=> strtotime($b['data_evento']);
+});
+
+// Pega os 4 eventos mais próximos
+$eventosParaCarrossel = array_slice($eventosFuturos, 0, 4);
 
 $generoServico = new GeneroServico();
 $listaDeGeneros = $generoServico->listarTodos();
@@ -84,60 +97,45 @@ $listaDeGeneros = $generoServico->listarTodos();
     <section class="container py-5">
       <h2 class="text-dark mb-4">Eventos em Destaque</h2>
 
-      <div id="carouselEventos" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
+        <?php if (!empty($eventosParaCarrossel)): ?>
+    <div id="carouselEventos" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
 
-
-          <div class="carousel-item active">
+        <?php
+        $grupoDeEventos = array_chunk($eventosParaCarrossel, 2); // agrupa 2 por slide
+        foreach ($grupoDeEventos as $indice => $grupo): 
+        ?>
+          <div class="carousel-item <?= $indice === 0 ? 'active' : '' ?>">
             <div class="d-flex gap-3">
-              <div class="card bg-secondary text-light" style="min-width: 300px;">
-                <img src="https://source.unsplash.com/400x250/?music" class="card-img-top" alt="Evento 1">
-                <div class="card-body">
-                  <h5 class="card-title">Show Indie</h5>
-                  <p class="card-text">Dia 10 de Junho - Centro Cultural</p>
+              <?php foreach ($grupo as $evento): ?>
+                <div class="card bg-secondary text-light" style="min-width: 300px;">
+                  <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($evento['evento']) ?>">
+                  <div class="card-body">
+                    <h5 class="card-title"><?= htmlspecialchars($evento['evento']) ?></h5>
+                    <p class="card-text"> Dia: 
+                      <?=($evento['data_evento']) ?> 
+                    </p>
+                    <a href="evento.php?id=<?= $evento['id'] ?>" class="btn btn-light">Saiba mais</a>
+                  </div>
                 </div>
-              </div>
-
-              <div class="card bg-secondary text-light" style="min-width: 300px;">
-                <img src="https://source.unsplash.com/400x250/?party" class="card-img-top" alt="Evento 2">
-                <div class="card-body">
-                  <h5 class="card-title">Festa Black</h5>
-                  <p class="card-text">Dia 15 de Julho - Arena Norte</p>
-                </div>
-              </div>
+              <?php endforeach; ?>
             </div>
           </div>
+        <?php endforeach; ?>
 
-          <div class="carousel-item">
-            <div class="d-flex gap-3">
-              <div class="card bg-secondary text-light" style="min-width: 300px;">
-                <img src="https://source.unsplash.com/400x250/?exhibition" class="card-img-top" alt="Evento 3">
-                <div class="card-body">
-                  <h5 class="card-title">Expo Arte Urbana</h5>
-                  <p class="card-text">De 5 a 20 de Julho - Galeria Sul</p>
-                </div>
-              </div>
-
-              <div class="card bg-secondary text-light" style="min-width: 300px;">
-                <img src="https://source.unsplash.com/400x250/?dj" class="card-img-top" alt="Evento 4">
-                <div class="card-body">
-                  <h5 class="card-title">Noite Eletrônica</h5>
-                  <p class="card-text">Dia 25 de Julho - Club 303</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventos" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselEventos" data-bs-slide="next">
-          <span class="carousel-control-next-icon"></span>
-        </button>
       </div>
-    </section> <!-- Fim do Carrossel -->
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventos" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselEventos" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  <?php else: ?>
+    <p class="text-muted">Nenhum evento futuro encontrado.</p>
+  <?php endif; ?>
+</section>
 
 
     <article class="container py-5">
