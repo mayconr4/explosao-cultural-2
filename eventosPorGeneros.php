@@ -25,6 +25,8 @@ $listaDeGeneros = $generoServico->listarTodos();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
+
+<body class="bg-ligth text-dark">
 <header class="bg-ligth p-3">
     <div class="container d-flex justify-content-between align-items-center">
       <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none"><img class="logotipo" src="images/logo2.png" alt="logo tipo"></a></h1>
@@ -76,13 +78,8 @@ $listaDeGeneros = $generoServico->listarTodos();
       </nav>
     </div>
     <hr>
-  </header> 
-
-  <body>
-    
-  
-
-
+  </header>           
+  <main class="container  bg-ligth text-dark">
 <div class="row my-1 mx-md-n1">
 
     <article class="col-12">
@@ -110,17 +107,55 @@ $listaDeGeneros = $generoServico->listarTodos();
                 <?php } ?>
                 </div>
             </div>
-        </div>
+        </div>  
+    </article>     
 
+</div>      
+  </main>
+<hr>
+<footer class="bg-ligth py-4">
+    <div class="container d-flex justify-content-center align-items-center flex-column">
+      <h1 class="m-0">
+        <a href="index.php" class="text-light text-decoration-none">
+          <img class="logotipo" src="images/logo2.png" alt="Logo do site">
+        </a>
+      </h1>
 
-    </article>
-    
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link text-black" href="index.php">Home</a>
+        </li>
 
-</div>     
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-black" href="#" id="footerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Gêneros
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="footerDropdown">
+            <?php foreach ($listaDeGeneros as $generos) { ?>
+              <li>
+                <a class="dropdown-item" href="eventosPorGenero.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
+                  <?= htmlspecialchars($generos['tipo']) ?>
+                </a>
+              </li>
+            <?php } ?>
+          </ul>
+        </li>
 
-<footer class="bg-ligth text-center py-3">
-    <p class="m-0">Explosão Cultural — Empresa fictícia crianda por Maycon e Lucas &copy; </p>
+        <li class="nav-item">
+          <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-black" href="login.php">Login</a>
+        </li>
+      </ul>
+    </div>
+
+    <p class="m-0 text-center">
+      Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;
+    </p>
   </footer>
+
 
   <script src="js/buscar.js"></script>
   <script src="js/menu.js"></script>
