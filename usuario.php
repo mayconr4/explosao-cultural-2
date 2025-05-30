@@ -1,15 +1,17 @@
 <?php
 
+use ExplosaoCultural\Services\EventoServico;
 use ExplosaoCultural\Services\GeneroServico;
 
 require_once "vendor/autoload.php";
 
 session_start();
 
-
-
 $generoServico = new GeneroServico();
-$listaDeGeneros = $generoServico->listarTodos();
+$listaDeGeneros = $generoServico->listarTodos(); 
+
+$eventoServico = new EventoServico();
+$listarId = $eventoServico->listarTodos(); 
 
 ?>
 
@@ -54,6 +56,8 @@ $listaDeGeneros = $generoServico->listarTodos();
                     </li>
                   <?php } ?>
                 </ul>
+              </li>
+            
 
               <li class="nav-item">
                 <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
@@ -90,7 +94,7 @@ $listaDeGeneros = $generoServico->listarTodos();
           Criar
         </a>
 
-        <a class="btn btn-dark bg-gradient btn-lg" href="atualizaEvento.php">
+        <a class="btn btn-dark bg-gradient btn-lg" href="atualizaEvento.php?id=<?= $listarId[0]['id'] ?>">
           <i class="bi bi-newspaper"></i> <br>
           Atualizar
         </a>
@@ -99,7 +103,7 @@ $listaDeGeneros = $generoServico->listarTodos();
           <i class="bi bi-newspaper"></i> <br>
           Sair
         </a>
-        
+
         <a class="btn btn-dark bg-gradient btn-lg" href="meuperfil.php">
           <i class="bi bi-people"></i> <br>
           Meu perfil
@@ -123,19 +127,19 @@ $listaDeGeneros = $generoServico->listarTodos();
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-black" href="#" id="footerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Gêneros
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="footerDropdown">
-            <?php foreach ($listaDeGeneros as $generos) { ?>
-              <li>
-                <a class="dropdown-item" href="eventosPorGenero.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
-                  <?= htmlspecialchars($generos['tipo']) ?>
+                <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Gêneros
                 </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <?php foreach ($listaDeGeneros as $generos) { ?>
+                    <li>
+                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
+                        <?= htmlspecialchars($generos['tipo']) ?>
+                      </a>
+                    </li>
+                  <?php } ?>
+                </ul>
               </li>
-            <?php } ?>
-          </ul>
-        </li>
 
         <li class="nav-item">
           <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
@@ -146,6 +150,9 @@ $listaDeGeneros = $generoServico->listarTodos();
         </li>
       </ul>
     </div>
+     <p class="m-0 text-center">
+      Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;
+    </p>
   </footer>
 
   <script src="js/menu.js"></script>

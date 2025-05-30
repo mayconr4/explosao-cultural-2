@@ -11,12 +11,19 @@ use ExplosaoCultural\Models\Eventos;
 use ExplosaoCultural\Services\EventoServico;
 use ExplosaoCultural\Services\GeneroServico;
 
-$idEvento = Utils::sanitizar($_GET["id"],  "inteiro");
-Utils::verificarId($idEvento);
+$idEvento = Utils::sanitizar($_GET["id"], "inteiro"); 
+Utils::verificarId($idEvento); 
+
+ 
 
 ControleDeAcesso::exigirLogin();  
-$idUsuario = $_SESSION['id']; 
-$tipoUsuario = TipoUsuario::from($_SESSION['tipo']); 
+$idUsuario = $_SESSION['id'] ;
+//  $tipoUsuario = TipoUsuario::from($_SESSION['tipo']); 
+
+$tipoUsuario = $_SESSION['tipo'] === 'Administrador' ? TipoUsuario::ADMINISTRADOR : TipoUsuario::USUARIO;
+
+// die($tipoUsuario->value);
+
 
 $mensagemErro = ""; 
 
@@ -24,7 +31,9 @@ $generoServico = new GeneroServico();
 $listaDeGeneros = $generoServico->listarTodos();
 
 $eventoServico = new EventoServico(); 
-$dados = $eventoServico->buscarPorId($idEvento, $tipoUsuario, $idUsuario); 
+$dados = $eventoServico->buscarPorId($idEvento, $tipoUsuario->value, $idUsuario); 
+// var_dump($dados);
+// die();
 
 if (empty($dados)){ 
     Utils::alertaErro("evennto não encontrado");
@@ -152,31 +161,31 @@ if (isset($_POST["atualizar"])) {
 
             <div class="mb-3">
                 <label class="form-label" for="titulo">Nome Do evento:</label>
-                <input class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
+                <input value="<?=$dados['nome']?>" class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="titulo">Dia :</label>
-                <input class="form-control" type="date" id="datas" name="datas" placeholder="Digite o nome do evento" required />
+                <input value="<?=$dados['datas']?>" class="form-control" type="date" id="datas" name="datas" placeholder="Digite o nome do evento" required />
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="titulo">Horario:</label>
-                <input class="form-control" type="time" id="horario" name="horario" placeholder="Digite o nome do evento" required />
+                <input value="<?=$dados['horario']?>" class="form-control" type="time" id="horario" name="horario" placeholder="Digite o nome do evento" required />
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="classificacao">Classificação indicativa</label>
                 <select class="form-select" name="classificacao" id="classificacao" required>
-                    <option value="adulto">Adulto</option>
-                    <option value="infantil">infantil</option>
+                    <option value="<?=$dados['classificacao']?>">Adulto</option>
+                    <option value="<?=$dados['classificacao']?>">infantil</option>
 
                 </select>
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="telefone">Telefone de contato:</label>
-                <input class="form-control" type="tel" id="telefone" name="telefone" />
+                <input value="<?=$dados['telefone']?>" class="form-control" type="tel" id="telefone" name="telefone" />
             </div>
 
 
@@ -198,14 +207,14 @@ if (isset($_POST["atualizar"])) {
 
 
             <div class="mb-3">
-                <label class="form-label" for="descricao">Descrição:</label>
+                <label value="<?=$dados['descricao']?>" class="form-label" for="descricao">Descrição:</label>
                 <textarea class="form-control" name="descricao" id="descricao" cols="50" rows="6" placeholder="Digite o texto completo" required></textarea>
             </div>
 
             <div class="mb-3">
                 <label class="form-label" for="cep">Localização do evento Pelo CEP: <span id="status"></span></label>
                 <div id="area-do-cep">
-                    <input maxlength="9" inputmode="numeric" placeholder="Somente números" type="text" id="cep"
+                    <input value="<?=$dados['datas']?>" maxlength="9" inputmode="numeric" placeholder="Somente números" type="text" id="cep"
                         name="cep" required> <br>
                     <button id="buscar">Buscar</button>
                 </div>
@@ -257,21 +266,20 @@ if (isset($_POST["atualizar"])) {
           <a class="nav-link text-black" href="index.php">Home</a>
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-black" href="#" id="footerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Gêneros
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="footerDropdown">
-            <?php foreach ($listaDeGeneros as $generos) { ?>
-              <li>
-                <a class="dropdown-item" href="eventosPorGenero.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
-                  <?= htmlspecialchars($generos['tipo']) ?>
+       <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Gêneros
                 </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <?php foreach ($listaDeGeneros as $generos) { ?>
+                    <li>
+                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
+                        <?= htmlspecialchars($generos['tipo']) ?>
+                      </a>
+                    </li>
+                  <?php } ?>
+                </ul>
               </li>
-            <?php } ?>
-          </ul>
-        </li>
-
         <li class="nav-item">
           <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
         </li>

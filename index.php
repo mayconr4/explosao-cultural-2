@@ -3,29 +3,25 @@
 use ExplosaoCultural\Helpers\Utils;
 use ExplosaoCultural\Services\EventoServico;
 use ExplosaoCultural\Services\GeneroServico;
+use ExplosaoCultural\Enums\TipoUsuario;
 
 require_once "vendor/autoload.php";
+
+session_start();
+
+$tipoSessao = $_SESSION['tipo'] ?? '';
+$tipoUsuario = TipoUsuario::tryFrom(strtoupper($tipoSessao));
 
 $eventoServico = new EventoServico();
 $listaDeEventos = $eventoServico->listarTodos(); 
 
 $hoje = date('Y-m-d');
-$eventosFuturos = array_filter($listaDeEventos, function ($evento) use ($hoje) {
-    return $evento['data_evento'] >= $hoje;
-});
-
-// Ordena por data do evento (mais próximo primeiro)
-usort($eventosFuturos, function ($a, $b) {
-    return strtotime($a['data_evento']) <=> strtotime($b['data_evento']);
-});
-
-// Pega os 4 eventos mais próximos
+$eventosFuturos = array_filter($listaDeEventos, fn($evento) => $evento['data_evento'] >= $hoje);
+usort($eventosFuturos, fn($a, $b) => strtotime($a['data_evento']) <=> strtotime($b['data_evento']));
 $eventosParaCarrossel = array_slice($eventosFuturos, 0, 4);
 
 $generoServico = new GeneroServico();
 $listaDeGeneros = $generoServico->listarTodos();
-
-
 
 ?>
 <!doctype html>
@@ -35,187 +31,125 @@ $listaDeGeneros = $generoServico->listarTodos();
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Explosão Cultural</title>
-  <link rel="shortcut icon" href="images/logotipo2.png" type="image/png" sizes="64x64">
+  <link rel="shortcut icon" href="images/logotipo2.png" type="image/png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 
-<body class="bg-ligth text-dark">
-  <header class="bg-ligth p-3">
+<body class="bg-light text-dark">
+  <header class="bg-light p-3">
     <div class="container d-flex justify-content-between align-items-center">
-      <h1 class="m-0"><a href="index.php" class="text-light text-decoration-none"><img class="logotipo" src="images/logo2.png" alt="logo tipo"></a></h1>
-      <nav class="navbar navbar-expand-lg navbar-light bg-white">
+      <h1 class="m-0">
+        <a href="index.php" class="text-light text-decoration-none">
+          <img class="logotipo" src="images/logo2.png" alt="Logo">
+        </a>
+      </h1>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav" aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav">
             <span class="navbar-toggler-icon"></span>
           </button>
-
-          <div class="collapse navbar-collapse justify-content-center" id="menuNav">
+          <div class="collapse navbar-collapse" id="menuNav">
             <ul class="navbar-nav mx-auto">
-              <li class="nav-item">
-                <a class="nav-link text-black" href="index.php">Home</a>
-              </li>
-
+              <li class="nav-item"><a class="nav-link text-black" href="index.php">Home</a></li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Gêneros
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <?php foreach ($listaDeGeneros as $generos) { ?>
-                    <li>
-                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
-                        <?= htmlspecialchars($generos['tipo']) ?>
-                      </a>
-                    </li>
-                  <?php } ?>
+                <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">Gêneros</a>
+                <ul class="dropdown-menu">
+                  <?php foreach ($listaDeGeneros as $generos): ?>
+                    <li><a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>"><?= htmlspecialchars($generos['tipo']) ?></a></li>
+                  <?php endforeach; ?>
                 </ul>
-
-              <li class="nav-item">
-                <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
               </li>
-
-              <li class="nav-item">
-                <a class="nav-link text-black" href="login.php">Login</a>
-              </li>
+              <li class="nav-item"><a class="nav-link text-black" href="cria-conta.php">Cadastro</a></li>
+              <li class="nav-item"><a class="nav-link text-black" href="login.php">Login</a></li>
             </ul>
-
-            <div class="position-relative ms-lg-3">
-              <form autocomplete="off" class="d-flex" action="resultados.php" method="POST" id="form-busca">
-                <input id="campo-busca" name="busca" class="form-control me-2" type="search" placeholder="Pesquise aqui" aria-label="Pesquise aqui">
-              </form>
-              <div id="resultados" role="region" aria-live="polite" class="mt-3 position-absolute container bg-white shadow-lg p-3 rounded"></div>
-            </div>
+            <form class="d-flex" action="resultados.php" method="POST">
+              <input name="busca" class="form-control me-2" type="search" placeholder="Pesquise aqui" aria-label="Pesquise aqui">
+            </form>
           </div>
         </div>
       </nav>
-
     </div>
     <hr>
   </header>
-  <main class="container  bg-ligth text-dark">
-<!-- container my-5 bg-ligth text-dark rounded p-4 shadow -->
-    <section class="container py-5">
-      <h2 class="text-dark mb-4">Eventos em Destaque</h2>
 
-        <?php if (!empty($eventosParaCarrossel)): ?>
-    <div id="carouselEventos" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-
-        <?php
-        $grupoDeEventos = array_chunk($eventosParaCarrossel, 2); // agrupa 2 por slide
-        foreach ($grupoDeEventos as $indice => $grupo): 
-        ?>
-          <div class="carousel-item <?= $indice === 0 ? 'active' : '' ?>">
-            <div class="d-flex gap-3">
-              <?php foreach ($grupo as $evento): ?>
-                <div class="card bg-secondary text-light" style="min-width: 300px;">
-                  <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($evento['evento']) ?>">
-                  <div class="card-body">
-                    <h5 class="card-title"><?= htmlspecialchars($evento['evento']) ?></h5>
-                    <p class="card-text"> Dia: 
-                      <?=($evento['data_evento']) ?> 
-                    </p>
-                    <a href="evento.php?id=<?= $evento['id'] ?>" class="btn btn-light">Saiba mais</a>
-                  </div>
+  <main class="container">
+    <section class="py-5">
+      <h2 class="mb-4">Eventos em Destaque</h2>
+      <?php if (!empty($eventosParaCarrossel)): ?>
+        <div id="carouselEventos" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <?php foreach (array_chunk($eventosParaCarrossel, 2) as $indice => $grupo): ?>
+              <div class="carousel-item <?= $indice === 0 ? 'active' : '' ?>">
+                <div class="d-flex gap-3">
+                  <?php foreach ($grupo as $evento): ?>
+                    <div class="card bg-secondary text-light" style="min-width: 300px;">
+                      <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($evento['evento']) ?>">
+                      <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($evento['evento']) ?></h5>
+                        <p class="card-text">Dia: <?= htmlspecialchars($evento['data_evento']) ?></p>
+                        <a href="evento.php?id=<?= $evento['id'] ?>" class="btn btn-light">Saiba mais</a>
+                        <?php if ($tipoUsuario === TipoUsuario::USUARIO): ?>
+                          <a href="atualizaEvento.php?id=<?= $evento['id'] ?>" class="btn btn-dark mt-2">Atualizar</a>
+                        <?php endif; ?>
+                      </div>
+                    </div>
+                  <?php endforeach; ?>
                 </div>
-              <?php endforeach; ?>
-            </div>
+              </div>
+            <?php endforeach; ?>
           </div>
-        <?php endforeach; ?>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventos" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselEventos" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      <?php else: ?>
+        <p class="text-muted">Nenhum evento futuro encontrado.</p>
+      <?php endif; ?>
+    </section>
 
-      </div>
-
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventos" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselEventos" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>
-    </div>
-  <?php else: ?>
-    <p class="text-muted">Nenhum evento futuro encontrado.</p>
-  <?php endif; ?>
-</section>
-
-
-    <article class="container py-5">
+    <article class="py-5">
       <section class="text-center mb-5">
         <h2 class="display-5 fw-bold">Eventos únicos</h2>
         <p class="lead">Shows, festas e experiências culturais em destaque</p>
       </section>
 
-
-
-      <section class="row g-4">  
-        
-        </div>
-        <?php foreach ($listaDeEventos as $evento) { ?>
+      <section class="row g-4">
+        <?php foreach ($listaDeEventos as $evento): ?>
           <div class="col-md-4">
             <article class="card bg-secondary text-light h-100">
-              <a href="evento.php?id=<?=$evento["id"]?>" class="card-link">
-                <img src="images/<?= $evento['imagem'] ?>" class="card-img-top" alt="Exposição"> 
+              <a href="evento.php?id=<?= $evento["id"] ?>" class="card-link">
+                <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($evento['evento']) ?>">
                 <div class="card-body">
-                  <h5 class="card-title">Evento: <?= $evento['evento'] ?></h5> 
-                  <p class="card-text">data do evento: <?= $evento['data_evento'] ?></p> 
-                  <p class="card-text">Horario: <?= $evento['horario'] ?></p> 
-                  <p class="card-text">Classificação indicativa: <?= $evento['classificacao'] ?></p> 
-                  <p class="card-text">Telefone: <?= $evento['telefone'] ?></p> 
-                  <p class="card-text">Descrição: <?= $evento['descricao'] ?></p> 
-                  
+                  <h5 class="card-title">Evento: <?= htmlspecialchars($evento['evento']) ?></h5>
+                  <p class="card-text">Data: <?= htmlspecialchars($evento['data_evento']) ?></p>
+                  <p class="card-text">Horário: <?= htmlspecialchars($evento['horario']) ?></p>
+                  <p class="card-text">Classificação: <?= htmlspecialchars($evento['classificacao']) ?></p>
+                  <p class="card-text">Telefone: <?= htmlspecialchars($evento['telefone']) ?></p>
+                  <p class="card-text">Descrição: <?= htmlspecialchars($evento['descricao']) ?></p>
                 </div>
               </a>
             </article>
-          </div>            
-        <?php } ?> 
-
-      </section> 
-    </article> 
-    
+          </div>
+        <?php endforeach; ?>
+      </section>
+    </article>
   </main>
-  <hr>
-  <footer class="bg-ligth py-4">
-    <div class="container d-flex justify-content-center align-items-center flex-column">
-      <h1 class="m-0">
-        <a href="index.php" class="text-light text-decoration-none">
-          <img class="logotipo" src="images/logo2.png" alt="Logo do site">
-        </a>
-      </h1>
 
-      <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link text-black" href="index.php">Home</a>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-black" href="#" id="footerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Gêneros
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="footerDropdown">
-            <?php foreach ($listaDeGeneros as $generos) { ?>
-              <li>
-                <a class="dropdown-item" href="eventosPorGenero.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
-                  <?= htmlspecialchars($generos['tipo']) ?>
-                </a>
-              </li>
-            <?php } ?>
-          </ul>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link text-black" href="login.php">Login</a>
-        </li>
+  <footer class="bg-light py-4">
+    <div class="container text-center">
+      <a href="index.php"><img class="logotipo" src="images/logo2.png" alt="Logo do site"></a>
+      <ul class="nav justify-content-center">
+        <li class="nav-item"><a class="nav-link text-black" href="index.php">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-black" href="cria-conta.php">Cadastro</a></li>
+        <li class="nav-item"><a class="nav-link text-black" href="login.php">Login</a></li>
       </ul>
+      <p class="m-0">Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;</p>
     </div>
-
-    <p class="m-0 text-center">
-      Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;
-    </p>
   </footer>
-
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/menu.js"></script>

@@ -5,11 +5,15 @@ use ExplosaoCultural\Enums\TipoUsuario;
 use ExplosaoCultural\Helpers\Utils;
 use ExplosaoCultural\Helpers\Validacoes;
 use ExplosaoCultural\Models\Usuarios;
+use ExplosaoCultural\Services\GeneroServico;
 use ExplosaoCultural\Services\UsuarioServico;
 
 ControleDeAcesso::exigirLogin(); 
 
-$usuarioServico = new UsuarioServico();
+$usuarioServico = new UsuarioServico(); 
+
+$generoServico = new GeneroServico();
+$listaDeGeneros = $generoServico->listarTodos();
 
 $dados = $usuarioServico->buscarPorId($_SESSION['id']);
 
@@ -173,20 +177,20 @@ if (isset($_POST["atualizar"])) {
           <a class="nav-link text-black" href="index.php">Home</a>
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-black" href="#" id="footerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Gêneros
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="footerDropdown">
-            <?php foreach ($listaDeGeneros as $generos) { ?>
-              <li>
-                <a class="dropdown-item" href="eventosPorGenero.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
-                  <?= htmlspecialchars($generos['tipo']) ?>
+   <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Gêneros
                 </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <?php foreach ($listaDeGeneros as $generos) { ?>
+                    <li>
+                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
+                        <?= htmlspecialchars($generos['tipo']) ?>
+                      </a>
+                    </li>
+                  <?php } ?>
+                </ul>
               </li>
-            <?php } ?>
-          </ul>
-        </li>
 
         <li class="nav-item">
           <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
