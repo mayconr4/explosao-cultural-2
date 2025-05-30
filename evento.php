@@ -75,7 +75,9 @@ $dados = $eventoServico->listarDetalhes($_GET["id"]);
     </div>
     <hr>
   </header> 
-
+  <main class="container my-5 bg-ligth text-dark rounded p-4 shadow"> 
+  
+    <h1 class="text-center mb-4">Detalhes do Evento</h1>                
   <div class="row my-1 mx-md-n1"> 
 
       <article class="col-12">
@@ -91,6 +93,8 @@ $dados = $eventoServico->listarDetalhes($_GET["id"]);
       
  
   </div> 
+   
+  </main>
 
    <footer class="bg-ligth py-4">
     <div class="container d-flex justify-content-center align-items-center flex-column">

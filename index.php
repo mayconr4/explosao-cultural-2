@@ -155,21 +155,21 @@ $listaDeGeneros = $generoServico->listarTodos();
         </div>
         <?php foreach ($listaDeEventos as $evento) { ?>
           <div class="col-md-4">
-            <div class="card bg-secondary text-light h-100">
-              <img src="images/<?= $evento['imagem'] ?>" class="card-img-top" alt="Exposição">
-              <div class="card-body">
-                <h5 class="card-title">Evento: <?= $evento['evento'] ?></h5> <!-- nome do evento -->
-                <p class="card-text">data do evento: <?= $evento['data_evento'] ?></p> <!-- data do  evento -->
-                <p class="card-text">Horario: <?= $evento['horario'] ?></p> <!-- horario do  evento -->
-                <p class="card-text">Classificação indicativa: <?= $evento['classificacao'] ?></p> <!-- classificação enum  do  evento -->
-                <p class="card-text">Telefone: <?= $evento['telefone'] ?></p> <!-- telefone do  evento -->
-                <p class="card-text">Descrição: <?= $evento['descricao'] ?></p> <!-- descrição do  evento -->
-                <!-- <p class="card-text"></p> imagem do  evento -->
-              </div>
-            </div>
-          </div>
-
-          
+            <article class="card bg-secondary text-light h-100">
+              <a href="evento.php?id=<?=$evento["id"]?>" class="card-link">
+                <img src="images/<?= $evento['imagem'] ?>" class="card-img-top" alt="Exposição"> 
+                <div class="card-body">
+                  <h5 class="card-title">Evento: <?= $evento['evento'] ?></h5> 
+                  <p class="card-text">data do evento: <?= $evento['data_evento'] ?></p> 
+                  <p class="card-text">Horario: <?= $evento['horario'] ?></p> 
+                  <p class="card-text">Classificação indicativa: <?= $evento['classificacao'] ?></p> 
+                  <p class="card-text">Telefone: <?= $evento['telefone'] ?></p> 
+                  <p class="card-text">Descrição: <?= $evento['descricao'] ?></p> 
+                  
+                </div>
+              </a>
+            </article>
+          </div>            
         <?php } ?>
 
       </section>
