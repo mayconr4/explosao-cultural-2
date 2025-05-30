@@ -116,8 +116,9 @@ if (isset($_POST["atualizar"])) {
     </div>
     <hr>
   </header>
+    <main class="container  bg-ligth text-dark">     
 
-    <div class="row">
+    <div class="row container py-5">
         <article class="col-12 bg-white rounded shadow my-1 py-4">
 
             <h2 class="text-center">
@@ -155,7 +156,8 @@ if (isset($_POST["atualizar"])) {
             </form>
 
         </article>
-    </div>
+    </div> 
+    </main>
 
     <hr>
   <footer class="bg-ligth py-4">
