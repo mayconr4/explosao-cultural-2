@@ -90,7 +90,7 @@ $listaDeGeneros = $generoServico->listarTodos();
                     Criar
                 </a> 
 
-                <a class="btn btn-dark bg-gradient btn-lg" href="atualizarEvento.php">
+                <a class="btn btn-dark bg-gradient btn-lg" href="atualizaEvento.php">
                 <i class="bi bi-newspaper"></i> <br>
                 Atualizar
             </a>
@@ -147,7 +147,7 @@ $listaDeGeneros = $generoServico->listarTodos();
         </li>
       </ul>
     </div>
-    
+
     <script src="js/menu.js"></script>
     <script src="js/buscar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
