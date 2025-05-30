@@ -1,23 +1,27 @@
-<?php 
+<?php
 require_once 'vendor/autoload.php';
 
 use ExplosaoCultural\Helpers\Utils;
-use ExplosaoCultural\Services\EventoServico; 
+use ExplosaoCultural\Services\EventoServico;
 
 $eventoServico = new EventoServico();
 
-Utils::verificarId($_GET["id"] ?? null);  
+Utils::verificarId($_GET["id"] ?? null);
 
 $dados = $eventoServico->listarDetalhes($_GET["id"]);
+if (!$dados) {
+  $dados = null;
+}
 
-?> 
+?>
 <!doctype html>
 <html lang="pt-br">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Explosão Cultural</title>
-  <link rel="shortcut icon" href="images/logotipo2.png" type="image/png" sizes="64x64"> 
+  <link rel="shortcut icon" href="images/logotipo2.png" type="image/png" sizes="64x64">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
@@ -74,29 +78,45 @@ $dados = $eventoServico->listarDetalhes($_GET["id"]);
 
     </div>
     <hr>
-  </header> 
-  <main class="container my-5 bg-ligth text-dark rounded p-4 shadow"> 
-  
-    <h1 class="text-center mb-4">Detalhes do Evento</h1>                
-  <div class="row my-1 mx-md-n1"> 
+  </header>
+  <main class="container  bg-ligth text-dark   ">
 
-      <article class="col-12">
-         <h2> <?=$dados['titulo']?> </h2>   
-         <p class="font-weight-light"> 
-            <time><?=Utils::formataData($dados['data_evento'])?></time> - <span><?=$dados['criador']?></span> 
-         </p>         
-         <img src="images/<?=$dados['imagem']?>" alt="" class="float-start pe-2 img-fluid">
-         <p class="ajusta-texto"><?=$dados['descricao']?></p> 
-      </article>         
-      
-      
-      
- 
-  </div> 
-   
+    <h1 class="text-center mb-4">Detalhes do Evento</h1>
+    <hr>
+    <div class="row my-1 mx-md-n1">
+
+      <?php if ($dados): ?>
+        <article class="col-12 ">
+          <h2 class="text-center"> <?= $dados['titulo'] ?> </h2>
+          <img src="images/<?= $dados['imagem'] ?>" alt="" class="float-start pe-2 img-fluid rounded-1 p-3 "> 
+          <hr class="p-1">
+          <p class="ajusta-texto"> <b>Descrição: </b> <?= $dados['descricao'] ?></p>
+          <p class="ajusta-texto"> <b>Classificação: </b> <?= $dados['classificacao'] ?></p>
+          <p class="font-weight-light"> <b>Data: </b>
+            <?= Utils::formataData($dados['data_evento']) ?>
+          </p>
+          <p class="ajusta-texto"> <b>Horario 🕕: </b> <?= $dados['horario'] ?></p>
+          <p class="ajusta-tetxo"> <b>Rua 📍: </b><?= $dados['endereco'] ?></p>
+          <p class="ajusta-texto"> <b>Bairro  🏠: </b> <?= $dados['bairro'] ?></p>
+          <p class="ajusta-texto"> <b>Cidade  🌃: </b> <?= $dados['cidade'] ?></p>
+          <p class="ajusta-texto"> <b>Telfone 📞: </b> <?= $dados['telefone'] ?></p>
+          <p class="ajusta-texto"> <b>Cidade </b> <?= $dados['cidade'] ?></p>
+          <p class="ajusta-texto"> <b>Organizador: </b> <?= $dados['criador'] ?></p>
+        </article>
+      <?php else: ?>
+        <p class="text-danger">Evento Não encontrado.</p>
+
+      <?php endif; ?>
+
+
+
+    </div> 
+
+    <hr>
+
   </main>
 
-   <footer class="bg-ligth py-4">
+  <footer class="bg-ligth py-4">
     <div class="container d-flex justify-content-center align-items-center flex-column">
       <h1 class="m-0">
         <a href="index.php" class="text-light text-decoration-none">
@@ -116,7 +136,7 @@ $dados = $eventoServico->listarDetalhes($_GET["id"]);
           <ul class="dropdown-menu" aria-labelledby="footerDropdown">
             <?php foreach ($listaDeGeneros as $generos) { ?>
               <li>
-                <a class="dropdown-item" href="generos.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
+                <a class="dropdown-item" href="eventosPorGenero.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
                   <?= htmlspecialchars($generos['tipo']) ?>
                 </a>
               </li>
@@ -137,11 +157,11 @@ $dados = $eventoServico->listarDetalhes($_GET["id"]);
     <p class="m-0 text-center">
       Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;
     </p>
-  </footer> 
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/menu.js"></script>
   <script src="js/buscar.js"></script>
-</body> 
-</html>
+</body>
 
+</html>

@@ -46,7 +46,8 @@ final class Utils
 
      public static function formataData(string $data): string
     {
-        return date("d/m/Y H:i", strtotime($data));
+        return date("d/m/Y ", strtotime($data)); 
+        //H:i caso quiser configurar horário
     }
 
    

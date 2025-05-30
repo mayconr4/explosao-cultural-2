@@ -211,14 +211,16 @@ try {
         eventos.id,
         eventos.nome AS titulo,
         eventos.datas AS data_evento,
-        eventos.horario ,
+        eventos.horario AS horario ,
         eventos.classificacao AS classificacao,
         eventos.telefone AS telefone,
         eventos.descricao AS descricao,
         eventos.imagem AS imagem,
         usuarios.nome AS criador,
         generos.tipo AS genero,
-        enderecos.logradouro AS endereco
+        enderecos.logradouro AS endereco, 
+        enderecos.bairro AS bairro, 
+        enderecos.cidade AS cidade
         FROM eventos
         INNER JOIN usuarios ON eventos.usuario_id = usuarios.id
         INNER JOIN generos ON eventos.genero_id = generos.id
@@ -229,7 +231,7 @@ try {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(":id", $id, PDO::PARAM_INT);
             $consulta->execute();
-            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+            return $consulta->fetch(PDO::FETCH_ASSOC);
         } catch (Throwable $erro) {
             Utils::registrarErro($erro);
             throw new Exception("erro ao abrir evento detalhes do evento");
