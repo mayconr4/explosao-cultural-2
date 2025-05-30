@@ -79,8 +79,8 @@ $listaDeGeneros = $generoServico->listarTodos();
     </div>
     <hr>
   </header>
-  <main class="container my-5 bg-ligth text-dark rounded p-4 shadow">
-
+  <main class="container  bg-ligth text-dark">
+<!-- container my-5 bg-ligth text-dark rounded p-4 shadow -->
     <section class="container py-5">
       <h2 class="text-dark mb-4">Eventos em Destaque</h2>
 
@@ -174,9 +174,9 @@ $listaDeGeneros = $generoServico->listarTodos();
 
       </section> 
     </article> 
-    <hr>
+    
   </main>
-
+  <hr>
   <footer class="bg-ligth py-4">
     <div class="container d-flex justify-content-center align-items-center flex-column">
       <h1 class="m-0">

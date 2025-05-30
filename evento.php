@@ -113,10 +113,10 @@ if (!$dados) {
 
     </div> 
 
-    <hr>
+    
 
   </main>
-
+  <hr>
   <footer class="bg-ligth py-4">
     <div class="container d-flex justify-content-center align-items-center flex-column">
       <h1 class="m-0">
