@@ -15,10 +15,15 @@ $tipoUsuario = TipoUsuario::tryFrom(strtoupper($tipoSessao));
 $eventoServico = new EventoServico();
 $listaDeEventos = $eventoServico->listarTodos(); 
 
-$hoje = date('Y-m-d');
-$eventosFuturos = array_filter($listaDeEventos, fn($evento) => $evento['data_evento'] >= $hoje);
-usort($eventosFuturos, fn($a, $b) => strtotime($a['data_evento']) <=> strtotime($b['data_evento']));
-$eventosParaCarrossel = array_slice($eventosFuturos, 0, 4);
+$hoje = date('Y-m-d'); 
+$eventosFuturos = array_filter($listaDeEventos, function ($evento) use ($hoje) {
+  $dataEvento = date('Y-m-d', strtotime($evento['data_evento']));
+  return $dataEvento >= $hoje;
+}); 
+
+// $eventosFuturos = array_filter($listaDeEventos, fn($evento) => $evento['data_evento'] >= $hoje);
+// usort($eventosFuturos, fn($a, $b) => strtotime($a['data_evento']) <=> strtotime($b['data_evento']));
+// $eventosParaCarrossel = array_slice($eventosFuturos, 0, 4); 
 
 $generoServico = new GeneroServico();
 $listaDeGeneros = $generoServico->listarTodos();
