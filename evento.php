@@ -2,10 +2,12 @@
 require_once 'vendor/autoload.php';
 
 use ExplosaoCultural\Helpers\Utils;
-use ExplosaoCultural\Services\EventoServico;
+use ExplosaoCultural\Services\EventoServico; 
+use ExplosaoCultural\Services\GeneroServico;
 
 $eventoServico = new EventoServico();
-
+$generoServico = new GeneroServico(); 
+$listaDeGeneros = $generoServico->listarTodos();
 Utils::verificarId($_GET["id"] ?? null);
 
 $dados = $eventoServico->listarDetalhes($_GET["id"]);
@@ -49,13 +51,12 @@ if (!$dados) {
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <?php foreach ($listaDeGeneros as $generos) { ?>
                     <li>
-                      <a class="dropdown-item" href="generos.php?tipo=<?= htmlspecialchars($generos['id']) ?>">
+                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
                         <?= htmlspecialchars($generos['tipo']) ?>
                       </a>
                     </li>
                   <?php } ?>
                 </ul>
-              </li>
 
               <li class="nav-item">
                 <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>

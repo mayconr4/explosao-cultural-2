@@ -140,7 +140,7 @@ $listaDeGeneros = $generoServico->listarTodos();
     </section> <!-- Fim do Carrossel -->
 
 
-    <main class="container py-5">
+    <article class="container py-5">
       <section class="text-center mb-5">
         <h2 class="display-5 fw-bold">Eventos únicos</h2>
         <p class="lead">Shows, festas e experiências culturais em destaque</p>
@@ -172,8 +172,9 @@ $listaDeGeneros = $generoServico->listarTodos();
           </div>            
         <?php } ?>
 
-      </section>
-    </main>
+      </section> 
+    </article> 
+    <hr>
   </main>
 
   <footer class="bg-ligth py-4">
