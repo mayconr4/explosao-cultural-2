@@ -88,7 +88,12 @@ $listaDeGeneros = $generoServico->listarTodos();
                 <a class="btn btn-dark bg-gradient btn-lg" href="criarEvento.php">
                     <i class="bi bi-person"></i> <br>
                     Criar
-                </a>
+                </a> 
+
+                <a class="btn btn-dark bg-gradient btn-lg" href="atualizarEvento.php">
+                <i class="bi bi-newspaper"></i> <br>
+                Atualizar
+            </a>
 
                 <a class="btn btn-dark bg-gradient btn-lg" href="index.php">
                     <i class="bi bi-newspaper"></i> <br>
@@ -142,14 +147,10 @@ $listaDeGeneros = $generoServico->listarTodos();
         </li>
       </ul>
     </div>
-
-    <p class="m-0 text-center">
-      Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;
-    </p>
-  </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    
     <script src="js/menu.js"></script>
     <script src="js/buscar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
