@@ -148,9 +148,7 @@ $listaDeGeneros = $generoServico->listarTodos();
 
 
 
-      <section class="row g-4">
-
-
+      <section class="row g-4">  
         
         </div>
         <?php foreach ($listaDeEventos as $evento) { ?>
@@ -170,7 +168,7 @@ $listaDeGeneros = $generoServico->listarTodos();
               </a>
             </article>
           </div>            
-        <?php } ?>
+        <?php } ?> 
 
       </section> 
     </article> 
