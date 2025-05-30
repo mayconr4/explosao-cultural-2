@@ -4,7 +4,11 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use ExplosaoCultural\Helpers\Utils;
 use ExplosaoCultural\Services\UsuarioServico;
-use ExplosaoCultural\Auth\ControleDeAcesso;
+use ExplosaoCultural\Auth\ControleDeAcesso; 
+use ExplosaoCultural\Services\GeneroServico; 
+
+$generoServico = new GeneroServico();
+$listaDeGeneros = $generoServico->listarTodos();
 
 if (isset($_GET["campos_obrigatorios"])) {
   $feedback = "Preencha e-mail e senha!";
