@@ -80,41 +80,44 @@ $listaDeGeneros = $generoServico->listarTodos();
 
   <main class="container">
     <section class="py-5">
-      <h2 class="mb-4">Eventos em Destaque</h2>
-      <?php if (!empty($eventosParaCarrossel)): ?>
+    <h2 class="mb-4">Eventos em Destaque</h2>
+    <?php if (!empty($eventosParaCarrossel)): ?>
         <div id="carouselEventos" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <?php foreach (array_chunk($eventosParaCarrossel, 2) as $indice => $grupo): ?>
-              <div class="carousel-item <?= $indice === 0 ? 'active' : '' ?>">
-                <div class="d-flex gap-3">
-                  <?php foreach ($grupo as $evento): ?>
-                    <div class="card bg-secondary text-light" style="min-width: 300px;">
-                      <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($evento['evento']) ?>">
-                      <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($evento['evento']) ?></h5>
-                       <p class="card-text">Dia: <?= htmlspecialchars(Utils::formatarDataBr($evento['data_evento'])) ?></p>
-                        <a href="evento.php?id=<?= $evento['id'] ?>" class="btn btn-light">Saiba mais</a>
-                        <?php if ($tipoUsuario === TipoUsuario::USUARIO): ?>
-                          <a href="atualizaEvento.php?id=<?= $evento['id'] ?>" class="btn btn-dark mt-2">Atualizar</a>
-                        <?php endif; ?>
-                      </div>
+            <div class="carousel-inner">
+                <?php foreach (array_chunk($eventosParaCarrossel, 2) as $indice => $grupo): ?>
+                    <div class="carousel-item <?= $indice === 0 ? 'active' : '' ?>">
+                        <div class="d-flex gap-3 justify-content-center">
+                            <?php foreach ($grupo as $evento): ?>
+                                <div class="card **card-carrossel-com-imagem** text-light"
+                                     style="background-image: url('images/<?= htmlspecialchars($evento['imagem']) ?>'); background-repeat: no-repeat; background-size: cover; background-position: center; min-height: 350px; display: flex; flex-direction: column;">
+                                    <a href="evento.php?id=<?= $evento['id'] ?>" class="card-link-carrossel">
+                                        <div class="card-body **fundo-opaco-carrossel**">
+                                            <h5 class="card-title"><?= htmlspecialchars($evento['evento']) ?></h5>
+                                            <p class="card-text">Dia: <?= htmlspecialchars(Utils::formatarDataBr($evento['data_evento'])) ?></p>                                             
+                                            <?php if ($tipoUsuario === TipoUsuario::USUARIO && isset($_SESSION['id']) && $_SESSION['id'] == $evento['id_usuario']): ?>
+                                                <a href="atualizaEvento.php?id=<?= $evento['id'] ?>" class="btn btn-dark mt-2">Atualizar</a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </a>
+                                </div>
+                                <?php endforeach; ?>
+                        </div>
                     </div>
-                  <?php endforeach; ?>
-                </div>
-              </div>
-            <?php endforeach; ?>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventos" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselEventos" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-          </button>
+                <?php endforeach; ?>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventos" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselEventos" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-      <?php else: ?>
-        <p class="text-muted">Nenhum evento futuro encontrado.</p>
-      <?php endif; ?>
-    </section>
+    <?php else: ?>
+        <p class="text-muted">Nenhum evento futuro encontrado para destaque.</p>
+    <?php endif; ?>
+</section>
 
     <article class="py-5">
       <section class="text-center mb-5">
@@ -125,16 +128,13 @@ $listaDeGeneros = $generoServico->listarTodos();
       <section class="row g-4">
         <?php foreach ($listaDeEventos as $evento): ?>
           <div class="col-md-4">
-            <article class="card bg-secondary text-light h-100">
-              <a href="evento.php?id=<?= $evento["id"] ?>" class="card-link">
-                <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($evento['evento']) ?>">
-                <div class="card-body">
+            <article class="card **card-com-imagem** bg-secondary text-light h-100"  style="background-image: url('images/<?= htmlspecialchars($tipoEvento['imagem']) ?>'); background-repeat: no-repeat; background-size: cover; background-position: center; min-height: 300px; display: flex; flex-direction: column;">
+              <a href="evento.php?id=<?= $evento["id"] ?>" class="list-group-item list-group-item-action card-link">
+                <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="list-group-item list-group-item-action card-link">
+                <div class="card-body fundo-opaco">
                   <h5 class="card-title">Evento: <?= htmlspecialchars($evento['evento']) ?></h5>
                   <p class="card-text">Data: <?= htmlspecialchars($evento['data_evento']) ?></p>
-                  <p class="card-text">Horário: <?= htmlspecialchars($evento['horario']) ?></p>
-                  <p class="card-text">Classificação: <?= htmlspecialchars($evento['classificacao']) ?></p>
-                  <p class="card-text">Telefone: <?= htmlspecialchars($evento['telefone']) ?></p>
-                  <p class="card-text">Descrição: <?= htmlspecialchars($evento['descricao']) ?></p>
+                  <p class="card-text">Horário: <?= htmlspecialchars($evento['horario']) ?></p>                   
                 </div>
               </a>
             </article>

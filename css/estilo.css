@@ -116,4 +116,142 @@ body.modal-open {
 .logotipo{
   width: 125px;
   height: 125px;
+} 
+
+.card-com-imagem {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* Precisamos definir uma altura mínima para que o background seja visível */
+    min-height: 300px; /* Ajuste conforme necessário */
+    display: flex;
+    flex-direction: column; /* Garante que o link ocupe toda a altura */
+} 
+
+.card-com-imagem .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Faz o link ocupar toda a altura do card */
+    text-decoration: none; /* Remove o sublinhado padrão do link */
+} 
+
+
+.card-com-imagem .card-body {
+    background-color: rgba(0, 0, 0, 0.5); /* Preto com 50% de opacidade. Ajuste a cor e a opacidade aqui */
+    color: #fff; /* Garante que o texto seja branco para melhor contraste */
+    /* Outros estilos para o card-body, como padding, etc. */
+    flex-grow: 1; /* Empurra o card-body para ocupar o espaço restante (útil se tiver outros elementos no card) */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Coloca o texto na parte inferior do overlay */
+    padding: 1rem; /* Adicione padding para o texto não ficar grudado nas bordas */
 }
+
+.card-com-imagem .card-title,
+.card-com-imagem .card-text {
+    margin-bottom: 0.5rem; /* Adiciona um pouco de espaço entre os elementos de texto */
+} 
+
+
+
+
+.card-com-imagem {
+    /* As propriedades background já estão no estilo inline do HTML */
+    min-height: 300px;
+    border: none;
+    overflow: hidden;
+}
+
+.card-com-imagem .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ESTA É A CLASSE QUE VOCÊ VAI AJUSTAR PARA POSICIONAR O TEXTO */
+.fundo-opaco {
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo preto com 60% de opacidade */
+    color: #fff; /* Texto branco para contraste. Use a cor que preferir */
+    padding: 1rem; /* Espaçamento interno padrão (todos os lados) */
+    
+    /* Adicione mais padding na parte inferior para empurrar o texto para cima */
+    padding-bottom: 2rem; /* Experimente valores como 1.5rem, 2rem, 2.5rem */
+
+    flex-grow: 1; /* Faz o card-body ocupar todo o espaço vertical disponível */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Alinha o conteúdo do card-body à parte inferior */
+    margin-top: auto; /* Empurra o card-body para o final do card */
+}
+/* Estilos adicionais para os elementos de texto dentro do card-body (opcional) */
+.fundo-opaco .card-title {
+    margin-bottom: 0.25rem;
+}
+
+.fundo-opaco .card-text {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+} 
+
+/* ... seu CSS anterior ... */
+
+/* Garante que o link de todo o card ocupe 100% da área e posicione o card-body */
+.card-link-carrossel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none; /* Remove o sublinhado do link */
+    color: inherit; /* Tenta herdar a cor do pai (fundo-opaco-carrossel) */
+}
+
+/* Estilos para o card-body do carrossel com opacidade */
+.fundo-opaco-carrossel {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff; /* A cor padrão do texto dentro deste container é branca */
+    padding: 1rem;
+    padding-bottom: 2.5rem; /* Ajuste este valor se precisar mover todo o bloco mais para cima/baixo */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+
+/* ESTES SÃO OS AJUSTES PRINCIPAIS PARA O NOME DO EVENTO E A DATA */
+.card-link-carrossel .card-title,
+.card-link-carrossel .card-text {
+    color: #fff !important; /* Força a cor branca para o título e o texto dentro do link */
+    /* Você pode remover 'margin-bottom' aqui se já estiver definido em '.fundo-opaco-carrossel .card-title' */
+    /* e '.fundo-opaco-carrossel .card-text' para evitar duplicação ou conflito. */
+}
+
+/* Estilos adicionais para os elementos de texto dentro do card-body do carrossel (mantenha ou ajuste) */
+.fundo-opaco-carrossel .card-title {
+    margin-bottom: 0.5rem;
+    /* color: #fff; REMOVA ESTA LINHA AQUI, pois a regra mais específica acima já cuida disso. */
+}
+
+.fundo-opaco-carrossel .card-text {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    /* color: #fff; REMOVA ESTA LINHA AQUI, pois a regra mais específica acima já cuida disso. */
+}
+
+/* Estilo para o botão "Saiba mais" */
+.fundo-opaco-carrossel .btn-light {
+    align-self: flex-start;
+    /* margin-top: 0.10rem; Ajuste para a distância desejada */
+    color: #000;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+/* Estilo para o botão "Atualizar" (se ele for exibido) */
+.fundo-opaco-carrossel .btn-dark {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+}
+
+/* ... restante do seu CSS ... */
