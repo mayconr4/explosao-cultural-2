@@ -79,49 +79,11 @@ $listaDeGeneros = $generoServico->listarTodos();
   </header>
 
   <main class="container">
-    <section class="py-5">
-    <h2 class="mb-4">Eventos em Destaque</h2>
-    <?php if (!empty($eventosParaCarrossel)): ?>
-        <div id="carouselEventos" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php foreach (array_chunk($eventosParaCarrossel, 2) as $indice => $grupo): ?>
-                    <div class="carousel-item <?= $indice === 0 ? 'active' : '' ?>">
-                        <div class="d-flex gap-3 justify-content-center">
-                            <?php foreach ($grupo as $evento): ?>
-                                <div class="card **card-carrossel-com-imagem** text-light"
-                                     style="background-image: url('images/<?= htmlspecialchars($evento['imagem']) ?>'); background-repeat: no-repeat; background-size: cover; background-position: center; min-height: 350px; display: flex; flex-direction: column;">
-                                    <a href="evento.php?id=<?= $evento['id'] ?>" class="card-link-carrossel">
-                                        <div class="card-body **fundo-opaco-carrossel**">
-                                            <h5 class="card-title"><?= htmlspecialchars($evento['evento']) ?></h5>
-                                            <p class="card-text">Dia: <?= htmlspecialchars(Utils::formatarDataBr($evento['data_evento'])) ?></p>                                             
-                                            <?php if ($tipoUsuario === TipoUsuario::USUARIO && isset($_SESSION['id']) && $_SESSION['id'] == $evento['id_usuario']): ?>
-                                                <a href="atualizaEvento.php?id=<?= $evento['id'] ?>" class="btn btn-dark mt-2">Atualizar</a>
-                                            <?php endif; ?>
-                                        </div>
-                                    </a>
-                                </div>
-                                <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventos" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselEventos" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    <?php else: ?>
-        <p class="text-muted">Nenhum evento futuro encontrado para destaque.</p>
-    <?php endif; ?>
-</section>
+   
 
     <article class="py-5">
       <section class="text-center mb-5">
-        <h2 class="display-5 fw-bold">Eventos únicos</h2>
+        <h2 class="display-5 fw-bold">Eventos </h2>
         <p class="lead">Shows, festas e experiências culturais em destaque</p>
       </section>
 

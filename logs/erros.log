@@ -1,5 +1,5 @@
-[2025-06-02 03:54:58]
-Arquivo: C:\xampp\htdocs\explosao-cultural\criarEvento.php
-Linha: 52
-Mensagem: "adulto" is not a valid backing value for enum ExplosaoCultural\Enums\TipoClassificacao
+[2025-06-02 08:13:35]
+Arquivo: C:\xampp\htdocs\explosao-cultural\atualizaEvento.php
+Linha: 79
+Mensagem: Classificação inválida
 
