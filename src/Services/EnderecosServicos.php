@@ -74,29 +74,77 @@ final class EnderecosServicos
 
     public function atualizar(Enderecos $endereco): void
     {
-        $sql = "UPDATE enderecos SET cep = :cep, 
-        logradouro = :logradouro,           
-        bairro = :bairro, 
-        cidade = :cidade, 
-        estado = :estado WHERE id = :id"; 
-
         try {
-            $consulta = $this->conexao->prepare($sql); 
-            $consulta->bindValue(':cep', $endereco->getCep(), PDO::PARAM_STR); 
-            $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR);              
-            $consulta->bindValue(':bairro', $endereco->getBairro(), PDO::PARAM_STR); 
-            $consulta->bindValue(':cidade', $endereco->getCidade(), PDO::PARAM_STR); 
-            $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR); 
-            $consulta->bindValue(':id', $endereco->getId(), PDO::PARAM_INT); 
+            if ($endereco->getId() === null) {
+                // Se o ID é null, é um NOVO ENDEREÇO, então INSERE
+                $sql = "INSERT INTO enderecos (cep, logradouro, bairro, cidade, estado) 
+                        VALUES (:cep, :logradouro, :bairro, :cidade, :estado)";
+                $consulta = $this->conexao->prepare($sql);
+                $consulta->bindValue(':cep', $endereco->getCep(), PDO::PARAM_STR);
+                $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR);
+                $consulta->bindValue(':bairro', $endereco->getBairro(), PDO::PARAM_STR);
+                $consulta->bindValue(':cidade', $endereco->getCidade(), PDO::PARAM_STR);
+                $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR);
 
-            if (!$consulta->execute()) {
-                throw new Exception("Erro ao atualizar o endereço: ");
+                if (!$consulta->execute()) {
+                    throw new Exception("Erro ao inserir o endereço.");
+                }
+
+                // IMPORTANTE: Define o ID gerado no objeto Enderecos
+                $endereco->setId((int)$this->conexao->lastInsertId());
+
+            } else {
+                // Se o ID existe, é um ENDEREÇO EXISTENTE, então ATUALIZA
+                $sql = "UPDATE enderecos SET cep = :cep, 
+                        logradouro = :logradouro,            
+                        bairro = :bairro, 
+                        cidade = :cidade, 
+                        estado = :estado 
+                        WHERE id = :id"; 
+                $consulta = $this->conexao->prepare($sql); 
+                $consulta->bindValue(':cep', $endereco->getCep(), PDO::PARAM_STR); 
+                $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR);              
+                $consulta->bindValue(':bairro', $endereco->getBairro(), PDO::PARAM_STR); 
+                $consulta->bindValue(':cidade', $endereco->getCidade(), PDO::PARAM_STR); 
+                $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR); 
+                $consulta->bindValue(':id', $endereco->getId(), PDO::PARAM_INT); 
+
+                if (!$consulta->execute()) {
+                    throw new Exception("Erro ao atualizar o endereço existente.");
+                }
             }
         } catch (Throwable $erro) {
-            UTILS::registrarErro($erro);
-            throw new Exception("Erro ao atualizar o endereço: ");
+            Utils::registrarErro($erro);
+            throw new Exception("Erro no serviço de endereço: " . $erro->getMessage());
         }
-    } 
+    }
+
+
+    // public function atualizar(Enderecos $endereco): void
+    // {
+    //     $sql = "UPDATE enderecos SET cep = :cep, 
+    //     logradouro = :logradouro,           
+    //     bairro = :bairro, 
+    //     cidade = :cidade, 
+    //     estado = :estado WHERE id = :id"; 
+
+    //     try {
+    //         $consulta = $this->conexao->prepare($sql); 
+    //         $consulta->bindValue(':cep', $endereco->getCep(), PDO::PARAM_STR); 
+    //         $consulta->bindValue(':logradouro', $endereco->getLogradouro(), PDO::PARAM_STR);              
+    //         $consulta->bindValue(':bairro', $endereco->getBairro(), PDO::PARAM_STR); 
+    //         $consulta->bindValue(':cidade', $endereco->getCidade(), PDO::PARAM_STR); 
+    //         $consulta->bindValue(':estado', $endereco->getEstado(), PDO::PARAM_STR); 
+    //         $consulta->bindValue(':id', $endereco->getId(), PDO::PARAM_INT); 
+
+    //         if (!$consulta->execute()) {
+    //             throw new Exception("Erro ao atualizar o endereço: ");
+    //         }
+    //     } catch (Throwable $erro) {
+    //         UTILS::registrarErro($erro);
+    //         throw new Exception("Erro ao atualizar o endereço: ");
+    //     }
+    // } 
 
     public function exluir(int $id): void 
     {

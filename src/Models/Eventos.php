@@ -90,7 +90,7 @@ final class Eventos
         return $this->telefone;
     }  
 
-     public function getEnderecoId(): int 
+     public function getEnderecoId(): ?int 
     { 
         return $this->enderecoId;
     }
@@ -106,7 +106,7 @@ final class Eventos
     } 
 
     //Setters     
-    private function setID(?int $id):void
+    private function setId(?int $id):void
     { 
 
         $this->id = $id;

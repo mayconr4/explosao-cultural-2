@@ -33,8 +33,8 @@ $listaDeGeneros = $generoServico->listarTodos();
 
 $eventoServico = new EventoServico();
 $dados = $eventoServico->buscarPorId($idEvento, $tipoUsuario->value, $idUsuario);
-// var_dump($dados);
-// die();
+//  var_dump($dados);
+//  die();
 
 if (empty($dados)) {
   Utils::alertaErro("evennto não encontrado");
@@ -81,7 +81,12 @@ if (isset($_POST["atualizar"])) {
 
     $endereco = new Enderecos($cep, $logradouro, $bairro, $cidade, $estado);
 
-    $idEndereco = $_POST['endereco_id'] ?? null; 
+    $idEndereco = isset($_POST['endereco_id']) && is_numeric($_POST['endereco_id']) 
+    ? (int)$_POST['endereco_id'] 
+    : null;
+    
+
+    var_dump($_POST['endereco_id'], $idEndereco);
     $endereco->setId($idEndereco);
 
     $evento = new Eventos(
@@ -100,7 +105,8 @@ if (isset($_POST["atualizar"])) {
 
 
    $eventoComEnderecoServico = new EventoComEnderecoServico();
-   $teste =  $eventoComEnderecoServico->atualizarCompleto($evento, $endereco); 
+   $teste =  $eventoComEnderecoServico->atualizarCompleto($evento, $endereco);  
+   var_dump($teste);
     
 
     header("location:usuario.php");

@@ -114,20 +114,26 @@ final class EventoServico
         descricao = :descricao,
         imagem = :imagem WHERE id = :id";
 
-try {
-    $consulta = $this->conexao->prepare($sql);
+        try {
+            $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(":id", $evento->getId(), PDO::PARAM_INT);
             $consulta->bindValue(":nome", $evento->getNome(), PDO::PARAM_STR);
             $consulta->bindValue(":datas", $evento->getData(), PDO::PARAM_STR);
             $consulta->bindValue(":horario", $evento->getHorario(), PDO::PARAM_STR);
             $consulta->bindValue(":classificacao", $evento->getClassificacao()->value, PDO::PARAM_STR);
             $consulta->bindValue(":telefone", $evento->getTelefone(), PDO::PARAM_STR);
-            $consulta->bindValue(":usuario_id", $evento->getUsuarioId(), PDO::PARAM_INT);
-            $consulta->bindValue(":endereco_id", $evento->getEnderecoId(), PDO::PARAM_INT);
+            $consulta->bindValue(":usuario_id", $evento->getUsuarioId(), PDO::PARAM_INT); 
+            $enderecoId = $evento->getEnderecoId();
+            if ($enderecoId === null) {
+                $consulta->bindValue(":endereco_id", null, PDO::PARAM_NULL);
+            } else {
+                $consulta->bindValue(":endereco_id", $enderecoId, PDO::PARAM_INT);
+            } 
+            // $consulta->bindValue(":endereco_id", $evento->getEnderecoId(), PDO::PARAM_INT);
             $consulta->bindValue(":genero_id", $evento->getGeneroId(), PDO::PARAM_INT);
             $consulta->bindValue(":descricao", $evento->getDescricao(), PDO::PARAM_STR);
             $consulta->bindValue(":imagem", $evento->getImagem(), PDO::PARAM_STR);
-            
+
             if (!$consulta->execute()) {
                 throw new Exception("erro ao atualizar evento");
             }
@@ -136,12 +142,12 @@ try {
             throw new Exception("erro ao atualizar evento");
         }
     }
-    
+
     //excluir()
     public function excluir(int $id): void
     {
         $sql = "DELETE FROM eventos WHERE id = :id";
-        
+
         try {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(":id", $id, PDO::PARAM_INT);
@@ -150,10 +156,10 @@ try {
             Utils::registrarErro($erro);
             throw new Exception("erro ao excluir evento");
         }
-    } 
+    }
 
 
-    
+
     // listarPorGenero()
 
     public function listarPorGenero(int $generoId): array
@@ -186,15 +192,15 @@ try {
 
     //buscar()
     public function buscar(string $termo): array
-    { 
+    {
 
         $sql = "SELECT id,nome,datas , descricao 
                 FROM eventos 
                 WHERE nome LIKE  :termo
                     OR descricao LIKE :termo 
-                ORDER BY datas DESC "; 
+                ORDER BY datas DESC ";
 
-        try{ 
+        try {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(':termo', '%' . $termo . '%', PDO::PARAM_STR);
             $consulta->execute();
@@ -202,7 +208,7 @@ try {
         } catch (Throwable $erro) {
             Utils::registrarErro($erro);
             throw new Exception("erro ao buscar eventos");
-        }        
+        }
     }
 
     public function listarDetalhes(int $id): array
@@ -236,7 +242,5 @@ try {
             Utils::registrarErro($erro);
             throw new Exception("erro ao abrir evento detalhes do evento");
         }
-    } 
-
-    
+    }
 }
