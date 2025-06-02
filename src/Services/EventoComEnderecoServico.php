@@ -43,6 +43,24 @@ final class EventoComEnderecoServico
             $this->conexao->rollBack(); // deu ruim? desfaz tudo
             throw $e; // Propaga o erro para o controlador
         }
+    } 
+
+    public function atualizarCompleto(Eventos $evento, Enderecos $endereco): void {
+        try {
+            $this->conexao->beginTransaction();
+
+            // Atualiza o endereco
+             $this->enderecoServico->atualizar($endereco);
+
+            // Atualiza o evento
+            $this->eventoServico->atualizar($evento);
+
+            // Só então, processamos tudo no banco
+            $this->conexao->commit();
+        } catch (Exception $e) {
+            $this->conexao->rollBack(); // deu ruim? desfaz tudo
+            throw $e; // Propaga o erro para o controlador
+        }
     }
 
 }

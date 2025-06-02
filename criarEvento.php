@@ -37,6 +37,8 @@ if (isset($_POST['inserir'])) {
     $bairro = Utils::sanitizar($_POST["bairro"]);
     $cidade = Utils::sanitizar($_POST["cidade"]);
     $estado = Utils::sanitizar($_POST["estado"]);
+    
+
 
     $arquivoDeImagem = Utils::sanitizar($_FILES["imagem"], "arquivo");
 

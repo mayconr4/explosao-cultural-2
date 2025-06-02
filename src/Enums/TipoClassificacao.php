@@ -2,8 +2,8 @@
 namespace ExplosaoCultural\Enums; 
 
 enum TipoClassificacao:string{ 
-    case INFANTIL = 'infantil';  
-    case  ADULTO = 'adulto'; 
+    case INFANTIL = 'Infantil';  
+    case  ADULTO = 'Adulto'; 
 
    
 }     

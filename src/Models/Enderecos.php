@@ -69,7 +69,7 @@ final class Enderecos
 
     //setters  
 
-    private function setId(?int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }

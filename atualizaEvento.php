@@ -1,23 +1,24 @@
-<?php 
+<?php
 require_once "vendor/autoload.php";
 
 use ExplosaoCultural\Auth\ControleDeAcesso;
 use ExplosaoCultural\Enums\TipoClassificacao;
-use ExplosaoCultural\Enums\TipoUsuario; 
+use ExplosaoCultural\Enums\TipoUsuario;
 use ExplosaoCultural\Helpers\Utils;
 use ExplosaoCultural\Helpers\Validacoes;
 use ExplosaoCultural\Models\Enderecos;
 use ExplosaoCultural\Models\Eventos;
+use ExplosaoCultural\Services\EventoComEnderecoServico;
 use ExplosaoCultural\Services\EventoServico;
 use ExplosaoCultural\Services\GeneroServico;
 
-$idEvento = Utils::sanitizar($_GET["id"], "inteiro"); 
-Utils::verificarId($idEvento); 
+$idEvento = Utils::sanitizar($_GET["id"], "inteiro");
+Utils::verificarId($idEvento);
 
- 
 
-ControleDeAcesso::exigirLogin();  
-$idUsuario = $_SESSION['id'] ;
+
+ControleDeAcesso::exigirLogin();
+$idUsuario = $_SESSION['id'];
 //  $tipoUsuario = TipoUsuario::from($_SESSION['tipo']); 
 
 $tipoUsuario = $_SESSION['tipo'] === 'Administrador' ? TipoUsuario::ADMINISTRADOR : TipoUsuario::USUARIO;
@@ -25,71 +26,92 @@ $tipoUsuario = $_SESSION['tipo'] === 'Administrador' ? TipoUsuario::ADMINISTRADO
 // die($tipoUsuario->value);
 
 
-$mensagemErro = ""; 
+$mensagemErro = "";
 
-$generoServico = new GeneroServico(); 
+$generoServico = new GeneroServico();
 $listaDeGeneros = $generoServico->listarTodos();
 
-$eventoServico = new EventoServico(); 
-$dados = $eventoServico->buscarPorId($idEvento, $tipoUsuario->value, $idUsuario); 
+$eventoServico = new EventoServico();
+$dados = $eventoServico->buscarPorId($idEvento, $tipoUsuario->value, $idUsuario);
 // var_dump($dados);
 // die();
 
-if (empty($dados)){ 
-    Utils::alertaErro("evennto não encontrado");
-    header("location:usuario.php");
-    exit;
-} 
-
-if (isset($_POST["atualizar"])) { 
-
-    $titulo = Utils::sanitizar($_POST["nome_evento"]);
-    $dataDoEvento = Utils::sanitizar($_POST["datas"]);
-    $horario = Utils::sanitizar($_POST["horario"]);
-    $classificacao = Utils::sanitizar($_POST["classificacao"] ?? '');
-    $telefone = Utils::sanitizar($_POST["telefone"]);
-    $descricao = Utils::sanitizar($_POST["descricao"]);
-    // $idGenero = Utils::sanitizar($_POST["genero"], "inteiro");
-    $idGenero = $_POST['genero'];
-
-    $cep = Utils::sanitizar($_POST["cep"]);
-    $logradouro = Utils::sanitizar($_POST["logradouro"]);
-    $bairro = Utils::sanitizar($_POST["bairro"]);
-    $cidade = Utils::sanitizar($_POST["cidade"]);
-    $estado = Utils::sanitizar($_POST["estado"]);
-
-    $arquivoDeImagem = Utils::sanitizar($_FILES["imagem"], "arquivo");
-
-    try {
-        Validacoes::validarGenero($idGenero);
-        Validacoes::validarTitulo($titulo);
-        Validacoes::validarDescricao($descricao);
-
-        if ($arquivoDeImagem !== null){ 
-            Utils::upload($arquivoDeImagem);
-            $nomeDaImagem = $arquivoDeImagem['name'];
-        } else{ 
-            $nomeDaImagem = $dados['imagem'];
-        }    
-
-        $classificacaoEnum = TipoClassificacao::from($classificacao);
-
-        $endereco = new Enderecos($cep, $logradouro, $bairro, $cidade, $estado);   
-
-       $evento = new Eventos($titulo, $dataDoEvento, $horario, $classificacaoEnum, $telefone, null, $idGenero, $idUsuario, $nomeDaImagem, $descricao); 
-
-       $eventoServico = new EventoServico();
-       $eventoServico->atualizar($evento,$tipoUsuario,$endereco);
-
-       header("location:usuario.php?evento_atualizado");
-        exit;
-    } catch (Throwable $erro) {
-        $mensagemErro = $erro->getMessage();
-        Utils::registrarErro($erro);
-    }
+if (empty($dados)) {
+  Utils::alertaErro("evennto não encontrado");
+  header("location:usuario.php");
+  exit;
 }
 
-?> 
+if (isset($_POST["atualizar"])) {
+
+  $titulo = Utils::sanitizar($_POST["nome_evento"]);
+  $dataDoEvento = Utils::sanitizar($_POST["datas"]);
+  $horario = Utils::sanitizar($_POST["horario"]);
+  $classificacao = Utils::sanitizar($_POST["classificacao"] ?? '');
+  $telefone = Utils::sanitizar($_POST["telefone"]);
+  $descricao = Utils::sanitizar($_POST["descricao"]);
+  // $idGenero = Utils::sanitizar($_POST["genero"], "inteiro");
+  $idGenero = $_POST['genero'];
+
+  $cep = Utils::sanitizar($_POST["cep"]);
+  $logradouro = Utils::sanitizar($_POST["logradouro"]);
+  $bairro = Utils::sanitizar($_POST["bairro"]);
+  $cidade = Utils::sanitizar($_POST["cidade"]);
+  $estado = Utils::sanitizar($_POST["estado"]);
+
+  $arquivoDeImagem = Utils::sanitizar($_FILES["imagem"], "arquivo");
+
+  try {
+    Validacoes::validarGenero($idGenero);
+    Validacoes::validarTitulo($titulo);
+    Validacoes::validarDescricao($descricao);
+
+    if ($arquivoDeImagem !== null) {
+      Utils::upload($arquivoDeImagem);
+      $nomeDaImagem = $arquivoDeImagem['name'];
+    } else {
+      $nomeDaImagem = $dados['imagem'];
+    }
+
+    $classificacaoEnum = TipoClassificacao::tryFrom($classificacao);
+
+    if (!$classificacaoEnum ) {
+      throw new Exception("Classificação inválida");
+    }
+
+    $endereco = new Enderecos($cep, $logradouro, $bairro, $cidade, $estado);
+
+    $idEndereco = $_POST['endereco_id'] ?? null; 
+    $endereco->setId($idEndereco);
+
+    $evento = new Eventos(
+    $titulo,
+    $dataDoEvento,
+    $horario,
+    $classificacaoEnum,
+    $telefone,
+    $idEndereco, 
+    $idGenero,
+    $idUsuario,
+    $nomeDaImagem,
+    $descricao,
+    $idEvento
+);
+
+
+   $eventoComEnderecoServico = new EventoComEnderecoServico();
+   $teste =  $eventoComEnderecoServico->atualizarCompleto($evento, $endereco); 
+    
+
+    header("location:usuario.php");
+    exit;
+  } catch (Throwable $erro) {
+    $mensagemErro = $erro->getMessage();
+    Utils::registrarErro($erro);
+  }
+}
+
+?>
 <!doctype html>
 <html lang="pt-br">
 
@@ -153,105 +175,109 @@ if (isset($_POST["atualizar"])) {
 
     </div>
     <hr>
-  </header> 
+  </header>
   <main class="container my-5  bg-ligth text-dark rounded p-4 shadow">
-        <h2 class="mb-4 text-center">atualizar Evento</h2>
+    <h2 class="mb-4 text-center">atualizar Evento</h2>
 
-        <form autocomplete="off" action="" method="post" id="form-endereco" enctype="multipart/form-data">
+    <form autocomplete="off" action="" method="post" id="form-endereco" enctype="multipart/form-data">
 
-            <div class="mb-3">
-                <label class="form-label" for="titulo">Nome Do evento:</label>
-                <input value="<?=$dados['nome']?>" class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
-            </div>
+      <div class="mb-3">
+        <label class="form-label" for="titulo">Nome Do evento:</label>
+        <input value="<?= $dados['nome'] ?>" class="form-control" type="text" id="nome_evento" name="nome_evento" placeholder="Digite o nome do evento" required />
+      </div>
 
-            <div class="mb-3">
-                <label class="form-label" for="titulo">Dia :</label>
-                <input value="<?=$dados['datas']?>" class="form-control" type="date" id="datas" name="datas" placeholder="Digite o nome do evento" required />
-            </div>
+      <div class="mb-3">
+        <label class="form-label" for="titulo">Dia :</label>
+        <input value="<?= $dados['datas'] ?>" class="form-control" type="date" id="datas" name="datas" placeholder="Digite o nome do evento" required />
+      </div>
 
-            <div class="mb-3">
-                <label class="form-label" for="titulo">Horario:</label>
-                <input value="<?=$dados['horario']?>" class="form-control" type="time" id="horario" name="horario" placeholder="Digite o nome do evento" required />
-            </div>
+      <div class="mb-3">
+        <label class="form-label" for="titulo">Horario:</label>
+        <input value="<?= $dados['horario'] ?>" class="form-control" type="time" id="horario" name="horario" placeholder="Digite o nome do evento" required />
+      </div>
 
-            <div class="mb-3">
-                <label class="form-label" for="classificacao">Classificação indicativa</label>
-                <select class="form-select" name="classificacao" id="classificacao" required>
-                    <option value="<?=$dados['classificacao']?>">Adulto</option>
-                    <option value="<?=$dados['classificacao']?>">infantil</option>
-
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="telefone">Telefone de contato:</label>
-                <input value="<?=$dados['telefone']?>" class="form-control" type="tel" id="telefone" name="telefone" />
-            </div>
+      <div class="mb-3">
+        <label class="form-label" for="classificacao">Classificação indicativa</label>
+        <select class="form-select" name="classificacao" id="classificacao" required>
+          <option value="Adulto" <?= $dados['classificacao'] === 'Adulto' ? 'selected' : '' ?>>Adulto</option>
+          <option value="Infantil" <?= $dados['classificacao'] === 'Infantil' ? 'selected' : '' ?>>Infantil</option>
 
 
-            <div class="mb-3">
-                <label class="form-label" for="genero">Gêneros:</label>
-                <select class="form-select" name="genero" id="genero" required>
-                    <option value=""></option>
+        </select>
+      </div>
 
-                    <?php foreach ($listaDeGeneros as $generos) { ?>
-                        <option value="<?= $generos['id'] ?>">
-                            <?= $generos['tipo'] ?>
-                        </option>
-                    <?php } ?>
-
-                </select>
-            </div>
+      <div class="mb-3">
+        <label class="form-label" for="telefone">Telefone de contato:</label>
+        <input value="<?= $dados['telefone'] ?>" class="form-control" type="tel" id="telefone" name="telefone" />
+      </div>
 
 
+      <div class="mb-3">
+        <label class="form-label" for="genero">Gêneros:</label>
+        <select class="form-select" name="genero" id="genero" required>
+          <option value=""></option>
 
+          <?php foreach ($listaDeGeneros as $generos) { ?>
+             <option value="<?= $generos['id'] ?>" <?= $generos['id'] == $dados['genero_id'] ? 'selected' : '' ?>>
+            <?= $generos['tipo'] ?>
+        </option>
+          <?php } ?>
 
-            <div class="mb-3">
-                <label value="<?=$dados['descricao']?>" class="form-label" for="descricao">Descrição:</label>
-                <textarea class="form-control" name="descricao" id="descricao" cols="50" rows="6" placeholder="Digite o texto completo" required></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="cep">Localização do evento Pelo CEP: <span id="status"></span></label>
-                <div id="area-do-cep">
-                    <input value="<?=$dados['datas']?>" maxlength="9" inputmode="numeric" placeholder="Somente números" type="text" id="cep"
-                        name="cep" required> <br>
-                    <button id="buscar">Buscar</button>
-                </div>
-                <!-- <textarea class="form-control" name="resumo" id="resumo" cols="50" rows="2" maxlength="300" placeholder="Endereço" required></textarea> -->
-            </div>
-            <div class="campos-restantes mb-3">
-                <label for="logradouro">Endereço:</label>
-                <input type="text" id="logradouro" name="logradouro" size="30">
-            </div>
-            <div class="campos-restantes mb-3">
-                <label for="bairro">Bairro:</label>
-                <input type="text" id="bairro" name="bairro">
-            </div>
-            <div class="campos-restantes mb-3">
-                <label for="cidade">Cidade:</label>
-                <input type="text" id="cidade" name="cidade">
-            </div>
-            <div class="campos-restantes mb-3">
-                <label for="estado">Estado:</label>
-                <input type="text" id="estado" name="estado">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="imagem">Selecione uma imagem:</label>
-                <input class="form-control" type="file" id="imagem" name="imagem" accept="image/png, image/jpeg, image/gif, image/svg+xml" required />
-            </div>
-
-            <div class="text-center">
-                <button class="btn btn-primary" id="atualizar" name="atualizar type="submit">
-                    <i class="bi bi-save">Lançar evento</i>
-                </button>
-            </div>
-        </form>
+        </select>
+      </div>
 
 
 
-    </main>
+
+      <div class="mb-3">
+        <label value="<?= $dados['descricao'] ?>" class="form-label" for="descricao">Descrição:</label>
+        <textarea class="form-control" name="descricao" id="descricao"><?= $dados['descricao'] ?></textarea>  
+
+
+      </div>
+      <!--cep comeca aqui  -->
+      <div class="mb-3">
+        <label class="form-label" for="cep">Localização do evento Pelo CEP: <span id="status"></span></label>
+        <div id="area-do-cep">
+          <input value="<?= $dados['endereco']['cep'] ?? '' ?>" maxlength="9" inputmode="numeric" placeholder="Somente números" type="text" id="cep" name="cep" required>
+          <br>
+          <button id="buscar">Buscar</button>
+        </div>
+      </div>
+
+      <div class="campos-restantes mb-3">
+        <label for="logradouro">Endereço:</label>
+        <input type="text" id="logradouro" name="logradouro" size="30" value="<?= $dados['endereco']['logradouro'] ?? '' ?>">
+      </div>
+      <div class="campos-restantes mb-3">
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" name="bairro" value="<?= $dados['endereco']['bairro'] ?? '' ?>">
+      </div>
+      <div class="campos-restantes mb-3">
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" name="cidade" value="<?= $dados['endereco']['cidade'] ?? '' ?>">
+      </div>
+      <div class="campos-restantes mb-3">
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" name="estado" value="<?= $dados['endereco']['estado'] ?? '' ?>">
+      </div> 
+
+      <input type="hidden" name="endereco_id" value="<?= $dados['endereco']['id'] ?? '' ?>">
+
+      <!--cep acaba aqui  -->
+      <div class="mb-3">
+        <label class="form-label" for="imagem">Selecione uma imagem:</label>
+        <input class="form-control" type="file" id="imagem" name="imagem" accept="image/png, image/jpeg, image/gif, image/svg+xml" />
+      </div>
+
+      <div class="text-center">
+        <button class="btn btn-primary" id="atualizar" name="atualizar" type="submit"><i class="bi bi-save">atualizar evento: </i></button>
+      </div>
+    </form>
+
+
+
+  </main>
   <hr>
   <footer class="bg-ligth py-4">
     <div class="container d-flex justify-content-center align-items-center flex-column">
@@ -266,20 +292,20 @@ if (isset($_POST["atualizar"])) {
           <a class="nav-link text-black" href="index.php">Home</a>
         </li>
 
-       <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Gêneros
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Gêneros
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <?php foreach ($listaDeGeneros as $generos) { ?>
+              <li>
+                <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
+                  <?= htmlspecialchars($generos['tipo']) ?>
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <?php foreach ($listaDeGeneros as $generos) { ?>
-                    <li>
-                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
-                        <?= htmlspecialchars($generos['tipo']) ?>
-                      </a>
-                    </li>
-                  <?php } ?>
-                </ul>
               </li>
+            <?php } ?>
+          </ul>
+        </li>
         <li class="nav-item">
           <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
         </li>
@@ -295,12 +321,12 @@ if (isset($_POST["atualizar"])) {
     </p>
   </footer>
 
-   <script src="js/jquery-3.7.1.min.js"></script>
-    <script src="js/jquery.mask.min.js"></script>
-    <script src="js/endereco.js"></script>             
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="js/jquery.mask.min.js"></script>
+  <script src="js/endereco.js"></script>
   <script src="js/menu.js"></script>
-  <script src="js/buscar.js"></script>      
+  <script src="js/buscar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>    
-  
+
+</html>

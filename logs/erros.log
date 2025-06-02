@@ -1,7 +1,20 @@
-[2025-05-29 10:29:41]
-Arquivo: C:\xampp\htdocs\explosao-cultural-2\src\Services\EventoServico.php
-Linha: 181
-Mensagem: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM eventos
-    
-          INNER JOIN usuarios ON eventos.usuario_id = usu...' at line 10
+[2025-06-01 19:04:03]
+Arquivo: C:\xampp\htdocs\explosao-cultural\atualizaEvento.php
+Linha: 75
+Mensagem: "Adulto" is not a valid backing value for enum ExplosaoCultural\Enums\TipoClassificacao
+
+[2025-06-01 19:31:07]
+Arquivo: C:\xampp\htdocs\explosao-cultural\atualizaEvento.php
+Linha: 76
+Mensagem: "Adulto" is not a valid backing value for enum ExplosaoCultural\Enums\TipoClassificacao
+
+[2025-06-01 19:31:59]
+Arquivo: C:\xampp\htdocs\explosao-cultural\atualizaEvento.php
+Linha: 76
+Mensagem: "Adulto" is not a valid backing value for enum ExplosaoCultural\Enums\TipoClassificacao
+
+[2025-06-01 21:29:01]
+Arquivo: C:\xampp\htdocs\explosao-cultural\src\Models\Enderecos.php
+Linha: 72
+Mensagem: ExplosaoCultural\Models\Enderecos::setId(): Argument #1 ($id) must be of type ?int, string given, called in C:\xampp\htdocs\explosao-cultural\atualizaEvento.php on line 81
 
