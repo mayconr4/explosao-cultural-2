@@ -79,7 +79,7 @@ $listaDeGeneros = $generoServico->listarTodos();
   </header>
 
   <main class="container">
-   
+    
 
     <article class="py-5">
       <section class="text-center mb-5">
@@ -96,7 +96,8 @@ $listaDeGeneros = $generoServico->listarTodos();
                 <div class="card-body fundo-opaco">
                   <h5 class="card-title">Evento: <?= htmlspecialchars($evento['evento']) ?></h5>
                   <p class="card-text">Data: <?= htmlspecialchars($evento['data_evento']) ?></p>
-                  <p class="card-text">Horário: <?= htmlspecialchars($evento['horario']) ?></p>                   
+                  <p class="card-text">Horário: <?= htmlspecialchars($evento['horario']) ?></p> 
+                  
                 </div>
               </a>
             </article>
