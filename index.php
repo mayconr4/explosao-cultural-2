@@ -16,14 +16,14 @@ $eventoServico = new EventoServico();
 $listaDeEventos = $eventoServico->listarTodos(); 
 
 $hoje = date('Y-m-d'); 
-$eventosFuturos = array_filter($listaDeEventos, function ($evento) use ($hoje) {
-  $dataEvento = date('Y-m-d', strtotime($evento['data_evento']));
-  return $dataEvento >= $hoje;
-}); 
 
-// $eventosFuturos = array_filter($listaDeEventos, fn($evento) => $evento['data_evento'] >= $hoje);
-// usort($eventosFuturos, fn($a, $b) => strtotime($a['data_evento']) <=> strtotime($b['data_evento']));
-// $eventosParaCarrossel = array_slice($eventosFuturos, 0, 4); 
+
+$eventosFuturos = array_filter($listaDeEventos, fn($evento) => date('Y-m-d', strtotime($evento['data_evento'])) >= $hoje); 
+
+usort($eventosFuturos, fn($a, $b) => strtotime($a['data_evento']) <=> strtotime($b['data_evento']));
+
+
+$eventosParaCarrossel = array_slice($eventosFuturos, 0, 4); 
 
 $generoServico = new GeneroServico();
 $listaDeGeneros = $generoServico->listarTodos();
@@ -92,7 +92,7 @@ $listaDeGeneros = $generoServico->listarTodos();
                       <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="card-img-top" alt="<?= htmlspecialchars($evento['evento']) ?>">
                       <div class="card-body">
                         <h5 class="card-title"><?= htmlspecialchars($evento['evento']) ?></h5>
-                        <p class="card-text">Dia: <?= htmlspecialchars($evento['data_evento']) ?></p>
+                       <p class="card-text">Dia: <?= htmlspecialchars(Utils::formatarDataBr($evento['data_evento'])) ?></p>
                         <a href="evento.php?id=<?= $evento['id'] ?>" class="btn btn-light">Saiba mais</a>
                         <?php if ($tipoUsuario === TipoUsuario::USUARIO): ?>
                           <a href="atualizaEvento.php?id=<?= $evento['id'] ?>" class="btn btn-dark mt-2">Atualizar</a>

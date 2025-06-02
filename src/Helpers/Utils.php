@@ -69,6 +69,18 @@ final class Utils
             default:
                 return trim(filter_var($entrada, FILTER_SANITIZE_SPECIAL_CHARS));
         }
+    } 
+
+      public static function formatarDataBr(string $data): string
+    {
+        try {
+            $dateTime = new \DateTime($data); // Usar \DateTime para garantir o namespace global
+            return $dateTime->format('d/m/Y');
+        } catch (Exception $e) {
+            // Se a data for inválida, retorne a data original ou uma string de erro
+            error_log("Erro ao formatar data: " . $e->getMessage() . " para a data: " . $data);
+            return $data; // Ou retorne 'Data Inválida' se preferir
+        }
     }
 
 

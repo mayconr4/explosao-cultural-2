@@ -138,7 +138,7 @@ if (isset($_POST['inserir'])){
         </div>
         
         <div class="mb-3">
-         <label for="data_de_nascimento" class="form-label">Data de nascimento</label>
+         <label for="datanascimento" class="form-label">Data de nascimento</label>
          <input type="date" class="form-control" name="data_nascimento" id="data_nascimento" placeholder="00/00/0000">
        </div>
 
@@ -205,7 +205,8 @@ if (isset($_POST['inserir'])){
 
   <script src="js/buscar.js"></script>
   <script src="js/menu.js"></script>
- 
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+  
 </body>
 </html>
