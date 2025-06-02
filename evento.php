@@ -2,11 +2,11 @@
 require_once 'vendor/autoload.php';
 
 use ExplosaoCultural\Helpers\Utils;
-use ExplosaoCultural\Services\EventoServico; 
+use ExplosaoCultural\Services\EventoServico;
 use ExplosaoCultural\Services\GeneroServico;
 
 $eventoServico = new EventoServico();
-$generoServico = new GeneroServico(); 
+$generoServico = new GeneroServico();
 $listaDeGeneros = $generoServico->listarTodos();
 Utils::verificarId($_GET["id"] ?? null);
 
@@ -80,40 +80,39 @@ if (!$dados) {
     </div>
     <hr>
   </header>
+
   <main class="container  bg-ligth text-dark   ">
 
-    <h1 class="text-center mb-4">Detalhes do Evento</h1>
-    <hr>
     <div class="row my-1 mx-md-n1">
 
       <?php if ($dados): ?>
-        <article class="col-12 ">
-          <h2 class="text-center"> <?= $dados['titulo'] ?> </h2>
-          <img src="images/<?= $dados['imagem'] ?>" alt="" class="float-start pe-2 img-fluid rounded-1 p-3 "> 
+        <article class="col-12">
+          <h2 class="text-center"> <?= htmlspecialchars($dados['titulo']) ?> </h2>
+
+          <div class="d-flex justify-content-center mb-4"> <img src="images/<?= htmlspecialchars($dados['imagem']) ?>"
+              alt="<?= htmlspecialchars($dados['titulo']) ?>"
+              class="img-fluid rounded-1 img-evento-reduzida">
+          </div>
+
           <hr class="p-1">
-          <p class="ajusta-texto"> <b>Descrição: </b> <?= $dados['descricao'] ?></p>
-          <p class="ajusta-texto"> <b>Classificação: </b> <?= $dados['classificacao'] ?></p>
+          <p class="ajusta-texto"> <b>Descrição: </b> <?= htmlspecialchars($dados['descricao']) ?></p>
+          <p class="ajusta-texto"> <b>Classificação: </b> <?= htmlspecialchars($dados['classificacao']) ?></p>
           <p class="font-weight-light"> <b>Data: </b>
-            <?= Utils::formataData($dados['data_evento']) ?>
+            <?= htmlspecialchars(Utils::formataData($dados['data_evento'])) ?>
           </p>
-          <p class="ajusta-texto"> <b>Horario 🕕: </b> <?= $dados['horario'] ?></p>
-          <p class="ajusta-tetxo"> <b>Rua 📍: </b><?= $dados['endereco'] ?></p>
-          <p class="ajusta-texto"> <b>Bairro  🏠: </b> <?= $dados['bairro'] ?></p>
-          <p class="ajusta-texto"> <b>Cidade  🌃: </b> <?= $dados['cidade'] ?></p>
-          <p class="ajusta-texto"> <b>Telfone 📞: </b> <?= $dados['telefone'] ?></p>
-          <p class="ajusta-texto"> <b>Cidade </b> <?= $dados['cidade'] ?></p>
-          <p class="ajusta-texto"> <b>Organizador: </b> <?= $dados['criador'] ?></p>
+          <p class="ajusta-texto"> <b>Horario 🕕: </b> <?= htmlspecialchars($dados['horario']) ?></p>
+          <p class="ajusta-tetxo"> <b>Rua 📍: </b><?= htmlspecialchars($dados['endereco']) ?></p>
+          <p class="ajusta-texto"> <b>Bairro  🏠: </b> <?= htmlspecialchars($dados['bairro']) ?></p>
+          <p class="ajusta-texto"> <b>Cidade  🌃: </b> <?= htmlspecialchars($dados['cidade']) ?></p>
+          <p class="ajusta-texto"> <b>Telfone 📞: </b> <?= htmlspecialchars($dados['telefone']) ?></p>
+          <p class="ajusta-texto"> <b>Organizador: </b> <?= htmlspecialchars($dados['criador']) ?></p>
         </article>
       <?php else: ?>
         <p class="text-danger">Evento Não encontrado.</p>
-
       <?php endif; ?>
 
+    </div>
 
-
-    </div> 
-
-    
 
   </main>
   <hr>

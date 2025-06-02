@@ -254,4 +254,46 @@ body.modal-open {
     margin-top: 0.5rem;
 }
 
-/* ... restante do seu CSS ... */
+/* ... restante do seu CSS ... */ 
+
+
+
+.img-evento-reduzida {
+    max-width: 300px;  /* Largura máxima da imagem. Ajuste conforme necessário. */
+    height: auto;      /* Mantém a proporção da imagem. */
+    
+    border: 2px solid #ddd; /* Sua borda. */
+    border-radius: 5px;     /* Suas bordas arredondadas. */
+    cursor: pointer;        /* Indica que a imagem é clicável. */
+    /* Nenhuma propriedade de float ou margin: auto aqui é necessária, pois a div pai a centraliza. */
+}
+
+/* Você pode adicionar estilos para o novo container de informações se quiser */
+.info-evento-container {
+    padding: 0 1rem; /* Adiciona um pequeno padding nas laterais para que o texto não cole nas bordas da tela */
+    /* text-align: justify; /* Opcional: para justificar o texto da descrição */
+} 
+
+/* No seu arquivo css/estilo.css */
+
+.img-evento-reduzida {
+    max-width: 100%;  /* Largura máxima da imagem. Ajuste conforme necessário. */
+    height: auto;      /* Mantém a proporção da imagem. */
+    width: 80%;
+    /* As propriedades abaixo não são mais necessárias para centralização,
+       mas você pode mantê-las se houver outros motivos para elas. */
+    /* display: block; */
+    /* margin: 0 auto; */
+    
+    border: 2px solid #ddd; /* Mantém sua borda. */
+    border-radius: 5px;     /* Mantém suas bordas arredondadas. */
+}
+
+/* Certifique-se de que seus outros estilos 'ajusta-texto' etc. ainda estejam presentes. */
+/* Para ajustar o float e evitar quebra de texto, se precisar: */
+@media (max-width: 768px) {
+    .img-evento-reduzida {
+        float: none !important; /* Remove o float em telas menores */
+        margin: 0 auto 1rem; /* Centraliza e adiciona margem inferior */
+    }
+}
