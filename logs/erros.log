@@ -3,3 +3,13 @@ Arquivo: C:\xampp\htdocs\explosao-cultural\atualizaEvento.php
 Linha: 79
 Mensagem: Classificação inválida
 
+[2025-06-02 08:28:21]
+Arquivo: C:\xampp\htdocs\explosao-cultural\criarEvento.php
+Linha: 75
+Mensagem: "infantil" is not a valid backing value for enum ExplosaoCultural\Enums\TipoClassificacao
+
+[2025-06-02 08:30:08]
+Arquivo: C:\xampp\htdocs\explosao-cultural\criarEvento.php
+Linha: 75
+Mensagem: "infantil" is not a valid backing value for enum ExplosaoCultural\Enums\TipoClassificacao
+
