@@ -8,10 +8,10 @@ require_once "vendor/autoload.php";
 session_start();
 
 $generoServico = new GeneroServico();
-$listaDeGeneros = $generoServico->listarTodos(); 
+$listaDeGeneros = $generoServico->listarTodos();
 
 $eventoServico = new EventoServico();
-$listarId = $eventoServico->listarTodos(); 
+$listarId = $eventoServico->listarTodos();
 
 ?>
 
@@ -57,7 +57,7 @@ $listarId = $eventoServico->listarTodos();
                   <?php } ?>
                 </ul>
               </li>
-            
+
 
               <li class="nav-item">
                 <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
@@ -102,13 +102,13 @@ $listarId = $eventoServico->listarTodos();
         <a class="btn btn-dark bg-gradient btn-lg" href="index.php">
           <i class="bi bi-newspaper"></i> <br>
           Sair
-        </a> 
+        </a>
 
-        <a class="btn btn-dark bg-gradient btn-lg" href="exclui-evento.php?id=<?= $listarId[0]['id'] ?>">
+        <a class="btn btn-dark excluir bg-gradient btn-lg" href="exclui-evento.php?id=<?= $listarId[0]['id'] ?>" data-id="<?= $listarId[0]['id'] ?>">
           <i class="bi bi-trash">Excluir </i>
         </a>
 
-        <a class="btn btn-dark excluir bg-gradient btn-lg" href="meuperfil.php">
+        <a class="btn btn-dark  bg-gradient btn-lg" href="meuperfil.php">
           <i class="bi bi-people"></i> <br>
           Meu perfil
         </a>
@@ -131,19 +131,19 @@ $listarId = $eventoServico->listarTodos();
         </li>
 
         <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Gêneros
+          <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Gêneros
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <?php foreach ($listaDeGeneros as $generos) { ?>
+              <li>
+                <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
+                  <?= htmlspecialchars($generos['tipo']) ?>
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <?php foreach ($listaDeGeneros as $generos) { ?>
-                    <li>
-                      <a class="dropdown-item" href="eventosPorGeneros.php?id=<?= htmlspecialchars($generos['id']) ?>">
-                        <?= htmlspecialchars($generos['tipo']) ?>
-                      </a>
-                    </li>
-                  <?php } ?>
-                </ul>
               </li>
+            <?php } ?>
+          </ul>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link text-black" href="cria-conta.php">Cadastro</a>
@@ -154,14 +154,25 @@ $listarId = $eventoServico->listarTodos();
         </li>
       </ul>
     </div>
-     <p class="m-0 text-center">
+    <p class="m-0 text-center">
       Explosão Cultural — Empresa fictícia criada por Maycon e Lucas &copy;
     </p>
   </footer>
+  <!-- Confirmar exclusão -->
+  <dialog id="modal-exclusao">
+    <p>Tem certeza que deseja **excluir** este evento?</p>
+    <p class="text-danger">Esta ação não poderá ser desfeita.</p>
+    <div>
+        <button type="button" id="nao">Não</button>
+        <button type="button" id="sim">Sim</button>
+    </div>
+</dialog>
+</div><!-- Confirmar exclusão -->
 
   <script src="js/menu.js"></script>
   <script src="js/buscar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/confirm.js"></script>
 </body>
 
 </html>
