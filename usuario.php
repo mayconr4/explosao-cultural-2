@@ -83,37 +83,33 @@ $listarId = $eventoServico->listarTodos();
   </header>
   <main class="container my-5 bg-ligth text-dark rounded p-4 shadow">
 
-    <div class="container my-5 h-100">
+   <div class="container my-5 h-100">
 
-      <h2 class="display-4">Olá! <?= $_SESSION['nome'] ?></h2>
-      <hr class="my-4">
+    <h2 class="display-4 text-center">Olá! <?= htmlspecialchars($_SESSION['nome']) ?></h2>
+    <hr class="my-4">
 
-      <div class="d-grid gap-2 d-md-block text-center">
-        <a class="btn btn-dark bg-gradient btn-lg" href="criarEvento.php">
-          <i class="bi bi-person"></i> <br>
-          Criar
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+        <a class="btn btn-dark bg-gradient btn-lg d-flex flex-column align-items-center" href="criarEvento.php">
+            <i class="bi bi-plus-circle-fill fs-3 mb-2"></i> Criar Evento
         </a>
 
-        <a class="btn btn-dark bg-gradient btn-lg" href="atualizaEvento.php?id=<?= $listarId[0]['id'] ?>">
-          <i class="bi bi-newspaper"></i> <br>
-          Atualizar
+        <a class="btn btn-dark bg-gradient btn-lg d-flex flex-column align-items-center" href="atualizaEvento.php?id=<?= htmlspecialchars($listarId[0]['id'] ?? '') ?>">
+            <i class="bi bi-arrow-clockwise fs-3 mb-2"></i> Atualizar Evento
         </a>
 
-        <a class="btn btn-dark bg-gradient btn-lg" href="index.php">
-          <i class="bi bi-newspaper"></i> <br>
-          Sair
+        <a class="btn btn-dark bg-gradient btn-lg d-flex flex-column align-items-center" href="meuperfil.php">
+            <i class="bi bi-person-fill fs-3 mb-2"></i> Meu Perfil
+        </a>
+        
+        <a class="btn btn-dark bg-gradient btn-lg d-flex flex-column align-items-center" href="index.php">
+            <i class="bi bi-box-arrow-right fs-3 mb-2"></i> Sair
         </a>
 
-        <a class="btn btn-dark excluir bg-gradient btn-lg" href="exclui-evento.php?id=<?= $listarId[0]['id'] ?>" data-id="<?= $listarId[0]['id'] ?>">
-          <i class="bi bi-trash">Excluir </i>
+        <a class="btn btn-danger bg-gradient btn-lg d-flex flex-column align-items-center" href="exclui-evento.php?id=<?= htmlspecialchars($listarId[0]['id'] ?? '') ?>" data-id="<?= htmlspecialchars($listarId[0]['id'] ?? '') ?>">
+            <i class="bi bi-trash-fill fs-3 mb-2"></i> Excluir Evento
         </a>
-
-        <a class="btn btn-dark  bg-gradient btn-lg" href="meuperfil.php">
-          <i class="bi bi-people"></i> <br>
-          Meu perfil
-        </a>
-      </div>
     </div>
+</div>
   </main>
 
   <hr>
