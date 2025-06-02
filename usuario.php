@@ -102,9 +102,13 @@ $listarId = $eventoServico->listarTodos();
         <a class="btn btn-dark bg-gradient btn-lg" href="index.php">
           <i class="bi bi-newspaper"></i> <br>
           Sair
+        </a> 
+
+        <a class="btn btn-dark bg-gradient btn-lg" href="exclui-evento.php?id=<?= $listarId[0]['id'] ?>">
+          <i class="bi bi-trash">Excluir </i>
         </a>
 
-        <a class="btn btn-dark bg-gradient btn-lg" href="meuperfil.php">
+        <a class="btn btn-dark excluir bg-gradient btn-lg" href="meuperfil.php">
           <i class="bi bi-people"></i> <br>
           Meu perfil
         </a>
