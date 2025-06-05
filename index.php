@@ -88,23 +88,24 @@ $listaDeGeneros = $generoServico->listarTodos();
       </section>
 
       <section class="row g-4">
-        <?php foreach ($listaDeEventos as $evento): ?>
-          <div class="col-md-4">
-            <article class="card **card-com-imagem** bg-secondary text-light h-100"  style="background-image: url('images/<?= htmlspecialchars($tipoEvento['imagem']) ?>'); background-repeat: no-repeat; background-size: cover; background-position: center; min-height: 300px; display: flex; flex-direction: column;">
-              <a href="evento.php?id=<?= $evento["id"] ?>" class="list-group-item list-group-item-action card-link">
-                <img src="images/<?= htmlspecialchars($evento['imagem']) ?>" class="list-group-item list-group-item-action card-link">
-                <div class="card-body fundo-opaco">
-                  <h5 class="card-title">Evento: <?= htmlspecialchars($evento['evento']) ?></h5>
-                  <p class="card-text">Data: <?= htmlspecialchars($evento['data_evento']) ?></p>
-                  <p class="card-text">Horário: <?= htmlspecialchars($evento['horario']) ?></p> 
-                  
-                </div>
-              </a>
-            </article>
-          </div>
-        <?php endforeach; ?>
-      </section>
-    </article>
+     <?php foreach ($listaDeEventos as $evento) { ?> 
+         <div class="col-md-4"> 
+             <article class="card **card-com-imagem** bg-secondary text-light h-100" 
+                      style="background-image: url('images/<?= htmlspecialchars($evento['imagem']) ?>'); background-repeat: no-repeat; background-size: cover; background-position: center; min-height: 300px; display: flex; flex-direction: column;">
+                 <a href="evento.php?id=<?= $evento["id"] ?>" class="list-group-item list-group-item-action card-link">
+                     <div class="card-body fundo-opaco">
+                         <h5 class="card-title">Evento: <?= htmlspecialchars($evento['evento']) ?></h5>
+                         <p class="card-text">Data: <?= htmlspecialchars(Utils::formatarDataBr($evento['data_evento'])) ?></p>
+                         <p class="card-text">Horário: <?= htmlspecialchars($evento['horario']) ?></p>                           
+                 </a>
+             </article>
+         </div>
+     <?php } ?>
+  </section>
+     
+    </article> 
+
+
   </main>
 
   <hr>
